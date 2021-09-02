@@ -11,7 +11,7 @@ import Url from 'url-parse'
 
 let databaseConfig: DatabaseConfig
 
-if (Env.get('NODE_ENV') === 'HEROKU_PRD') {
+if (Env.get('HEROKU_ENV') === 1) {
   const CLEARDB_DATABASE_URL = new Url(Env.get('CLEARDB_DATABASE_URL'))
   databaseConfig = {
     /*

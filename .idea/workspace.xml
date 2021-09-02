@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e00ea5eb-cf49-4bc7-a226-e6ba151c71c9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +79,7 @@
       <workItem from="1630437373919" duration="12535000" />
       <workItem from="1630507222236" duration="21576000" />
       <workItem from="1630549687541" duration="2623000" />
-      <workItem from="1630597594576" duration="13006000" />
+      <workItem from="1630597594576" duration="13215000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1630618031310</created>

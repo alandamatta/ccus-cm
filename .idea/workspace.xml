@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e00ea5eb-cf49-4bc7-a226-e6ba151c71c9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +80,7 @@
       <workItem from="1630437373919" duration="12535000" />
       <workItem from="1630507222236" duration="21576000" />
       <workItem from="1630549687541" duration="2623000" />
-      <workItem from="1630597594576" duration="11832000" />
+      <workItem from="1630597594576" duration="12661000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1630618031310</created>
@@ -113,10 +109,10 @@
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="560" y="248" key="#File_Watchers/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630440635132" />
-    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1630609926218">
+    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1630620984447">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
-    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630609926218" />
+    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630620984447" />
     <state x="687" y="393" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1630620098358">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>

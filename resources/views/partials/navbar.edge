@@ -1,0 +1,109 @@
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <p class="is-1 is-bold">CCUS-CM</p>
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+
+      @if(currentPage && currentPage == 'checkIn')
+        <a class="navbar-item is-active">
+          Check-in/out
+        </a>
+        @else
+        <a class="navbar-item">
+          Check-in/out
+        </a>
+      @end
+
+      @if(currentPage && currentPage == 'childrenMgmt')
+        <a class="navbar-item is-active">
+          Children's Management
+        </a>
+      @else
+        <a class="navbar-item">
+          Children's Management
+        </a>
+      @end
+
+      @if(currentPage && currentPage == 'parentsMgmt')
+        <a class="navbar-item is-active">
+          Parent's Management
+        </a>
+      @else
+        <a class="navbar-item">
+          Parent's Management
+        </a>
+      @end
+
+      @if(currentPage && currentPage == 'location')
+        <a class="navbar-item is-active">
+          Locations
+        </a>
+      @else
+        <a href="/location" class="navbar-item">
+          Locations
+        </a>
+      @end
+
+      @if(currentPage && currentPage == 'course')
+        <a class="navbar-item is-active">
+          Courses
+        </a>
+      @else
+        <a href="/course" class="navbar-item">
+          Courses
+        </a>
+      @end
+
+      @if(currentPage && currentPage == 'user')
+      <a class="navbar-item is-active">
+        Users
+      </a>
+      @else
+      <a href="/user" class="navbar-item">
+        Users
+      </a>
+      @end
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Reports
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            Report 1
+          </a>
+          <a class="navbar-item">
+            Report 2
+          </a>
+          <a class="navbar-item">
+            Report 3
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary">
+            <strong>My Account</strong>
+          </a>
+          <a class="button is-light" href="/logout">
+            Log out
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

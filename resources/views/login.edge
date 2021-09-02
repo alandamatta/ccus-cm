@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CCUS-CM | Login</title>
+  @entryPointStyles('app')
+</head>
+<body>
+  <div class="container">
+    <div class="columns">
+      <div class="column is-one-third is-offset-one-third">
+        <form action="/login" method="post" class="box" style="margin-top: 15rem">
+          <p class="title is-7 ">
+            Christian Congregation in the United States
+          </p>
+          <p class="title is-3">
+            Log-in
+          </p>
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label for="email" class="label">Username</label>
+                <div class="control">
+                  <input type="text" class="input" id="email" name="email">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label for="password" class="label">Password</label>
+                <div class="control">
+                  <input type="password" class="input" id="password" name="password">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <button class="button is-success is-fullwidth" type="submit">Login</button>
+            </div>
+          </div>
+        </form>
+        @if(flashMessages.get('error'))
+          <article class="message is-danger">
+            <div class="message-body">
+              {{flashMessages.get('error')}}
+            </div>
+          </article>
+        @end
+      </div>
+    </div>
+  </div>
+</body>
+</html>

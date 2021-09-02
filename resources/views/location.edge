@@ -1,0 +1,63 @@
+@layout('layouts/main')
+@set('pageTitle', 'Location')
+@set('currentPage', 'location')
+@section('body')
+  <form action="/location/create" method="post">
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="field">
+          <label for="name" class="label">Location Name</label>
+          <div class="control">
+            <input type="text" id="name" class="input" name="name" value="{{flashMessages.get('name', '')}}">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column is-3">
+        <div class="field">
+          <label for="city" class="label">City</label>
+            <div class="control">
+              <input type="text" class="input" id="city" name="city" value="{{flashMessages.get('city', '')}}">
+            </div>
+        </div>
+      </div>
+
+      <div class="column is-1">
+        <div class="field">
+          <label for="state" class="label">State</label>
+            <div class="control">
+              <input type="text" class="input" id="state" name="state" value="{{flashMessages.get('state', '')}}">
+            </div>
+        </div>
+      </div>
+
+      <div class="column is-2">
+        <div class="field">
+          <label for="zip" class="label">ZIP</label>
+            <div class="control">
+              <input type="text" class="input" id="zip" name="zip" value="{{flashMessages.get('zip', '')}}">
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <button class="button is-success" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+
+  @include('partials/errors')
+
+  <div class="columns">
+    <div class="column">
+      @!component('components/datatable', {})
+    </div>
+  </div>
+@end
+
+@section('scripts')
+  @entryPointScripts('app')
+@end

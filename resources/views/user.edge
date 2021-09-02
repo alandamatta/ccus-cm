@@ -1,0 +1,86 @@
+@layout('layouts/main')
+@set('pageTitle', 'User')
+@set('currentPage', 'user')
+@section('body')
+  <form action="/user" method="post">
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="field">
+          <label for="name" class="label">Full Name</label>
+          <div class="control">
+            <input type="text" class="input" id="name" name="name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column is-two-fifths">
+        <div class="field">
+          <label for="email" class="label">Email</label>
+          <div class="control">
+            <input type="email" class="input" id="email" name="email">
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-one-fifth">
+        <div class="field">
+          <label for="phone" class="label">Phone</label>
+          <div class="control">
+            <input type="text" class="input" id="phone" name="phone">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-vcentered">
+      <div class="column">
+        <div class="field">
+          <label for="password" class="label">Password</label>
+          <div class="control">
+            <input type="password" class="input" id="password" name="password">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="field">
+          <label for="confirmPassword" class="label">Confirm Password</label>
+          <div class="control">
+            <input type="password" class="input" id="confirmPassword">
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <label class="checkbox">
+          <input type="checkbox" name="admin" value="1">
+          Admin
+        </label>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column">
+        <button class="button is-success" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+
+  @include('partials/errors')
+
+  <div class="columns">
+    <div class="column">
+      @!component('components/datatable', {
+        sessionListName: 'users',
+        columnKeys: ['name', 'email', 'phone', 'admin'],
+        columnNames: ['Name', 'Email', 'Phone', 'Is Admin'],
+      })
+    </div>
+  </div>
+@end
+
+@section('script')
+  @entryPointScripts('app')
+@end

@@ -1,0 +1,35 @@
+@if(flashMessages.get('errors'))
+@set('__errorJSON__', flashMessages.toString())
+<input type="hidden" id="__validation_messages_json__" value="{{__errorJSON__}}">
+<div class="columns" id="__validation_messages_wrapper__">
+  <div class="column is-half">
+    <article class="message is-danger">
+      <div class="message-header">
+        <p>Validation Error(s)</p>
+      </div>
+      <div class="message-body" id="__validation_message__">
+      </div>
+    </article>
+  </div>
+</div>
+<script>
+  //I am not proud of it
+  function generateErrorMessage() {
+    var stringJson = document.getElementById('__validation_messages_json__').value
+    var valueJson = JSON.parse(stringJson);
+    var html = '<ul>'
+    var element
+    for (errorKey in valueJson.errors) {
+      element = document.getElementById(errorKey)
+      element.value = element.value === 'null' ? '' : element.value
+      element.classList.add('is-danger')
+      for (message in valueJson.errors[errorKey]) {
+        html += '<li><a href="#'+errorKey+'">' + errorKey + '</a>: ' + valueJson.errors[errorKey][message] + '</li>'
+      }
+    }
+    html += '</ul>'
+    document.getElementById('__validation_message__').innerHTML = html
+  }
+  generateErrorMessage()
+</script>
+@end

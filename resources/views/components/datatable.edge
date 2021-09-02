@@ -1,0 +1,40 @@
+<div class="box">
+  <div class="columns">
+    <div class="column">
+      <h2 class="title">Search</h2>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column is-one-third">
+      <input type="text" class="input" id="search" placeholder="Search...">
+    </div>
+    <div class="column">
+      <button class="button is-info" type="button">Search</button>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            @each(columnName in columnNames)
+              <th>{{columnName}}</th>
+            @end
+          </tr>
+        </thead>
+        <tbody>
+          @each(row in session.get(sessionListName))
+            <tr>
+              @each(columnKey in columnKeys)
+                <td>{{row[columnKey]}}</td>
+              @end
+            </tr>
+          @end
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

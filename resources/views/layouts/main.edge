@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CCUS-CM | {{pageTitle}}</title>
+  @entryPointStyles('app')
+</head>
+<body >
+  @include('partials/navbar')
+  <div class="container" style="padding: 0 .5em 0 .5em">
+    <div id="__page" style="padding-top: 2em" >
+      @!section('body')
+    </div>
+  </div>
+  @!section('scripts')
+</body>
+</html>

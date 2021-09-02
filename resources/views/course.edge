@@ -1,0 +1,47 @@
+@layout('layouts/main')
+@set('pageTitle', 'Course')
+@set('currentPage', 'course')
+@section('body')
+  <form action="">
+    <div class="columns">
+      <div class="column is-one-third">
+        <div class="field">
+          <label class="label" for="name">Course Name</label>
+          <div class="control">
+            <input type="text" id="name" name="name" class="input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <div class="field">
+          <label for="dayOfWeek" class="label">Day of the Week</label>
+          <div class="control">
+            <input type="text" class="input" id="dayOfWeek" name="dayOfWeek">
+          </div>
+        </div>
+      </div>
+      <div class="column is-one-fifth">
+        <div class="field">
+          <label for="duration" class="label">Course Duration</label>
+          <div class="control">
+            <input type="text" class="input" id="duration" name="duration">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <div class="field">
+          <label for="location" class="label">Location</label>
+          <div class="control">
+            <input type="text" class="input" id="location" name="location">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+@end

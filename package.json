@@ -11,7 +11,6 @@
     "start:prod": "node ./build/server.js"
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^5.3.6",
     "@symfony/webpack-encore": "^1.6.0",
     "adonis-preset-ts": "^2.1.0",
     "eslint": "^7.32.0",
@@ -21,11 +20,12 @@
     "pino-pretty": "^6.0.0",
     "prettier": "^2.3.2",
     "sass": "^1.38.2",
-    "typescript": "^4.2.4",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
   },
   "dependencies": {
+    "typescript": "^4.2.4",
+    "@adonisjs/assembler": "^5.3.6",
     "@adonisjs/auth": "^8.0.9",
     "@adonisjs/core": "^5.3.2",
     "@adonisjs/lucid": "^16.0.0",

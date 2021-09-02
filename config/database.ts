@@ -56,6 +56,7 @@ if (Env.get('HEROKU_ENV') === 1) {
     },
   }
 } else {
+  const CLEARDB_DATABASE_URL = new Url(Env.get('CLEARDB_DATABASE_URL'))
   databaseConfig = {
     /*
     |--------------------------------------------------------------------------
@@ -84,11 +85,11 @@ if (Env.get('HEROKU_ENV') === 1) {
       mysql: {
         client: 'mysql2',
         connection: {
-          host: Env.get('MYSQL_HOST'),
-          port: Env.get('MYSQL_PORT'),
-          user: Env.get('MYSQL_USER'),
-          password: Env.get('MYSQL_PASSWORD', ''),
-          database: Env.get('MYSQL_DB_NAME'),
+          host: Env.get('MYSQL_HOST', CLEARDB_DATABASE_URL.host),
+          port: Env.get('MYSQL_PORT', ''),
+          user: Env.get('MYSQL_USER', CLEARDB_DATABASE_URL.username),
+          password: Env.get('MYSQL_PASSWORD', CLEARDB_DATABASE_URL.password),
+          database: Env.get('MYSQL_DB_NAME', CLEARDB_DATABASE_URL.pathname.substr(1)),
         },
         migrations: {
           naturalSort: true,

@@ -1,3 +1,10 @@
+{{--
+sessionListName,
+columnKeys: [],
+columnNames: [],
+value,
+--}}
+
 <div class="box">
   <div class="columns">
     <div class="column">
@@ -22,14 +29,27 @@
             @each(columnName in columnNames)
               <th>{{columnName}}</th>
             @end
+            <th class="has-text-centered"><span class="icon is-small"><i class="fas fa-ellipsis-h"></i></span></th>
           </tr>
         </thead>
         <tbody>
-          @each(row in session.get(sessionListName))
+          @each(row in value)
             <tr>
               @each(columnKey in columnKeys)
                 <td>{{row[columnKey]}}</td>
               @end
+              <td class="has-text-centered">
+                <a>
+                  <span class="icon is-small has-text-info">
+                    <i class="far fa-edit"></i>
+                  </span>
+                </a>
+                <a>
+                  <span class="icon is-small has-text-danger">
+                    <i class="fas fa-trash-alt"></i>
+                  </span>
+                </a>
+              </td>
             </tr>
           @end
         </tbody>

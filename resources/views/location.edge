@@ -2,62 +2,87 @@
 @set('pageTitle', 'Location')
 @set('currentPage', 'location')
 @section('body')
-  <form action="/location/create" method="post">
-    <div class="columns">
-      <div class="column is-one-third">
-        <div class="field">
-          <label for="name" class="label">Location Name</label>
-          <div class="control">
-            <input type="text" id="name" class="input" name="name" value="{{flashMessages.get('name', '')}}">
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="columns">
-      <div class="column is-3">
-        <div class="field">
-          <label for="city" class="label">City</label>
-            <div class="control">
-              <input type="text" class="input" id="city" name="city" value="{{flashMessages.get('city', '')}}">
-            </div>
-        </div>
-      </div>
+  @!component('components/infos', { info: flashMessages.get('infoIndex') })
 
-      <div class="column is-1">
-        <div class="field">
-          <label for="state" class="label">State</label>
-            <div class="control">
-              <input type="text" class="input" id="state" name="state" value="{{flashMessages.get('state', '')}}">
-            </div>
+  @component('components/defaultSubmitModal', {
+    id: 'add-location-modal',
+    action: '/location/create',
+    title: 'Create a location',
+    showModal: showModal,
+    dialogButtonLabel: 'Add new location'
+  })
+    @slot('content')
+      <div class="columns">
+        <div class="column is-8">
+          @!component('components/input', {
+          id: 'name',
+          label: 'Location Name',
+          name: 'name',
+          keyName: 'name',
+          })
         </div>
       </div>
 
-      <div class="column is-2">
-        <div class="field">
-          <label for="zip" class="label">ZIP</label>
-            <div class="control">
-              <input type="text" class="input" id="zip" name="zip" value="{{flashMessages.get('zip', '')}}">
-            </div>
+      <div class="columns">
+        <div class="column is-6">
+          @!component('components/input', {
+          id: 'city',
+          label: 'City',
+          name: 'city',
+          keyName: 'city',
+          })
+        </div>
+
+        <div class="column is-3">
+          @!component('components/select', {
+          id: 'state',
+          label: 'State',
+          name: 'state',
+          valueKey: 'abbreviation',
+          labelKey: 'name',
+          values: [ {"name": "Texas", "abbreviation": "TX"} ],
+          keyName: 'state',
+          })
+        </div>
+
+        <div class="column is-3">
+          @!component('components/input', {
+          id: 'zip',
+          label: 'ZIP',
+          name: 'zip',
+          keyName: 'zip',
+          })
         </div>
       </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <button class="button is-success" type="submit">Save</button>
-      </div>
-    </div>
-  </form>
 
-  @include('partials/errors')
+      <div class="columns is-flex">
+        <div class="column is-3 is-align-self-flex-end">
+          <button class="button is-link is-inverted" type="submit" onclick="addCourse(this)">
+            <span class="icon">
+              <i class="fas fa-plus-circle"></i>
+            </span>
+            <span>
+              Add Course
+            </span>
+          </button>
+        </div>
+      </div>
+
+      @each(tempCourse in flashMessages.get('tempCourses'))
+        @!course({index: tempCourse.index})
+      @end
+
+      @!component('components/infos', { info: flashMessages.get('infoModal') })
+    @end
+  @end
 
   <div class="columns">
     <div class="column">
-      @!component('components/datatable', {})
+      @!component('components/datatable', {
+        value: sessionListName,
+        columnNames: ['Location Name', 'City', 'State', 'Zip Code']
+      })
     </div>
   </div>
-@end
-
-@section('scripts')
-  @entryPointScripts('app')
 @end

@@ -8,7 +8,15 @@ export default class UsersController {
     let session = ctx.session
     const allUsers = await User.all()
     session.put('users', allUsers)
-    return await ctx.view.render('user')
+    return await ctx.view.render('user', { users: allUsers })
+  }
+  public async indexCreate(ctx: HttpContextContract) {
+    const auth = ctx.auth
+    await auth.use('web').authenticate()
+    let session = ctx.session
+    const allUsers = await User.all()
+    session.put('users', allUsers)
+    return await ctx.view.render('user', { showModal: 'is-active' })
   }
   public async create(ctx: HttpContextContract) {
     const auth = ctx.auth

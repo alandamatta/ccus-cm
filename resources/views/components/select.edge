@@ -1,0 +1,76 @@
+@set('valueKey', valueKey)
+@set('labelKey', labelKey)
+<div class="field">
+  <label for="{{id}}" class="label">{{label}}</label>
+  @if(!values)
+    <div class="select is-fullwidth {{classes}}">
+      <select id="{{id}}" name="{{name}}" disabled>
+        <option selected>No data found</option>
+      </select>
+    </div>
+  @elseif(flashMessages.get('errors.'+id))
+  <div class="control has-icons-left">
+    @if(flashMessages.get(id) === null)
+    <div class="select is-fullwidth is-danger {{classes}}">
+      <select id="{{id}}" name="{{name}}" value="">
+        <option selected></option>
+        @each(value in values)
+          @if(value[valueKey] === flashMessages.get(name, ''))
+            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+          @else
+            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+        @end
+      </select>
+    </div>
+    @else
+    <div class="select is-fullwidth is-danger">
+      <select id="{{id}}" class="is-danger {{classes}}" name="{{name}}" value="{{flashMessages.get(name, '')}}">
+        @each(value in values)
+        <option selected>Select a Value</option>
+          @if(value[valueKey] === flashMessages.get(name, ''))
+            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+          @else
+            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+        @end
+      </select>
+    </div>
+    @end
+    <span class="icon is-small is-left has-text-danger">
+      <i class="fas fa-exclamation-circle"></i>
+    </span>
+  </div>
+  <p class="help is-danger">{{flashMessages.get('errors["'+keyName+'"]')}}</p>
+  @else
+  <div class="control">
+    @if(flashMessages.get(id) === null)
+    <div class="select is-fullwidth {{classes}}">
+      <select id="{{id}}" class="" name="{{name}}" value="">
+        <option selected></option>
+        @each(value in values)
+          @if(value[valueKey] === flashMessages.get(name, ''))
+            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+          @else
+            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+        @end
+      </select>
+    </div>
+    @else
+    <div class="select is-fullwidth {{classes}}">
+      <select id="{{id}}" class="" name="{{name}}" value="{{flashMessages.get(keyName, '')}}">
+        <option selected></option>
+        @each(value in values)
+          @if(value[valueKey] === flashMessages.get(keyName, ''))
+            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+          @else
+            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+        @end
+      </select>
+    </div>
+    @end
+  </div>
+  @end
+</div>

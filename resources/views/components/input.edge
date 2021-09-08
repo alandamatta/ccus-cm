@@ -1,0 +1,24 @@
+<div class="field">
+  <label for="{{id}}" class="label">{{label}}</label>
+  @if(flashMessages.get('errors["'+keyName+'"]'))
+    <div class="control has-icons-left">
+      @if(flashMessages.get(keyName) === null)
+        <input type="text" id="{{id}}" class="input is-danger {{(classes || '')}}" name="{{name}}" value="">
+      @else
+        <input type="text" id="{{id}}" class="input is-danger {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
+      @end
+      <span class="icon is-small is-left has-text-danger">
+        <i class="fas fa-exclamation-circle"></i>
+      </span>
+    </div>
+    <p class="help is-danger">{{flashMessages.get('errors["'+keyName+'"]')}}</p>
+  @else
+    <div class="control">
+      @if(flashMessages.get(keyName) == null)
+        <input type="text" id="{{id}}" class="input {{(classes || '')}}" name="{{name}}" value="">
+      @else
+        <input type="text" id="{{id}}" class="input {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
+      @end
+    </div>
+  @end
+</div>

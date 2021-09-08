@@ -20,12 +20,12 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
+Route.get('/', async ({ view, auth }) => {
+  await auth.use('web').authenticate()
   return view.render('welcome')
 })
 Route.get('/course', 'CoursesController.index')
-Route.get('/location', 'LocationsController.index')
-Route.post('/location/create', 'LocationsController.create')
+
 /*
 |--------------------------------------------------------------------------
 | Auth
@@ -34,10 +34,27 @@ Route.post('/location/create', 'LocationsController.create')
 Route.get('/login', 'LoginController.index')
 Route.post('/login', 'LoginController.login')
 Route.get('/logout', 'LoginController.logout')
+
+/*
+|--------------------------------------------------------------------------
+| Location
+|--------------------------------------------------------------------------
+*/
+Route.get('/location', 'LocationsController.index').as('location.index')
+Route.get('/location/create', 'LocationsController.indexCreate').as('location.modal.render')
+Route.post('/location/create', 'LocationsController.create').as('location.modal.post')
+Route.post('/location/create/addTempCourse', 'LocationsController.addTempCourse').as(
+  'location.modal.addTempCourse'
+)
+Route.post('/location/create/removeTempCourse/:index', 'LocationsController.removeTempCourse').as(
+  'location.modal.removeTempCourse'
+)
+
 /*
 |--------------------------------------------------------------------------
 | User
 |--------------------------------------------------------------------------
 */
 Route.get('/user', 'UsersController.index')
-Route.post('/user', 'UsersController.create')
+Route.get('/user/create', 'UsersController.indexCreate')
+Route.post('/user/create', 'UsersController.create')

@@ -16,63 +16,63 @@
 
       @if(currentPage && currentPage == 'checkIn')
         <a class="navbar-item is-active">
-          Check-in/out
+          <span>Check-in/out</span>
+          <span class="icon has-text-success">
+            <i class="fas fa-check-double"></i>
+          </span>
         </a>
         @else
         <a class="navbar-item">
-          Check-in/out
+          <span>Check-in/out</span>
+          <span class="icon has-text-success">
+            <i class="fas fa-check-double"></i>
+          </span>
         </a>
       @end
 
-      @if(currentPage && currentPage == 'childrenMgmt')
+      @if(currentPage && currentPage == 'participant')
         <a class="navbar-item is-active">
-          Children's Management
+          <span>Participants</span>
+          <span class="icon">
+            <i class="fas fa-users"></i>
+          </span>
         </a>
       @else
         <a class="navbar-item">
-          Children's Management
+          <span>Participants</span>
+          <span class="icon">
+            <i class="fas fa-users"></i>
+          </span>
         </a>
       @end
 
-      @if(currentPage && currentPage == 'parentsMgmt')
-        <a class="navbar-item is-active">
-          Parent's Management
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Administration
         </a>
-      @else
-        <a class="navbar-item">
-          Parent's Management
-        </a>
-      @end
 
-      @if(currentPage && currentPage == 'location')
-        <a class="navbar-item is-active">
-          Locations
-        </a>
-      @else
-        <a href="/location" class="navbar-item">
-          Locations
-        </a>
-      @end
+        <div class="navbar-dropdown">
+          @if(currentPage && currentPage == 'user')
+            <a class="navbar-item is-active">
+              Users
+            </a>
+          @else
+            <a href="/user" class="navbar-item">
+              Users
+            </a>
+          @end
 
-      @if(currentPage && currentPage == 'course')
-        <a class="navbar-item is-active">
-          Courses
-        </a>
-      @else
-        <a href="/course" class="navbar-item">
-          Courses
-        </a>
-      @end
-
-      @if(currentPage && currentPage == 'user')
-      <a class="navbar-item is-active">
-        Users
-      </a>
-      @else
-      <a href="/user" class="navbar-item">
-        Users
-      </a>
-      @end
+          @if(currentPage && currentPage == 'location')
+            <a class="navbar-item is-active">
+              Locations
+            </a>
+          @else
+            <a href="/location" class="navbar-item">
+              Locations
+            </a>
+          @end
+        </div>
+      </div>
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">

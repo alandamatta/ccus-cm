@@ -1,0 +1,48 @@
+<div class="columns" id="{{id}}">
+  <input type="hidden" value="{{index}}" name="{{'course.'+index+'.index'}}" id="{{'course.'+index+'.index'}}">
+  <div class="column">
+    <div class="notification is-link is-light">
+      <button class="delete" type="button" onclick="removeCourse(this, '{{index}}')"></button>
+      <div class="columns">
+        <div class="column">
+          <!--TODO: Replace with edge component-->
+          @!input({
+            id: 'course.'+index+'.name',
+            label: 'Course name',
+            name: 'course['+index+'].name',
+            keyName: 'course.'+index+'.name',
+            classes: 'is-small'
+          })
+        </div>
+      </div>
+      <div class="columns is-flex">
+        <div class="column is-4">
+            @!select({
+            id: 'course.'+index+'.dayOfTheWeek',
+            label: 'Day of the week',
+            name: 'course['+index+'].dayOfTheWeek',
+            keyName: 'course.'+index+'.dayOfTheWeek',
+            classes: 'is-small',
+            valueKey: 'value',
+            labelKey: 'label',
+            values: [ {"label": "Sunday", "value": "SUNDAY"}, {"label": "Monday", "value": "MONDAY"} ],
+          })
+        </div>
+        <div class="column is-4">
+          @!input({
+            id: 'course.'+index+'.courseDuration',
+            label: 'Course Duration',
+            name: 'course['+index+'].courseDuration',
+            keyName: 'course.'+index+'.courseDuration',
+            classes: 'is-small'
+          })
+        </div>
+
+        <div class="column is-align-self-flex-end">
+          <button class="button is-small is-outlined is-danger is-rounded">Test</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

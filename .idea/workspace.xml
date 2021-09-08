@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e00ea5eb-cf49-4bc7-a226-e6ba151c71c9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Services/LocationsService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/location.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/course.edge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/defaultSubmitModal.edge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/dropdown.edge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/infos.edge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/input.edge" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/select.edge" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/LocationsController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/LocationsController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/UsersController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/UsersController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Course.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Course.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.ts" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/css/bulma.sass" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/bulma.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/datatable.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/datatable.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/main.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/main.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/location.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/location.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/errors.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/errors.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/navbar.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/navbar.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/user.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/user.edge" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/start/routes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +93,7 @@
       <workItem from="1630680875552" duration="10909000" />
       <workItem from="1630781808197" duration="803000" />
       <workItem from="1630936159712" duration="6696000" />
-      <workItem from="1631024822375" duration="33208000" />
+      <workItem from="1631024822375" duration="33774000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1630618031310</created>
@@ -125,7 +102,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630618031310</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changes">
+      <created>1631130549294</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1631130549294</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,7 +122,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes" />
   </component>
   <component name="WindowStateProjectService">
     <state x="559" y="248" key="#ESLint" timestamp="1631048010734">
@@ -149,11 +134,11 @@
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="560" y="248" key="#File_Watchers/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630440635132" />
-    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1631130529498">
+    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1631130677568">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630620984447" />
-    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1122@0.25.1920.1122" timestamp="1631130529498" />
+    <state x="424" y="245" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1122@0.25.1920.1122" timestamp="1631130677568" />
     <state x="687" y="393" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1630620098358">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
@@ -175,10 +160,11 @@
     </state>
     <state x="723" y="293" key="#xdebugger.evaluate/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630537149304" />
     <state x="723" y="293" key="#xdebugger.evaluate/0.25.1920.1122@0.25.1920.1122" timestamp="1630937384071" />
-    <state x="548" y="184" key="CommitChangelistDialog2" timestamp="1630618030941">
+    <state x="548" y="184" key="CommitChangelistDialog2" timestamp="1631130548820">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630618030941" />
+    <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122@0.25.1920.1122" timestamp="1631130548820" />
     <state x="540" y="368" width="840" height="473" key="EditFileWatcherDialog" timestamp="1630440600275">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>

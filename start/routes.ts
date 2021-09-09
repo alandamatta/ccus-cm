@@ -20,9 +20,9 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view, auth }) => {
+Route.get('/', async ({ auth, response }) => {
   await auth.use('web').authenticate()
-  return view.render('welcome')
+  return response.redirect().toRoute('timesheet.mainPage.init')
 })
 Route.get('/course', 'CoursesController.index')
 
@@ -58,3 +58,17 @@ Route.post('/location/create/removeTempCourse/:index', 'LocationsController.remo
 Route.get('/user', 'UsersController.index')
 Route.get('/user/create', 'UsersController.indexCreate')
 Route.post('/user/create', 'UsersController.create')
+
+/*
+|--------------------------------------------------------------------------
+| Student
+|--------------------------------------------------------------------------
+*/
+Route.get('/student', 'StudentsController.index').as('student.mainPage.init')
+
+/*
+|--------------------------------------------------------------------------
+| TimeSheet
+|--------------------------------------------------------------------------
+*/
+Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init')

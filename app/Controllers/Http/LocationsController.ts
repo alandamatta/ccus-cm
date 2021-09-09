@@ -1,7 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Location from 'App/Models/Location'
-import Logger from '@ioc:Adonis/Core/Logger'
+import LocationsService from 'App/Services/LocationsService'
 
 export default class LocationsController {
   public async index(ctx: HttpContextContract) {
@@ -16,6 +16,7 @@ export default class LocationsController {
   }
   public async create(ctx: HttpContextContract) {
     //modal
+    const locationService = new LocationsService()
     this.tempCoursesControl(ctx)
     const auth = ctx.auth
     await auth.use('web').authenticate()
@@ -23,8 +24,8 @@ export default class LocationsController {
     const closeModal = body.closeModal
     const location = new Location()
     location.fill(body, true)
-    Logger.info(JSON.stringify(body))
     await ctx.request.validate({ schema: this.schema() })
+    await locationService.create(body)
     if (closeModal === 'true') {
       ctx.session.flash('infoIndex', 'Data saved successfully!')
       return await ctx.response.redirect().toRoute('location.index')
@@ -33,7 +34,6 @@ export default class LocationsController {
     return await ctx.response.redirect().toRoute('location.modal.render')
   }
   public async addTempCourse(ctx: HttpContextContract) {
-    Logger.info('addTempCourse route')
     const body = ctx.request.body()
     const session = ctx.session
     let course: any = {}
@@ -43,15 +43,12 @@ export default class LocationsController {
       course.index = body.course.length
       tempCourses = [...body.course, course]
     }
-    Logger.info(JSON.stringify(course))
-    Logger.info(JSON.stringify(tempCourses))
     session.flash('tempCourses', tempCourses)
     session.flash({ ...body })
     await ctx.request.validate({ schema: this.schema() })
     return await ctx.response.redirect().toRoute('location.modal.render')
   }
   public async removeTempCourse(ctx: HttpContextContract) {
-    Logger.info('removeTempCourse route. Params=' + JSON.stringify(ctx.params))
     const updatedCourses = ctx.request
       .body()
       .course.filter((element) => element.index != ctx.params.index)
@@ -76,9 +73,9 @@ export default class LocationsController {
       city: schema.string({}, [rules.maxLength(60)]),
       state: schema.string({}, [rules.maxLength(2)]),
       zip: schema.string({ trim: true }),
-      course: schema.array().members(
+      course: schema.array.optional().members(
         schema.object().members({
-          name: schema.string({}, [rules.maxLength(60)]),
+          name: schema.string({ trim: true }, [rules.maxLength(60)]),
         })
       ),
     })

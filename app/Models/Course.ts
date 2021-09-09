@@ -13,7 +13,7 @@ export default class Course extends BaseModel {
   public dayOfWeek: string
 
   @column()
-  public duration: string
+  public time: string
 
   @belongsTo(() => Location)
   public location: BelongsTo<typeof Location>

@@ -14,35 +14,23 @@
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
 
-      @if(currentPage && currentPage == 'checkIn')
+      @if(currentPage && currentPage == 'timesheet')
         <a class="navbar-item is-active">
-          <span>Check-in/out</span>
-          <span class="icon has-text-success">
-            <i class="fas fa-check-double"></i>
-          </span>
+          <span>Timesheet</span>
         </a>
         @else
-        <a class="navbar-item">
-          <span>Check-in/out</span>
-          <span class="icon has-text-success">
-            <i class="fas fa-check-double"></i>
-          </span>
+        <a class="navbar-item" href="/timesheet">
+          <span>Timesheet</span>
         </a>
       @end
 
-      @if(currentPage && currentPage == 'participant')
+      @if(currentPage && currentPage == 'student')
         <a class="navbar-item is-active">
-          <span>Participants</span>
-          <span class="icon">
-            <i class="fas fa-users"></i>
-          </span>
+          <span>Students</span>
         </a>
       @else
-        <a class="navbar-item">
-          <span>Participants</span>
-          <span class="icon">
-            <i class="fas fa-users"></i>
-          </span>
+        <a class="navbar-item" href="/student">
+          <span>Students</span>
         </a>
       @end
 
@@ -74,23 +62,23 @@
         </div>
       </div>
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          Reports
-        </a>
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">-->
+<!--          Reports-->
+<!--        </a>-->
 
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
-            Report 1
-          </a>
-          <a class="navbar-item">
-            Report 2
-          </a>
-          <a class="navbar-item">
-            Report 3
-          </a>
-        </div>
-      </div>
+<!--        <div class="navbar-dropdown">-->
+<!--          <a class="navbar-item">-->
+<!--            Report 1-->
+<!--          </a>-->
+<!--          <a class="navbar-item">-->
+<!--            Report 2-->
+<!--          </a>-->
+<!--          <a class="navbar-item">-->
+<!--            Report 3-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
     <div class="navbar-end">

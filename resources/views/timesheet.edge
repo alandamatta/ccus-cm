@@ -2,211 +2,39 @@
 @set('pageTitle', 'Timesheet')
 @set('currentPage', 'timesheet')
 @section('body')
-  <p class="title is-3">
-    Timesheet
-  </p>
-  <p class="title is-6">
-    Please enter check-in & check-out information
-  </p>
-  <div class="columns">
-    <div class="column">
-      <div class="box">
-        <div class="columns">
-          <div class="column">
-            <div class="field">
-              <label for="studentSearch" class="label">Search</label>
-              <div class="control">
-                <input type="text" class="input" id="studentSearch" placeholder="Search...">
-              </div>
+<p class="title is-3 is-hidden-mobile">
+  Timesheet
+</p>
+<p class="title is-6 is-hidden-mobile">
+  Please enter check-in & check-out information
+</p>
+<div class="columns">
+  <div class="column">
+    <div class="box">
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label for="studentSearch" class="label">Search</label>
+            <div class="control">
+              <input type="text" class="input" id="studentSearch" placeholder="Search...">
             </div>
           </div>
         </div>
+      </div>
 
-        {{--Table--}}
-        <div class="columns">
-          <div class="column">
-            <table class="table is-fullwidth is-striped">
-              <thead>
-                <tr>
-                  <th style="width: 1%">
-                    <input type="checkbox">
-                  </th>
-                  <th style="width: 35%">
-                    <span>Student</span>
-                  </th>
-                  <th style="width: 34%">
-                    <span>
-                      Notes
-                    </span>
-                  </th>
-                  <th style="width: 15%">
-                    <span>
-                      Time In
-                    </span>
-                  </th>
-                  <th style="width: 15%">
-                    <span>
-                      Time Out
-                    </span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th class="is-vcentered">
-                    <input type="checkbox">
-                  </th>
-                  <th>
-                    <div class="columns is-vcentered">
-                      <div class="column is-2">
-                        <figure class="image is-48x48">
-                          <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture" class="is-rounded">
-                        </figure>
-                      </div>
-                      <div class="column">
-                        <a href="#" class="is-link" style="text-decoration: underline">John Doe</a>
-                        <div class="content is-small has-text-weight-medium">
-                          <p>DOB: 12/4/2015 (6yo)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="content is-small">
-                      <p>--</p>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns">
-                      <div class="column">
-                        <button class="button is-info is-fullwidth is-outlined">Check-in</button>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns">
-                      <div class="column">
-                        <button class="button is-link is-fullwidth is-outlined" disabled>Check-out</button>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="is-vcentered">
-                    <input type="checkbox">
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns is-vcentered">
-                      <div class="column is-2">
-                        <figure class="image is-48x48">
-                          <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture" class="is-rounded">
-                        </figure>
-                      </div>
-                      <div class="column">
-                        <a href="#" class="is-link" style="text-decoration: underline">Robert Silva dos Santos</a>
-                        <div class="content is-small has-text-weight-medium">
-                          <p>DOB: 4/25/2014 (7yo)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="content is-small">
-                      <p>--</p>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns is-vcentered" >
-                      <div class="column is-10" style="padding-right: 0.5em" >
-                        <div class="field is-fullwidth" >
-                          <div class="control">
-                            <input type="time" class="input is-fullwidth" value="10:35">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="column" style="padding-left: 0">
-                        <a>
-                          <span class="icon has-text-black-ter">
-                            <i class="fas fa-times"></i>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns">
-                      <div class="column">
-                        <button class="button is-link is-fullwidth is-outlined">Check-out</button>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="is-vcentered">
-                    <input type="checkbox">
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns is-vcentered">
-                      <div class="column is-2">
-                        <figure class="image is-48x48">
-                          <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture" class="is-rounded">
-                        </figure>
-                      </div>
-                      <div class="column">
-                        <a href="#" class="is-link" style="text-decoration: underline">Susana Fantin da Costa</a>
-                        <div class="content is-small has-text-weight-medium">
-                          <p>DOB: 3/30/2016 (5yo)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="content is-small">
-                      <p>--</p>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns is-vcentered" >
-                      <div class="column is-10" style="padding-right: 0.5em" >
-                        <div class="field is-fullwidth" >
-                          <div class="control">
-                            <input type="time" class="input is-fullwidth" value="10:12">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="column" style="padding-left: 0">
-                        <a>
-                          <span class="icon has-text-black-ter">
-                            <i class="fas fa-times"></i>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </th>
-                  <th class="is-vcentered">
-                    <div class="columns is-vcentered" >
-                      <div class="column is-10" style="padding-right: 0.5em" >
-                        <div class="field is-fullwidth" >
-                          <div class="control">
-                            <input type="time" class="input is-fullwidth" value="11:47">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="column" style="padding-left: 0">
-                        <a>
-                          <span class="icon has-text-black-ter">
-                            <i class="fas fa-times"></i>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      {{--Table--}}
+      <div class="columns">
+        <div class="column">
+          @!timesheetTable({
+            values: [
+              {name: 'Thomas Kislak da Matta da Costa', dateOfBirth: '9/11/2019', age: '2yo', notes: '', },
+              {name: 'Mateus Faiola dos Santos', dateOfBirth: '3/13/2014', age: '7yo', notes: '', },
+              {name: 'Maria Catarina Farias', dateOfBirth: '5/22/2017', age: '4yo', notes: '', }
+            ],
+          })
         </div>
       </div>
     </div>
   </div>
+</div>
 @end

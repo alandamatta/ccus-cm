@@ -3,9 +3,9 @@
   @if(flashMessages.get('errors["'+keyName+'"]'))
     <div class="control has-icons-left">
       @if(flashMessages.get(keyName) === null)
-        <input type="text" id="{{id}}" class="input is-danger {{(classes || '')}}" name="{{name}}" value="">
+        <input type="{{(type || 'text')}}" id="{{id}}" {{(disabled ? 'disabled' : '')}} class="input is-danger {{(classes || '')}}" name="{{name}}" value="">
       @else
-        <input type="text" id="{{id}}" class="input is-danger {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
+        <input type="{{(type || 'text')}}" id="{{id}}" {{(disabled ? 'disabled' : '')}} class="input is-danger {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
       @end
       <span class="icon is-small is-left has-text-danger">
         <i class="fas fa-exclamation-circle"></i>
@@ -15,9 +15,9 @@
   @else
     <div class="control">
       @if(flashMessages.get(keyName) == null)
-        <input type="text" id="{{id}}" class="input {{(classes || '')}}" name="{{name}}" value="">
+        <input type="{{(type || 'text')}}" id="{{id}}" {{(disabled ? 'disabled' : '')}} class="input {{(classes || '')}}" name="{{name}}" value="">
       @else
-        <input type="text" id="{{id}}" class="input {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
+        <input type="{{(type || 'text')}}" id="{{id}}" {{(disabled ? 'disabled' : '')}} class="input {{(classes || '')}}" name="{{name}}" value="{{flashMessages.get(keyName)}}">
       @end
     </div>
   @end

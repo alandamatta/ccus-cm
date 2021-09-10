@@ -6,7 +6,12 @@ export default class Parents extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-
+      table.string('name', 60)
+      table.string('address', 80)
+      table.string('phone', 12)
+      table.string('email', 255)
+      table.boolean('active').defaultTo(true)
+      table.integer('location_id').unsigned().references('location.id')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

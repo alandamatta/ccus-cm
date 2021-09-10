@@ -11,7 +11,7 @@ export default class Parents extends BaseSchema {
       table.string('phone', 12)
       table.string('email', 255)
       table.boolean('active').defaultTo(true)
-      table.integer('location_id').unsigned().references('location.id')
+      table.integer('location_id').unsigned().references('locations.id')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

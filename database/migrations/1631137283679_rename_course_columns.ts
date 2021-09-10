@@ -9,7 +9,5 @@ export default class Courses extends BaseSchema {
     })
   }
 
-  public async down() {
-    this.schema.table(this.tableName, (table) => {})
-  }
+  public async down() {}
 }

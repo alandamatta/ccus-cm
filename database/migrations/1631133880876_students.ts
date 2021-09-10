@@ -6,9 +6,9 @@ export default class Students extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.varchar('full_name', 60)
+      table.string('full_name', 60)
       table.date('date_of_birth')
-      table.varchar('grade', 1)
+      table.string('grade', 1)
       table.integer('parent1_id').unsigned().references('parents.id')
       table.integer('parent2_id').unsigned().references('parents.id')
       table.integer('location_id').unsigned().references('locations.id')

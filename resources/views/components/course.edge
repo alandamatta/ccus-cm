@@ -18,10 +18,10 @@
       <div class="columns is-flex">
         <div class="column is-4">
             @!select({
-            id: 'course.'+index+'.dayOfTheWeek',
+            id: 'course.'+index+'.dayOfWeek',
             label: 'Day of the week',
-            name: 'course['+index+'].dayOfTheWeek',
-            keyName: 'course.'+index+'.dayOfTheWeek',
+            name: 'course['+index+'].dayOfWeek',
+            keyName: 'course.'+index+'.dayOfWeek',
             classes: 'is-small',
             valueKey: 'value',
             labelKey: 'label',
@@ -34,7 +34,8 @@
             label: 'Time',
             name: 'course['+index+'].time',
             keyName: 'course.'+index+'.time',
-            classes: 'is-small'
+            classes: 'is-small',
+            type: 'time',
           })
         </div>
 

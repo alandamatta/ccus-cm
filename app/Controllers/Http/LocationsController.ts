@@ -2,17 +2,27 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Location from 'App/Models/Location'
 import LocationsService from 'App/Services/LocationsService'
+import Logger from '@ioc:Adonis/Core/Logger'
+
+const locationService = new LocationsService()
+const EMPTY: string = ''
 
 export default class LocationsController {
   public async index(ctx: HttpContextContract) {
     const auth = ctx.auth
     await auth.use('web').authenticate()
-    return await ctx.view.render('location')
+    const locationList = await locationService.search(EMPTY)
+    return await ctx.view.render('location', { locationList })
   }
   public async indexCreate(ctx: HttpContextContract) {
     const auth = ctx.auth
     await auth.use('web').authenticate()
     return await ctx.view.render('location', { showModal: 'is-active' })
+  }
+  public async search(ctx: HttpContextContract) {
+    Logger.info(JSON.stringify(ctx.request.qs()))
+    const locationList = await locationService.search(ctx.request.qs().search)
+    return await ctx.view.render('location', { ...ctx.request.qs(), locationList })
   }
   public async create(ctx: HttpContextContract) {
     //modal

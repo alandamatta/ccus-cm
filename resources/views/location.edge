@@ -79,9 +79,12 @@
 
   <div class="columns">
     <div class="column">
-      @!component('components/datatable', {
-        value: sessionListName,
-        columnNames: ['Location Name', 'City', 'State', 'Zip Code']
+      @!datatable({
+        value: locationList,
+        columnKeys: ['name', 'city', 'state', 'zip'],
+        columnNames: ['Location Name', 'City', 'State', 'Zip Code'],
+        searchPath: '/location/search',
+        search
       })
     </div>
   </div>

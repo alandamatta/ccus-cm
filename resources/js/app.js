@@ -1,7 +1,7 @@
 import '../css/bulma.css'
 import $ from 'jquery'
-import { toast, setDefaults } from 'bulma-toast'
-import list from 'list.js'
+import { setDefaults, toast } from 'bulma-toast'
+import * as student from './student'
 
 setDefaults({
   duration: 3000,
@@ -22,6 +22,23 @@ window.removeCourse = function (element, index) {
   form.submit()
 }
 
-$('.hide-in-5').delay(3200).fadeOut(300)
+const delayKeyUp = (() => {
+  let timer = null
+  const delay = (func, ms) => {
+    timer ? clearTimeout(timer) : null
+    timer = setTimeout(func, ms)
+  }
+  return delay
+})()
+
+$('.search').on('keyup', function () {
+  const element = $(this)
+  const form = $(element.closest('form'))
+  delayKeyUp(() => {
+    form.submit()
+  }, 500)
+})
+
+window.ajaxSaveStudent = () => {}
 window.$ = $
 window.toast = toast

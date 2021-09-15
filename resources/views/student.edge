@@ -18,7 +18,7 @@
     <div class="notification">
       <div class="columns">
         <div class="column">
-          <input type="text" class="input" placeholder="Search...">
+            <input type="text" class="input" id="search" placeholder="Search...">
         </div>
       </div>
       <div class="columns">
@@ -27,9 +27,9 @@
           {{--element--}}
           <div class="columns">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification is-info is-light">
+              <div class="box notification is-info" style="padding-right: 0.3em">
                 <div class="columns is-vcentered is-mobile">
-                  <div class="column is-2">
+                  <div class="column is-3">
                     <span class="icon">
                       <i class="fas fa-plus-circle"></i>
                     </span>
@@ -44,9 +44,9 @@
 
           <div class="columns">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification has-background-white">
+              <div class="box notification has-background-white" style="padding-right: 0.3em">
                 <div class="columns is-vcentered is-mobile">
-                  <div class="column is-2">
+                  <div class="column is-3">
                     <figure class="image is-32x32">
                       <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
                            class="is-rounded">
@@ -65,9 +65,9 @@
 
           <div class="columns ">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification">
+              <div class="box notification" style="padding-right: 0.3em">
                 <div class="columns is-vcentered is-mobile">
-                  <div class="column is-2">
+                  <div class="column is-3">
                     <figure class="image is-32x32">
                       <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
                            class="is-rounded">
@@ -86,9 +86,9 @@
 
           <div class="columns">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification is-light">
+              <div class="box notification is-light" style="padding-right: 0.3em">
                 <div class="columns is-vcentered is-mobile">
-                  <div class="column is-2">
+                  <div class="column is-3">
                     <figure class="image is-32x32">
                       <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
                            class="is-rounded">
@@ -118,152 +118,163 @@
                   </div>
                 </div>
               </div>
-              <div class="column is-10">
-                {{--student info--}}
-                <div class="columns">
-                  <div class="column is-8">
-                    @!input({
-                    classes: '',
-                    label: 'Name',
-                    })
-                  </div>
-                </div>
-
-                <div class="columns">
-                  <div class="column">
-                    @!input({
-                    label: 'DOB',
-                    type: 'date'
-                    })
-                  </div>
-
-                  <div class="column is-1">
-                    @!input({
-                    label: 'Age',
-                    disabled: true
-                    })
-                  </div>
-
-                  <div class="column">
-                    @!select({
-                    label: 'Location'
-                    })
-                  </div>
-
-                  <div class="column">
-                    @!select({
-                    label: 'Course'
-                    })
-                  </div>
-                </div>
-
-                <div class="columns">
-                  <div class="column">
-                    <div class="field">
-                      <label for="notes" class="label">Notes</label>
-                      <div class="control">
-                        <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"></textarea>
-                      </div>
+              <form id="savePatientForm">
+                <div class="column is-10">
+                  {{--student info--}}
+                  <div class="columns">
+                    <div class="column is-8">
+                      @!input({
+                      id: 'name',
+                      name: 'name',
+                      classes: '',
+                      label: 'Name',
+                      })
                     </div>
                   </div>
-                </div>
-                <div class="columns">
-                  <div class="column">
-                    <div class="tabs">
-                      <ul>
-                        <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
-                        <li><a class="no-underscore is-info">Attendance Reports</a></li>
-                      </ul>
+
+                  <div class="columns is-desktop">
+                    <div class="column">
+                      @!input({
+                      label: 'DOB',
+                      type: 'date',
+                      id: 'dateOfBirth',
+                      name: 'dateOfBirth',
+                      })
+                    </div>
+
+                    <div class="column is-1">
+                      @!input({
+                      label: 'Age',
+                      disabled: true,
+                      id: 'age',
+                      name: 'age',
+                      })
+                    </div>
+
+                    <div class="column">
+                      @!select({
+                      label: 'Location',
+                      id: 'locationId',
+                      name: 'locationId',
+                      })
+                    </div>
+
+                    <div class="column">
+                      @!select({
+                      label: 'Course',
+                      id: 'courseId',
+                      name: 'courseId',
+                      })
                     </div>
                   </div>
-                </div>
-                <div class="columns">
-                  <div class="column">
-                    <button class="button is-info is-outlined">Add contact</button>
-                  </div>
-                </div>
 
-                <div class="columns">
-                  <div class="column">
-                    <div class="notification">
-                      <div class="columns">
-                        <div class="column">
-                          <p class="title is-5">Susana Doe</p>
-                        </div>
-                      </div>
-
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-phone-alt"></i></span><span
-                          class="is-size-6">(214)788-9090</span>
-                        </div>
-                      </div>
-
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-envelope"></i></span><span
-                          class="is-size-6">sdoe@gmail.com</span>
-                        </div>
-                      </div>
-
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
-                        </div>
-                      </div>
-
-                      <div class="columns">
-                        <div class="column">
-                          <button class="button is-info is-small is-outlined">Edit</button>
+                  <div class="columns">
+                    <div class="column">
+                      <div class="field">
+                        <label for="notes" class="label">Notes</label>
+                        <div class="control">
+                          <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"></textarea>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="columns">
+                    <div class="column">
+                      <div class="tabs">
+                        <ul>
+                          <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
+                          <li><a class="no-underscore is-info">Attendance Reports</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <button class="button is-info is-outlined">Add contact</button>
+                    </div>
+                  </div>
 
+                  <div class="columns">
+                    <div class="column">
+                      <div class="notification">
+                        <div class="columns">
+                          <div class="column">
+                            <p class="title is-5">Susana Doe</p>
+                          </div>
+                        </div>
 
-                  <div class="column">
-                    <div class="notification">
-                      <div class="columns">
-                        <div class="column">
-                          <p class="title is-5">Ricardo Doe</p>
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-phone-alt"></i></span><span
+                            class="is-size-6">(214)788-9090</span>
+                          </div>
+                        </div>
+
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-envelope"></i></span><span
+                            class="is-size-6">sdoe@gmail.com</span>
+                          </div>
+                        </div>
+
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
+                          </div>
+                        </div>
+
+                        <div class="columns">
+                          <div class="column">
+                            <button class="button is-info is-small is-outlined">Edit</button>
+                          </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-phone-alt"></i></span><span class="is-size-6">(214)788-9091</span>
+
+                    <div class="column">
+                      <div class="notification">
+                        <div class="columns">
+                          <div class="column">
+                            <p class="title is-5">Ricardo Doe</p>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-envelope"></i></span><span class="is-size-6">rdoe@gmail.com</span>
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-phone-alt"></i></span><span class="is-size-6">(214)788-9091</span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="columns">
-                        <div class="column">
-                          <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-envelope"></i></span><span class="is-size-6">rdoe@gmail.com</span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="columns">
-                        <div class="column">
-                          <button class="button is-info is-small is-outlined">Edit</button>
+                        <div class="columns">
+                          <div class="column">
+                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
+                          </div>
+                        </div>
+
+                        <div class="columns">
+                          <div class="column">
+                            <button class="button is-info is-small is-outlined">Edit</button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="columns">
-                  <div class="column">
-                    <button class="button is-success">Save</button>
-                    <button class="button">Cancel</button>
+                  <div class="columns">
+                    <div class="column">
+                      <button class="button is-success" type="submit">Save</button>
+                      <button class="button">Cancel</button>
+                    </div>
                   </div>
                 </div>
-
-              </div>
+              </form>
             </div>
           </div>
         </div>

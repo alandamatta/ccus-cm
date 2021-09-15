@@ -10334,4 +10334,12 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+.no-underscore {
+  text-decoration: none !important;
+}
+
+.is-hand-cursor {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=bulma.css.map */

@@ -49,6 +49,7 @@ Route.post('/location/create/addTempCourse', 'LocationsController.addTempCourse'
 Route.post('/location/create/removeTempCourse/:index', 'LocationsController.removeTempCourse').as(
   'location.modal.removeTempCourse'
 )
+Route.get('/location/search', 'LocationsController.search').as('location.search')
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,7 @@ Route.post('/user/create', 'UsersController.create')
 |--------------------------------------------------------------------------
 */
 Route.get('/student', 'StudentsController.index').as('student.mainPage.init')
+Route.post('/student/save', 'StudentsController.create').as('student.mainPage.ajaxSave')
 
 /*
 |--------------------------------------------------------------------------

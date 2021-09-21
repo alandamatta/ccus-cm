@@ -32,18 +32,50 @@ export default class Student extends BaseModel {
   @belongsTo(() => Parent)
   public parent1: BelongsTo<typeof Parent>
 
+  @column()
+  public parent1Id: number
+
   @belongsTo(() => Parent)
   public parent2: BelongsTo<typeof Parent>
+
+  @column()
+  public parent2Id: number
 
   @belongsTo(() => Location)
   public location: BelongsTo<typeof Location>
 
+  @column()
+  public locationId: number
+
   @belongsTo(() => Course)
   public course: BelongsTo<typeof Course>
+
+  @column()
+  public courseId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  public getAge(): string {
+    const today = new DateTime()
+    const thisYear = today.year
+    const thisMonth = today.month
+    const dobYear = this.dateOfBirth.year
+    const dobMonth = this.dateOfBirth.month
+    let year = thisYear - dobYear
+    let month = thisMonth - dobMonth
+    if (month < 0) {
+      month *= -1
+      year -= 1
+      month = 12 - month
+    }
+    let result = '?'
+    if (!isNaN(year)) {
+      result = `${year}y${month}m`
+    }
+    return result
+  }
 }

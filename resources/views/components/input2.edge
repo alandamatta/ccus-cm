@@ -1,0 +1,10 @@
+<div class="field">
+  <label for="{{id}}" class="label">{{label}}</label>
+  <div class="control">
+    <input type="{{(type || 'text')}}" name="{{name}}" {{(disabled ? 'disabled' : '')}} class="input {{(classes || '')}}" id="{{id}}" value="{{(value || '')}}">
+    <span class="icon is-small is-left has-text-danger is-hidden" id="{{id + '-help-icon'}}">
+      <i class="fas fa-exclamation-circle"></i>
+    </span>
+  </div>
+  <p class="help is-danger" id="{{id + '-help'}}"></p>
+</div>

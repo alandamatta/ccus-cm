@@ -1,8 +1,8 @@
-import { rules, schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { msg } from 'App/Messages/Message'
 
-export default class CreateStudentValidator {
+export default class CourseValidator {
   constructor(protected ctx: HttpContextContract) {}
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -24,11 +24,10 @@ export default class CreateStudentValidator {
    *    ```
    */
   public schema = schema.create({
-    fullName: schema.string({ trim: true }),
-    dateOfBirth: schema.date({}, [rules.before('today')]),
-    courseId: schema.number(),
-    grade: schema.string({}, [rules.maxLength(2)]),
-    notes: schema.string.optional({}, [rules.maxLength(255)]),
+    name: schema.string({ trim: true }, [rules.maxLength(60), rules.alpha({ allow: ['space'] })]),
+    time: schema.date({ format: 'HH:mm' }),
+    locationId: schema.number(),
+    dayOfWeek: schema.string({ trim: true }),
   })
 
   /**
@@ -43,11 +42,12 @@ export default class CreateStudentValidator {
    *
    */
   public messages = {
-    'fullName.required': msg.required,
-    'dateOfBirth.required': msg.required,
-    'dateOfBirth.before': msg.invalid,
-    'courseId.required': msg.required,
-    'grade.required': msg.required,
-    'grade.maxLength': msg.invalid,
+    'name.required': msg.required,
+    'name.maxlength': msg.max60Char,
+    'name.alpha': msg.invalid,
+    'time.required': msg.required,
+    'time.format': msg.invalid,
+    'locationId.required': msg.required,
+    'dayOfWeek.required': msg.required,
   }
 }

@@ -1,9 +1,10 @@
-import { rules, schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { msg } from 'App/Messages/Message'
 
-export default class CreateStudentValidator {
+export default class UserValidator {
   constructor(protected ctx: HttpContextContract) {}
+
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
@@ -24,11 +25,15 @@ export default class CreateStudentValidator {
    *    ```
    */
   public schema = schema.create({
-    fullName: schema.string({ trim: true }),
-    dateOfBirth: schema.date({}, [rules.before('today')]),
-    courseId: schema.number(),
-    grade: schema.string({}, [rules.maxLength(2)]),
-    notes: schema.string.optional({}, [rules.maxLength(255)]),
+    name: schema.string({ trim: true }, [rules.maxLength(60), rules.alpha({ allow: ['space'] })]),
+    email: schema.string({ trim: true }, [
+      rules.email(),
+      rules.unique({ table: 'users', column: 'email' }),
+    ]),
+    phone: schema.string(),
+    password: schema.string({}, [rules.confirmed('confirmPassword')]),
+    confirmPassword: schema.string(),
+    locationId: schema.number(),
   })
 
   /**
@@ -43,11 +48,17 @@ export default class CreateStudentValidator {
    *
    */
   public messages = {
-    'fullName.required': msg.required,
-    'dateOfBirth.required': msg.required,
-    'dateOfBirth.before': msg.invalid,
-    'courseId.required': msg.required,
-    'grade.required': msg.required,
-    'grade.maxLength': msg.invalid,
+    'name.required': msg.required,
+    'name.maxLength': msg.max60Char,
+    'name.alpha': msg.invalid,
+    'email.required': msg.required,
+    'email.email': msg.invalid,
+    'email.unique': msg.notUnique,
+    'password.confirmed': msg.passwordsDontMatch,
+    'password.required': msg.required,
+    'confirmPassword.required': msg.required,
+    'confirmPassword.confirmed': msg.passwordsDontMatch,
+    'phone.required': msg.required,
+    'locationId.required': msg.required,
   }
 }

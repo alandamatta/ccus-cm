@@ -1,0 +1,31 @@
+@set('valueKey', valueKey)
+@set('labelKey', labelKey)
+<div class="field">
+  <label for="{{id}}" class="label">{{label}}</label>
+  <div class="control">
+    @if(!values || values.length <= 0)
+    <div class="select is-fullwidth {{classes}}">
+      <select id="{{id}}" name="{{name}}" disabled>
+        <option selected>No data found</option>
+      </select>
+    </div>
+    @else
+    <div class="select is-fullwidth {{classes}}">
+      <select id="{{id}}" name="{{name}}">
+        <option value="" selected>Select a Value</option>
+        @each(value in values)
+          @if(value[valueKey] === flashMessages.get(name, ''))
+          <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+          @else
+          <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+        @end
+      </select>
+    </div>
+    <span class="icon is-small is-left has-text-danger is-hidden" id="{{id + '-help-icon'}}">
+      <i class="fas fa-exclamation-circle"></i>
+    </span>
+    @end
+  </div>
+  <p class="help is-danger" id="{{id + '-help'}}"></p>
+</div>

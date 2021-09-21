@@ -29,4 +29,7 @@ export default class Parent extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public deletedAt: DateTime
 }

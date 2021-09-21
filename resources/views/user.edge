@@ -13,54 +13,73 @@
     @slot('content')
         <div class="columns is-flex">
           <div class="column is-8">
-            <div class="field">
-              <label for="name" class="label">Full Name</label>
-              <div class="control">
-                <input type="text" class="input" id="name" name="name">
-              </div>
-            </div>
+            @!input({
+              id: 'name',
+              name: 'name',
+              label: 'Full name',
+              keyName: 'name'
+            })
           </div>
         </div>
 
         <div class="columns">
           <div class="column is-8">
-            <div class="field">
-              <label for="email" class="label">Email</label>
-              <div class="control">
-                <input type="email" class="input" id="email" name="email">
-              </div>
-            </div>
+            @!input({
+              id: 'email',
+              name: 'email',
+              label: 'Email',
+              keyName: 'email',
+              value: email
+            })
           </div>
 
           <div class="column is-4">
-            <div class="field">
-              <label for="phone" class="label">Phone</label>
-              <div class="control">
-                <input type="text" class="input" id="phone" name="phone">
-              </div>
-            </div>
+            @!input({
+              id: 'phone',
+              name: 'phone',
+              label: 'Phone',
+              keyName: 'phone',
+              value: phone
+            })
           </div>
         </div>
 
-        <div class="columns is-vcentered">
+        <div class="columns">
           <div class="column">
-            <div class="field">
-              <label for="password" class="label">Password</label>
-              <div class="control">
-                <input type="password" class="input" id="password" name="password">
-              </div>
-            </div>
+            @!input({
+              id: 'password',
+              name: 'password',
+              label: 'Password',
+              keyName: 'password',
+              value: password,
+              type: 'password',
+            })
           </div>
 
           <div class="column">
-            <div class="field">
-              <label for="confirmPassword" class="label">Confirm Password</label>
-              <div class="control">
-                <input type="password" class="input" id="confirmPassword">
-              </div>
-            </div>
+            @!input({
+              id: 'confirmPassword',
+              name: 'confirmPassword',
+              label: 'Confirm password',
+              keyName: 'confirmPassword',
+              value: confirmPassword,
+              type: 'password',
+            })
           </div>
-
+        </div>
+        <div class="columns">
+          <div class="column">
+            @!select({
+              id: 'locationId',
+              name: 'locationId',
+              label: 'Location',
+              keyName: 'locationId',
+              value: locationId,
+              values: locations,
+              valueKey: 'value',
+              labelKey: 'label',
+            })
+          </div>
           <div class="column is-align-self-flex-end">
             <label class="checkbox">
               <input type="checkbox" name="admin" value="1">
@@ -78,6 +97,8 @@
         columnKeys: ['name', 'email', 'phone', 'admin'],
         columnNames: ['Name', 'Email', 'Phone', 'Is Admin'],
         value: users,
+        searchPath: '/user',
+        editPath: '/user/'
       })
     </div>
   </div>

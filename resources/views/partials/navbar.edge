@@ -59,26 +59,18 @@
               Locations
             </a>
           @end
+
+          @if(currentPage && currentPage == 'courses')
+          <a class="navbar-item is-active">
+            Courses
+          </a>
+          @else
+          <a href="/course" class="navbar-item">
+            Courses
+          </a>
+          @end
         </div>
       </div>
-
-<!--      <div class="navbar-item has-dropdown is-hoverable">-->
-<!--        <a class="navbar-link">-->
-<!--          Reports-->
-<!--        </a>-->
-
-<!--        <div class="navbar-dropdown">-->
-<!--          <a class="navbar-item">-->
-<!--            Report 1-->
-<!--          </a>-->
-<!--          <a class="navbar-item">-->
-<!--            Report 2-->
-<!--          </a>-->
-<!--          <a class="navbar-item">-->
-<!--            Report 3-->
-<!--          </a>-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
 
     <div class="navbar-end">

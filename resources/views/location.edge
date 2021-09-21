@@ -70,7 +70,7 @@
       </div>
 
       @each(tempCourse in flashMessages.get('tempCourses'))
-        @!course({index: tempCourse.index})
+        @!courseBox({index: tempCourse.index})
       @end
 
       @!component('components/infos', { info: flashMessages.get('infoModal') })
@@ -84,7 +84,8 @@
         columnKeys: ['name', 'city', 'state', 'zip'],
         columnNames: ['Location Name', 'City', 'State', 'Zip Code'],
         searchPath: '/location/search',
-        search
+        search,
+        editPath: '/location/'
       })
     </div>
   </div>

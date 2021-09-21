@@ -19,6 +19,9 @@ export default class User extends BaseModel {
   @column({ serializeAs: null })
   public password: string
 
+  @column({ serializeAs: null })
+  public confirmPassword: string
+
   @column()
   public active: boolean
 
@@ -29,6 +32,9 @@ export default class User extends BaseModel {
   public location: BelongsTo<typeof Location>
 
   @column()
+  public locationId: number
+
+  @column()
   public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })
@@ -36,6 +42,9 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public deletedAt: DateTime
 
   @beforeSave()
   public static async hashPassword(user: User) {

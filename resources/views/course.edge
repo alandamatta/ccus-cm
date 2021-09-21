@@ -2,46 +2,79 @@
 @set('pageTitle', 'Course')
 @set('currentPage', 'course')
 @section('body')
-  <form action="">
+  @component('components/defaultSubmitModal', {
+    id: 'name',
+    action: '/course/create',
+    title: 'Create a course',
+    showModal: showModal,
+    dialogButtonLabel: 'Add new course'
+  })
+    @slot('content')
+    <input type="hidden" name="id" value="{{(flashMessages.get('id', id) || null)}}">
     <div class="columns">
-      <div class="column is-one-third">
-        <div class="field">
-          <label class="label" for="name">Course Name</label>
-          <div class="control">
-            <input type="text" id="name" name="name" class="input">
-          </div>
-        </div>
+      <div class="column is-8">
+        @!component('components/input', {
+          id: 'name',
+          label: 'Name',
+          name: 'name',
+          value: name,
+          keyName: 'name',
+        })
+      </div>
+      <div class="column is-4">
+        @!component('components/input', {
+        id: 'time',
+        label: 'Time',
+        name: 'time',
+        type: 'time',
+        value: time,
+        keyName: 'time',
+        })
       </div>
     </div>
 
     <div class="columns">
-      <div class="column is-one-fifth">
-        <div class="field">
-          <label for="dayOfWeek" class="label">Day of the Week</label>
-          <div class="control">
-            <input type="text" class="input" id="dayOfWeek" name="dayOfWeek">
-          </div>
-        </div>
+      <div class="column">
+        @!component('components/select', {
+          id: 'dayOfWeek',
+          name: 'dayOfWeek',
+          label: 'Day of the week',
+          labelKey: 'name',
+          valueKey: 'value',
+          values: [{name: 'Sunday', value: 'SUNDAY'}],
+          keyName: 'dayOfWeek',
+          value: day_of_week,
+        })
       </div>
-      <div class="column is-one-fifth">
-        <div class="field">
-          <label for="duration" class="label">Course Duration</label>
-          <div class="control">
-            <input type="text" class="input" id="duration" name="duration">
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <div class="field">
-          <label for="location" class="label">Location</label>
-          <div class="control">
-            <input type="text" class="input" id="location" name="location">
-          </div>
-        </div>
+      <div class="column">
+        @!component('components/select', {
+          id: 'locationId',
+          name: 'locationId',
+          label: 'Location',
+          values: locations,
+          valueKey: 'value',
+          labelKey: 'label',
+          keyName: 'locationId',
+          value: location_id,
+        })
       </div>
     </div>
-  </form>
+    @!component('components/infos', { info: flashMessages.get('infoModal') })
+    @end
+  @end
+
+  <div class="columns">
+    <div class="column">
+      @!datatable({
+        value: courses,
+        columnKeys: ['name', 'location', 'day_of_week', 'time'],
+        columnNames: ['Name', 'Location', 'Day of the week', 'Time'],
+        searchPath: '/course/search',
+        search,
+        editPath: '/course/'
+      })
+    </div>
+  </div>
+
 @end

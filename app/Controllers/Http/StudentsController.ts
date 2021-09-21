@@ -1,18 +1,22 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import StudentsService from 'App/Services/StudentsService'
-import CreateStudentValidator from 'App/Validators/CreateStudentValidator'
-import Logger from '@ioc:Adonis/Core/Logger'
 
 const studentsService = new StudentsService()
 
 export default class StudentsController {
   public async index(ctx: HttpContextContract) {
-    await ctx.auth.use('web').authenticate()
-    return await ctx.view.render('student')
+    const user = await ctx.auth.use('web').authenticate()
+    const defaultProps = await StudentsService.defaultViewProps(user)
+    return await ctx.view.render('student', { ...defaultProps })
   }
+
   public async create(ctx: HttpContextContract) {
-    Logger.info(JSON.stringify(ctx.request.body()))
-    await ctx.request.validate(CreateStudentValidator)
-    await studentsService.create(ctx.request.body())
+    await studentsService.create(ctx)
+  }
+
+  public async find(ctx: HttpContextContract) {
+    const user = await ctx.auth.use('web').authenticate()
+    const defaultViewProps = StudentsService.defaultViewProps(user)
+    return await ctx.view.render('student', { ...defaultViewProps })
   }
 }

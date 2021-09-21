@@ -24,7 +24,6 @@ Route.get('/', async ({ auth, response }) => {
   await auth.use('web').authenticate()
   return response.redirect().toRoute('timesheet.mainPage.init')
 })
-Route.get('/course', 'CoursesController.index')
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +52,16 @@ Route.get('/location/search', 'LocationsController.search').as('location.search'
 
 /*
 |--------------------------------------------------------------------------
+| Course
+|--------------------------------------------------------------------------
+*/
+Route.get('/course', 'CoursesController.index').as('course.index')
+Route.get('/course/create', 'CoursesController.indexCreate').as('course.modal.render')
+Route.post('/course/create', 'CoursesController.create').as('course.modal.post')
+Route.get('/course/search', 'CoursesController.search').as('course.search')
+Route.get('/course/:id', 'CoursesController.find').as('course.find')
+/*
+|--------------------------------------------------------------------------
 | User
 |--------------------------------------------------------------------------
 */
@@ -65,8 +74,9 @@ Route.post('/user/create', 'UsersController.create')
 | Student
 |--------------------------------------------------------------------------
 */
-Route.get('/student', 'StudentsController.index').as('student.mainPage.init')
-Route.post('/student/save', 'StudentsController.create').as('student.mainPage.ajaxSave')
+Route.get('/student', 'StudentsController.index').as('student.init')
+Route.post('/student/save', 'StudentsController.create').as('student.ajaxSave')
+Route.get('/student/:id', 'StudentsController.find').as('student.find')
 
 /*
 |--------------------------------------------------------------------------

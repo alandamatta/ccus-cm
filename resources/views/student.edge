@@ -5,20 +5,23 @@
 <p class="title is-3">
   Students
 </p>
+@if(!coursesView || coursesView.length <= 0)
 <div class="columns">
   <div class="column">
     <div class="notification is-info is-light">
-      <p class="has-text-weight-medium">You cannot go forward with the student creation without a course. Please contact admin or create a
+      <p class="has-text-weight-medium">You cannot go forward with the student creation without a course. Please contact
+        admin or create a
         <a href="/course" class="link">course</a> for your location</p>
     </div>
   </div>
 </div>
+@end
 <div class="columns">
   <div class="column">
-    <div class="notification">
+    <div class="">
       <div class="columns">
         <div class="column">
-            <input type="text" class="input" id="search" placeholder="Search...">
+          <input type="text" class="input" id="search" placeholder="Search...">
         </div>
       </div>
       <div class="columns">
@@ -42,71 +45,32 @@
             </div>
           </div>
 
-          <div class="columns">
-            <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification has-background-white" style="padding-right: 0.3em">
-                <div class="columns is-vcentered is-mobile">
-                  <div class="column is-3">
-                    <figure class="image is-32x32">
-                      <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                           class="is-rounded">
-                    </figure>
-                  </div>
-                  <div class="column">
-                    <p class="has-text-weight-semibold">John Doe</p>
-                    <div class="content is-small has-text-weight-medium">
-                      <p>Note preview</p>
+          @each(student in students)
+            <div class="columns">
+              <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
+                <div class="box notification has-background-white" style="padding-right: 0.3em">
+                  <div class="columns is-vcentered is-mobile">
+                    <div class="column is-3">
+                      <figure class="image is-32x32">
+                        <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
+                             class="is-rounded">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <p class="has-text-weight-semibold">{{student.fullName}}</p>
+                      <div class="content is-small has-text-weight-medium">
+                        <p>{{(student.notes || '--')}}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          @end
 
-          <div class="columns ">
-            <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification" style="padding-right: 0.3em">
-                <div class="columns is-vcentered is-mobile">
-                  <div class="column is-3">
-                    <figure class="image is-32x32">
-                      <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                           class="is-rounded">
-                    </figure>
-                  </div>
-                  <div class="column">
-                    <p class="has-text-weight-semibold">Robert Silva dos Santos</p>
-                    <div class="content is-small has-text-weight-medium">
-                      <p>Note preview</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification is-light" style="padding-right: 0.3em">
-                <div class="columns is-vcentered is-mobile">
-                  <div class="column is-3">
-                    <figure class="image is-32x32">
-                      <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                           class="is-rounded">
-                    </figure>
-                  </div>
-                  <div class="column">
-                    <p class="has-text-weight-semibold">Susana Fantin da Costa</p>
-                    <div class="content is-small has-text-weight-medium">
-                      <p>Note preview</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div class="column" style="padding-top: 0.3em">
+        <div class="column is-hidden-mobile" style="padding-top: 0.3em">
           <div class="box has-background-white">
             <div class="columns">
               <div class="column is-2">
@@ -118,23 +82,33 @@
                   </div>
                 </div>
               </div>
-              <form id="savePatientForm">
-                <div class="column is-10">
+              <form id="savePatientForm" class="column">
+                <div class="">
                   {{--student info--}}
                   <div class="columns">
                     <div class="column is-8">
-                      @!input({
-                      id: 'name',
-                      name: 'name',
+                      @!component('components/input2', {
+                      id: 'fullName',
+                      name: 'fullName',
                       classes: '',
                       label: 'Name',
+                      })
+                    </div>
+                    <div class="column">
+                      @!component('components/select2', {
+                      label: 'Grade',
+                      id: 'grade',
+                      name: 'grade',
+                      values: grades,
+                      valueKey: 'value',
+                      labelKey: 'label',
                       })
                     </div>
                   </div>
 
                   <div class="columns is-desktop">
                     <div class="column">
-                      @!input({
+                      @!component('components/input2', {
                       label: 'DOB',
                       type: 'date',
                       id: 'dateOfBirth',
@@ -142,28 +116,24 @@
                       })
                     </div>
 
-                    <div class="column is-1">
-                      @!input({
+                    <div class="column is-2">
+                      @!component('components/input2', {
                       label: 'Age',
                       disabled: true,
                       id: 'age',
                       name: 'age',
+                      disabled: true,
                       })
                     </div>
 
                     <div class="column">
-                      @!select({
-                      label: 'Location',
-                      id: 'locationId',
-                      name: 'locationId',
-                      })
-                    </div>
-
-                    <div class="column">
-                      @!select({
+                      @!component('components/select2', {
                       label: 'Course',
                       id: 'courseId',
                       name: 'courseId',
+                      values: coursesView,
+                      valueKey: 'value',
+                      labelKey: 'label',
                       })
                     </div>
                   </div>
@@ -183,94 +153,25 @@
                       <div class="tabs">
                         <ul>
                           <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
-                          <li><a class="no-underscore is-info">Attendance Reports</a></li>
+<!--                          <li><a class="no-underscore is-info">Attendance Reports</a></li>-->
                         </ul>
                       </div>
                     </div>
                   </div>
                   <div class="columns">
                     <div class="column">
-                      <button class="button is-info is-outlined">Add contact</button>
+                      <button class="button is-info is-outlined" type="button">Add contact</button>
                     </div>
                   </div>
 
                   <div class="columns">
-                    <div class="column">
-                      <div class="notification">
-                        <div class="columns">
-                          <div class="column">
-                            <p class="title is-5">Susana Doe</p>
-                          </div>
-                        </div>
 
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-phone-alt"></i></span><span
-                            class="is-size-6">(214)788-9090</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-envelope"></i></span><span
-                            class="is-size-6">sdoe@gmail.com</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <button class="button is-info is-small is-outlined">Edit</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div class="column">
-                      <div class="notification">
-                        <div class="columns">
-                          <div class="column">
-                            <p class="title is-5">Ricardo Doe</p>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-phone-alt"></i></span><span class="is-size-6">(214)788-9091</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-envelope"></i></span><span class="is-size-6">rdoe@gmail.com</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">4955 Flaming Dr, FL 91210</span>
-                          </div>
-                        </div>
-
-                        <div class="columns">
-                          <div class="column">
-                            <button class="button is-info is-small is-outlined">Edit</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   <div class="columns">
                     <div class="column">
                       <button class="button is-success" type="submit">Save</button>
-                      <button class="button">Cancel</button>
+                      <button class="button" type="button">Cancel</button>
                     </div>
                   </div>
                 </div>

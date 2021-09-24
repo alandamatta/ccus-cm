@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e00ea5eb-cf49-4bc7-a226-e6ba151c71c9" name="Default Changelist" comment="Timesheet reflecting the student creation">
-      <change afterPath="$PROJECT_DIR$/app/Models/Attendance.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Queries/stuentListTimesheet.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Services/TimesheetService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/1632519745142_attendances.ts" afterDir="false" />
+    <list default="true" id="e00ea5eb-cf49-4bc7-a226-e6ba151c71c9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Controllers/Http/TimesheetController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/Controllers/Http/TimesheetController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/timesheet.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/timesheet.edge" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/student.edge" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/student.edge" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +112,7 @@
       <workItem from="1632149551620" duration="26043000" />
       <workItem from="1632334609985" duration="22470000" />
       <workItem from="1632429541329" duration="8301000" />
-      <workItem from="1632490678769" duration="13366000" />
+      <workItem from="1632490678769" duration="13610000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1630618031310</created>
@@ -245,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632519631716</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Timesheet reflecting the student creation">
+      <created>1632526190361</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1632526190361</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,12 +322,12 @@
     </state>
     <state x="723" y="293" key="#xdebugger.evaluate/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630537149304" />
     <state x="742" y="439" key="#xdebugger.evaluate/0.25.1920.1122@0.25.1920.1122" timestamp="1632500377212" />
-    <state x="548" y="184" key="CommitChangelistDialog2" timestamp="1632526101379">
+    <state x="548" y="184" key="CommitChangelistDialog2" timestamp="1632526190122">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1631309711947" />
     <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122/-574.-1415.2560.1415@0.25.1920.1122" timestamp="1631664119122" />
-    <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122@0.25.1920.1122" timestamp="1632526101379" />
+    <state x="548" y="184" key="CommitChangelistDialog2/0.25.1920.1122@0.25.1920.1122" timestamp="1632526190122" />
     <state x="100" y="125" width="1720" height="922" key="DiffContextDialog" timestamp="1632425497520">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
@@ -428,12 +430,12 @@
     </state>
     <state x="469" y="222" key="SettingsEditor/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630507560006" />
     <state x="469" y="222" key="SettingsEditor/0.25.1920.1122@0.25.1920.1122" timestamp="1630616838911" />
-    <state x="559" y="323" key="Vcs.Push.Dialog.v2" timestamp="1632258622616">
+    <state x="559" y="323" key="Vcs.Push.Dialog.v2" timestamp="1632526194223">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="559" y="323" key="Vcs.Push.Dialog.v2/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1631309727354" />
     <state x="559" y="323" key="Vcs.Push.Dialog.v2/0.25.1920.1122/-574.-1415.2560.1415@0.25.1920.1122" timestamp="1631664285670" />
-    <state x="559" y="323" key="Vcs.Push.Dialog.v2/0.25.1920.1122@0.25.1920.1122" timestamp="1632258622616" />
+    <state x="559" y="323" key="Vcs.Push.Dialog.v2/0.25.1920.1122@0.25.1920.1122" timestamp="1632526194223" />
     <state x="621" y="343" width="685" height="486" key="find.popup" timestamp="1632519902629">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
@@ -448,11 +450,11 @@
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="560" y="267" key="scopes/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1630440575520" />
-    <state x="625" y="276" width="670" height="676" key="search.everywhere.popup" timestamp="1632520042220">
+    <state x="625" y="276" width="670" height="676" key="search.everywhere.popup" timestamp="1632526435523">
       <screen x="0" y="25" width="1920" height="1122" />
     </state>
     <state x="625" y="276" width="670" height="676" key="search.everywhere.popup/0.25.1920.1122/-295.-1415.2560.1415@0.25.1920.1122" timestamp="1631307724785" />
     <state x="625" y="276" width="670" height="676" key="search.everywhere.popup/0.25.1920.1122/-574.-1415.2560.1415@0.25.1920.1122" timestamp="1632351353249" />
-    <state x="625" y="276" width="670" height="676" key="search.everywhere.popup/0.25.1920.1122@0.25.1920.1122" timestamp="1632520042220" />
+    <state x="625" y="276" width="670" height="676" key="search.everywhere.popup/0.25.1920.1122@0.25.1920.1122" timestamp="1632526435523" />
   </component>
 </project>

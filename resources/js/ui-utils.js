@@ -32,8 +32,8 @@ const uiValidationClean = (formElement) => {
   })
 }
 
-function clearAllInputs() {
-  $('select, textarea, input').each((index, element) => {
+function clearAllInputs(section) {
+  section.find('select, textarea, input').each((index, element) => {
     element.value = null
   })
 }

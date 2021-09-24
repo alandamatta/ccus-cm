@@ -1,0 +1,18 @@
+<div class="modal" id="{{id}}">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="overflow: auto;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">{{title}}</p>
+      <button type="button" class="delete close" aria-label="close"></button>
+    </header>
+    <form action="{{action}}" method="post" id="{{id}}-form">
+      <section class="modal-card-body">
+        {{{await $slots.content()}}}
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" type="submit" id="submit">Save</button>
+        <button class="button close" type="button">Cancel</button>
+      </footer>
+    </form>
+  </div>
+</div>

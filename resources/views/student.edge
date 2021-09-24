@@ -5,6 +5,61 @@
 <p class="title is-3">
   Students
 </p>
+
+@simpleModal({
+id: 'parentsModal',
+action: '/parent/create',
+title: 'Add a contact'
+})
+@slot('content')
+<div class="columns">
+  <div class="column is-9">
+    @!component('components/input2', {
+    id: 'name',
+    label: 'Name',
+    name: 'name',
+    })
+  </div>
+</div>
+<div class="columns">
+  <div class="column is-7">
+    @!component('components/input2', {
+    id: 'address',
+    name: 'address',
+    label: 'Address',
+    })
+  </div>
+  <div class="column">
+    @!component('components/input2', {
+    id: 'phone',
+    name: 'phone',
+    label: 'Phone',
+    })
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column is-two-thirds">
+    @!component('components/input2', {
+    id: 'email',
+    name: 'email',
+    label: 'Email',
+    })
+  </div>
+</div>
+
+<div class="columns">
+  <div class="column is-5">
+    @!component('components/select2', {
+    id: 'locationId',
+    name: 'locationId',
+    label: 'Location'
+    })
+  </div>
+</div>
+@end
+@end
+
 @if(!coursesView || coursesView.length <= 0)
 <div class="columns">
   <div class="column">
@@ -46,139 +101,168 @@
           </div>
 
           @each(student in students)
-            <div class="columns">
-              <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-                <div class="box notification has-background-white" style="padding-right: 0.3em">
-                  <div class="columns is-vcentered is-mobile">
-                    <div class="column is-3">
-                      <figure class="image is-32x32">
-                        <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                             class="is-rounded">
-                      </figure>
-                    </div>
-                    <div class="column">
-                      <p class="has-text-weight-semibold">{{student.fullName}}</p>
-                      <div class="content is-small has-text-weight-medium">
-                        <p>{{(student.notes || '--')}}</p>
-                      </div>
+          <div class="columns">
+            <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
+              <div class="box notification has-background-white" style="padding-right: 0.3em">
+                <div class="columns is-vcentered is-mobile">
+                  <div class="column is-3">
+                    <figure class="image is-32x32">
+                      <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
+                           class="is-rounded">
+                    </figure>
+                  </div>
+                  <div class="column">
+                    <p class="has-text-weight-semibold">{{student.fullName}}</p>
+                    <div class="content is-small has-text-weight-medium">
+                      <p>{{(student.notes || '--')}}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           @end
 
         </div>
-
-        <div class="column is-hidden-mobile" style="padding-top: 0.3em">
-          <div class="box has-background-white">
-            <div class="columns">
-              <div class="column is-2">
-                <div class="columns">
-                  <div class="column">
-                    <figure class="image is-96x96">
-                      <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
-                    </figure>
+        <form id="saveStudentForm" class="column" action="/student/save">
+          <div class="column is-hidden-mobile" style="padding-top: 0.3em">
+            <div class="box has-background-white">
+              <div class="columns">
+                <div class="column is-2">
+                  <div class="columns">
+                    <div class="column">
+                      <figure class="image is-96x96">
+                        <a href="#">
+                          <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
+                        </a>
+                      </figure>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <form id="savePatientForm" class="column">
-                <div class="">
-                  {{--student info--}}
-                  <div class="columns">
-                    <div class="column is-8">
-                      @!component('components/input2', {
-                      id: 'fullName',
-                      name: 'fullName',
-                      classes: '',
-                      label: 'Name',
-                      })
-                    </div>
-                    <div class="column">
-                      @!component('components/select2', {
-                      label: 'Grade',
-                      id: 'grade',
-                      name: 'grade',
-                      values: grades,
-                      valueKey: 'value',
-                      labelKey: 'label',
-                      })
-                    </div>
-                  </div>
-
-                  <div class="columns is-desktop">
-                    <div class="column">
-                      @!component('components/input2', {
-                      label: 'DOB',
-                      type: 'date',
-                      id: 'dateOfBirth',
-                      name: 'dateOfBirth',
-                      })
+                <div class="column">
+                  <input type="hidden" name="parent1Id" id="parent1">
+                  <input type="hidden" name="parent2Id" id="parent2">
+                  <input type="file" class="is-hidden" id="photo" name="photo">
+                  <div class="">
+                    {{--student info--}}
+                    <div class="columns">
+                      <div class="column is-8">
+                        @!component('components/input2', {
+                        id: 'fullName',
+                        name: 'fullName',
+                        classes: '',
+                        label: 'Name',
+                        })
+                      </div>
+                      <div class="column">
+                        @!component('components/select2', {
+                        label: 'Grade',
+                        id: 'grade',
+                        name: 'grade',
+                        values: grades,
+                        valueKey: 'value',
+                        labelKey: 'label',
+                        })
+                      </div>
                     </div>
 
-                    <div class="column is-2">
-                      @!component('components/input2', {
-                      label: 'Age',
-                      disabled: true,
-                      id: 'age',
-                      name: 'age',
-                      disabled: true,
-                      })
+                    <div class="columns is-desktop">
+                      <div class="column">
+                        @!component('components/input2', {
+                        label: 'DOB',
+                        type: 'date',
+                        id: 'dateOfBirth',
+                        name: 'dateOfBirth',
+                        })
+                      </div>
+
+                      <div class="column is-2">
+                        @!component('components/input2', {
+                        label: 'Age',
+                        disabled: true,
+                        id: 'age',
+                        name: 'age',
+                        disabled: true,
+                        })
+                      </div>
+
+                      <div class="column">
+                        @!component('components/select2', {
+                        label: 'Course',
+                        id: 'courseId',
+                        name: 'courseId',
+                        values: coursesView,
+                        valueKey: 'value',
+                        labelKey: 'label',
+                        })
+                      </div>
                     </div>
 
-                    <div class="column">
-                      @!component('components/select2', {
-                      label: 'Course',
-                      id: 'courseId',
-                      name: 'courseId',
-                      values: coursesView,
-                      valueKey: 'value',
-                      labelKey: 'label',
-                      })
-                    </div>
-                  </div>
-
-                  <div class="columns">
-                    <div class="column">
-                      <div class="field">
-                        <label for="notes" class="label">Notes</label>
-                        <div class="control">
-                          <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"></textarea>
+                    <div class="columns">
+                      <div class="column">
+                        <div class="field">
+                          <label for="notes" class="label">Notes</label>
+                          <div class="control">
+                            <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"></textarea>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="columns">
-                    <div class="column">
-                      <div class="tabs">
-                        <ul>
-                          <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
-<!--                          <li><a class="no-underscore is-info">Attendance Reports</a></li>-->
-                        </ul>
+
+                    <div class="columns">
+                      <div class="column">
+                        <div id="file-js-example" class="file has-name">
+                          <label class="file-label">
+                            <input class="file-input" type="file" name="resume">
+                            <span class="file-cta">
+                              <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                              </span>
+                              <span class="file-label">
+                                Choose a file…
+                              </span>
+                            </span>
+                            <span class="file-name">
+                              No file uploaded
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="columns">
+                      <div class="column">
+                        <div class="tabs">
+                          <ul>
+                            <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
+                            <!--                          <li><a class="no-underscore is-info">Attendance Reports</a></li>-->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="columns">
+                      <div class="column">
+                        <button class="button is-info is-outlined" type="button" id="add-contact"
+                                onclick="addContact()">Add contact
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="columns" id="contactsSection"></div>
+
+                    <div class="columns">
+                      <div class="column">
+                        <button class="button is-success" type="submit">Save</button>
+                        <button class="button" type="button">Cancel</button>
                       </div>
                     </div>
                   </div>
-                  <div class="columns">
-                    <div class="column">
-                      <button class="button is-info is-outlined" type="button">Add contact</button>
-                    </div>
-                  </div>
-
-                  <div class="columns">
-
-                  </div>
-
-                  <div class="columns">
-                    <div class="column">
-                      <button class="button is-success" type="submit">Save</button>
-                      <button class="button" type="button">Cancel</button>
-                    </div>
-                  </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

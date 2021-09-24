@@ -80,6 +80,14 @@ Route.get('/student/:id', 'StudentsController.find').as('student.find')
 
 /*
 |--------------------------------------------------------------------------
+| Parent
+|--------------------------------------------------------------------------
+*/
+Route.post('/parent/create', 'ParentsController.create').as('parent.create')
+Route.get('/parent/setup', 'ParentsController.setUpTheModal').as('parent.setup')
+
+/*
+|--------------------------------------------------------------------------
 | TimeSheet
 |--------------------------------------------------------------------------
 */

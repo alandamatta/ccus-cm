@@ -7,7 +7,6 @@ setDefaults({
   duration: 3000,
   position: 'top-center',
 })
-
 window.addCourse = function (element) {
   const el = $(element)
   const form = $(el.closest('form'))

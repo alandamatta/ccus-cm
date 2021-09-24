@@ -29,6 +29,10 @@ export default class CreateStudentValidator {
     courseId: schema.number(),
     grade: schema.string({}, [rules.maxLength(2)]),
     notes: schema.string.optional({}, [rules.maxLength(255)]),
+    file: schema.file.optional({
+      size: '2mb',
+      extnames: ['pdf', 'doc', 'txt'],
+    }),
   })
 
   /**
@@ -49,5 +53,6 @@ export default class CreateStudentValidator {
     'courseId.required': msg.required,
     'grade.required': msg.required,
     'grade.maxLength': msg.invalid,
+    'file.extname': 'Only pdf, doc and txt are allowed',
   }
 }

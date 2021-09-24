@@ -16,6 +16,20 @@ function handleAjaxFormSubmit(form, onDone, onFail) {
     })
 }
 
+function ajaxRequest(config, onDone, onFail) {
+  /*CONFIG
+  {
+    url: 'the/url',
+    type: "POST",
+    data: data,
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false
+  }
+   */
+  $.ajax(config).done(onDone).fail(onFail)
+}
+
 function ajaxPost(url, data, onDone, onFail) {
   $.post(url)
     .done((data) => {
@@ -36,4 +50,4 @@ function ajaxGet(url, onDone, onFail) {
     })
 }
 
-export { handleAjaxFormSubmit, ajaxPost, ajaxGet }
+export { handleAjaxFormSubmit, ajaxPost, ajaxGet, ajaxRequest }

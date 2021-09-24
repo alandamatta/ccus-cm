@@ -11,7 +11,7 @@ export default class StudentsController {
   }
 
   public async create(ctx: HttpContextContract) {
-    await studentsService.create(ctx)
+    return await studentsService.create(ctx)
   }
 
   public async find(ctx: HttpContextContract) {

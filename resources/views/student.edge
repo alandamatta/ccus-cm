@@ -124,7 +124,7 @@ title: 'Add a contact'
           @end
 
         </div>
-        <form id="saveStudentForm" class="column" action="/student/save">
+        <form id="saveStudentForm" class="column" action="/student/save" enctype="multipart/form-data">
           <div class="column is-hidden-mobile" style="padding-top: 0.3em">
             <div class="box has-background-white">
               <div class="columns">
@@ -142,7 +142,6 @@ title: 'Add a contact'
                 <div class="column">
                   <input type="hidden" name="parent1Id" id="parent1">
                   <input type="hidden" name="parent2Id" id="parent2">
-                  <input type="file" class="is-hidden" id="photo" name="photo">
                   <div class="">
                     {{--student info--}}
                     <div class="columns">
@@ -213,7 +212,7 @@ title: 'Add a contact'
                       <div class="column">
                         <div id="file-js-example" class="file has-name">
                           <label class="file-label">
-                            <input class="file-input" type="file" name="resume">
+                            <input class="file-input" type="file" name="file" id="file" >
                             <span class="file-cta">
                               <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -227,6 +226,7 @@ title: 'Add a contact'
                             </span>
                           </label>
                         </div>
+                        <p class="help is-danger" id="file-help"></p>
                       </div>
                     </div>
 

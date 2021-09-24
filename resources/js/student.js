@@ -3,7 +3,7 @@ import { uiValidationHelper, uiValidationClean, clearAllInputs } from './ui-util
 import { toast, setDefaults } from 'bulma-toast'
 import { modal } from './modal'
 import { prepareSelect } from './components/select'
-import { ajaxGet } from './ajaxUtils'
+import { ajaxGet, ajaxRequest } from './ajaxUtils'
 
 const studentForm = $('#saveStudentForm')
 const dateOfBirth = studentForm.find('#dateOfBirth')
@@ -49,20 +49,33 @@ function loadLocations() {
 function handleStudentFormSubmitEventToPerformAnAjaxCall() {
   studentForm.on('submit', (event) => {
     event.preventDefault()
-    let formData = studentForm.serialize()
     uiValidationClean(studentForm)
-    $.post('/student/save', formData)
-      .done((data) => {
-        clearAllInputs(studentForm)
-        toast({
-          message:
-            '<span class="icon"> <i class="far fa-check-circle"></i></span> Data saved successfully!',
-          type: 'is-success',
-        })
+    const formData = new FormData(document.getElementById('saveStudentForm'))
+    const file = document.getElementById('file').value
+    formData.append('file', file)
+    const config = {
+      url: '/student/save',
+      type: 'POST',
+      data: formData,
+      enctype: 'multipart/form-data',
+      processData: false,
+      contentType: false,
+    }
+
+    const onDone = (data) => {
+      clearAllInputs(studentForm)
+      toast({
+        message:
+          '<span class="icon"> <i class="far fa-check-circle"></i></span> Data saved successfully!',
+        type: 'is-success',
       })
-      .fail((data) => {
-        includeValidationMessageIntoHelpElements(data.responseJSON.errors)
-      })
+    }
+
+    const onFail = (data) => {
+      includeValidationMessageIntoHelpElements(data.responseJSON.errors)
+    }
+
+    ajaxRequest(config, onDone, onFail)
   })
 }
 

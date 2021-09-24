@@ -3,6 +3,7 @@ export { uiValidationHelper, uiValidationClean, clearAllInputs }
 const uiValidationHelper = (formElement, errors) => {
   let input
   let select
+  console.log(JSON.stringify(errors))
   for (let error of errors) {
     formElement.find(helperId(error.field)).text(error.message)
     input = formElement.find(`#${error.field}`)

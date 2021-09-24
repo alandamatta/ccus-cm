@@ -2,15 +2,17 @@ import Student from '../Models/Student'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateStudentValidator from 'App/Validators/CreateStudentValidator'
 import Course from 'App/Models/Course'
+import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class StudentsService {
   public async create(ctx: HttpContextContract) {
     const body = ctx.request.body()
+    Logger.info(JSON.stringify(body))
     await ctx.request.validate(CreateStudentValidator)
     const user = await ctx.auth.use('web').authenticate()
     const student = new Student().fill(body, true)
     student.locationId = user.locationId
-    await student.save()
+    return await student.save()
   }
 
   public static grades() {

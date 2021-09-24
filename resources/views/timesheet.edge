@@ -16,16 +16,11 @@
           <input type="text" class="input" id="studentSearch" placeholder="Search...">
         </div>
       </div>
-
       {{--Table--}}
       <div class="columns">
         <div class="column">
           @!timesheetTable({
-            values: [
-              {name: 'Thomas Kislak da Matta da Costa', dateOfBirth: '9/11/2019', age: '2yo', notes: '', },
-              {name: 'Mateus Faiola dos Santos', dateOfBirth: '3/13/2014', age: '7yo', notes: '', },
-              {name: 'Maria Catarina Farias', dateOfBirth: '5/22/2017', age: '4yo', notes: '', }
-            ],
+            values: studentsTimesheet[0],
           })
         </div>
       </div>

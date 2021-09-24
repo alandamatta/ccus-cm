@@ -1,8 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import TimesheetService from 'App/Services/TimesheetService'
+
+const timesheetService = new TimesheetService()
 
 export default class TimesheetController {
   public async index(ctx: HttpContextContract) {
-    await ctx.auth.use('web').authenticate()
-    return ctx.view.render('timesheet')
+    const user = await ctx.auth.use('web').authenticate()
+    const studentsTimesheet = await timesheetService.studentsListTimesheet(user)
+    return await ctx.view.render('timesheet', { studentsTimesheet })
   }
 }

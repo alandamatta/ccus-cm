@@ -3,7 +3,6 @@ export { uiValidationHelper, uiValidationClean, clearAllInputs }
 const uiValidationHelper = (formElement, errors) => {
   let input
   let select
-  console.log(JSON.stringify(errors))
   for (let error of errors) {
     formElement.find(helperId(error.field)).text(error.message)
     input = formElement.find(`#${error.field}`)
@@ -21,15 +20,15 @@ const uiValidationClean = (formElement) => {
     input = $(element)
     input.removeClass('is-danger')
     input.parent().removeClass('has-icons-left')
-    $(helperIconId(element.id)).addClass('is-hidden')
-    $(helperId(element.id)).text('')
+    formElement.find(helperIconId(element.id)).addClass('is-hidden')
+    formElement.find(helperId(element.id)).text('')
   })
   formElement.find('select').each((index, element) => {
     input = $(element)
     input.parent().removeClass('is-danger')
     input.parent().parent().removeClass('has-icons-left')
-    $(helperIconId(element.id)).addClass('is-hidden')
-    $(helperId(element.id)).text('')
+    formElement.find(helperIconId(element.id)).addClass('is-hidden')
+    formElement.find(helperId(element.id)).text('')
   })
 }
 

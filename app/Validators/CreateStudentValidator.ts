@@ -54,5 +54,6 @@ export default class CreateStudentValidator {
     'grade.required': msg.required,
     'grade.maxLength': msg.invalid,
     'file.extname': 'Only pdf, doc and txt are allowed',
+    'file.required': msg.required,
   }
 }

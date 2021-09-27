@@ -1,7 +1,11 @@
 import '../css/bulma.css'
+import '../css/bulma-quickview.min.css'
 import $ from 'jquery'
+import * as bqv from './bulma-quickview.min'
 import { setDefaults, toast } from 'bulma-toast'
 import * as student from './student'
+
+bqv.attach()
 
 setDefaults({
   duration: 3000,

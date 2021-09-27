@@ -6,6 +6,7 @@ import { prepareSelect } from './components/select'
 import { ajaxGet, ajaxRequest } from './ajaxUtils'
 
 const studentForm = $('#saveStudentForm')
+const submitStudentMobile = $('#submitStudentMobile')
 const dateOfBirth = studentForm.find('#dateOfBirth')
 const modalId = 'parentsModal'
 setFocusOutEventForAgeCalculationOnDOBInput()
@@ -37,6 +38,7 @@ function findCorrectParentInput() {
 
 function includeValidationMessageIntoHelpElements(errors) {
   uiValidationHelper(studentForm, errors)
+  uiValidationHelper(submitStudentMobile, errors)
 }
 
 function loadLocations() {
@@ -47,36 +49,39 @@ function loadLocations() {
 }
 
 function handleStudentFormSubmitEventToPerformAnAjaxCall() {
-  studentForm.on('submit', (event) => {
-    event.preventDefault()
-    uiValidationClean(studentForm)
-    const formData = new FormData(document.getElementById('saveStudentForm'))
-    const file = document.getElementById('file').value
-    formData.append('file', file)
-    const config = {
-      url: '/student/save',
-      type: 'POST',
-      data: formData,
-      enctype: 'multipart/form-data',
-      processData: false,
-      contentType: false,
-    }
+  studentForm.on('submit', (event) => studentFormSubmit(event, studentForm))
+  submitStudentMobile.on('submit', (event) => studentFormSubmit(event, submitStudentMobile))
+}
 
-    const onDone = (data) => {
-      clearAllInputs(studentForm)
-      toast({
-        message:
-          '<span class="icon"> <i class="far fa-check-circle"></i></span> Data saved successfully!',
-        type: 'is-success',
-      })
-    }
+function studentFormSubmit(event, studentForm) {
+  event.preventDefault()
+  uiValidationClean(studentForm)
+  const formData = new FormData(document.getElementById(studentForm.attr('id')))
+  const file = studentForm.find('#file').val()
+  formData.append('file', file)
+  const config = {
+    url: '/student/save',
+    type: 'POST',
+    data: formData,
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+  }
 
-    const onFail = (data) => {
-      includeValidationMessageIntoHelpElements(data.responseJSON.errors)
-    }
+  const onDone = (data) => {
+    clearAllInputs(studentForm)
+    toast({
+      message:
+        '<span class="icon"> <i class="far fa-check-circle"></i></span> Data saved successfully!',
+      type: 'is-success',
+    })
+  }
 
-    ajaxRequest(config, onDone, onFail)
-  })
+  const onFail = (data) => {
+    includeValidationMessageIntoHelpElements(data.responseJSON.errors)
+  }
+
+  ajaxRequest(config, onDone, onFail)
 }
 
 function toastSettings() {

@@ -7,7 +7,7 @@ export default class Courses extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name')
-      table.string('day_of_week')
+      table.string('dayOfWeek')
       table.string('duration')
       table.integer('location_id').unsigned().references('locations.id')
 

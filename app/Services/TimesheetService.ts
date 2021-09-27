@@ -9,7 +9,7 @@ export default class TimesheetService {
   public studentsListTimesheet(user) {
     const locationId = user.locationId
     const courseId = null
-    return Database.rawQuery(studentListTimesheetQuery(), [locationId, courseId])
+    return Database.rawQuery(studentListTimesheetQuery(), [locationId, courseId, courseId])
   }
 
   public async checkIn(ctx: HttpContextContract) {

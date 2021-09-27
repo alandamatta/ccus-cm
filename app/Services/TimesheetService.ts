@@ -8,7 +8,7 @@ import { DateTime } from 'luxon'
 export default class TimesheetService {
   public studentsListTimesheet(user) {
     const locationId = user.locationId
-    const courseId = 9
+    const courseId = null
     return Database.rawQuery(studentListTimesheetQuery(), [locationId, courseId])
   }
 

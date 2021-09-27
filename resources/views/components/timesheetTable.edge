@@ -75,10 +75,60 @@
     <div class="column">
       <div class="columns is-mobile">
         <div class="column is-half-desktop is-half-mobile">
-          <button class="button is-info is-fullwidth is-outlined">Check-in</button>
+          <form action="/timesheet/checkIn" method="post">
+            <input type="hidden" name="studentId" value="{{element.id}}">
+            <input type="hidden" name="locationId" value="{{element.locationId}}">
+            <input type="hidden" name="courseId" value="{{element.courseId}}">
+            <input type="hidden" name="time" value="{{{new Date()}}}">
+            <input type="hidden" name="checkIn" value="1">
+            <input type="hidden" name="checkInRef" value="{{element.checkInRef}}">
+            <input type="hidden" name="checkOutRef" value="{{element.checkOutRef}}">
+            @if(element.checkInTime === null)
+              <button class="button is-info is-fullwidth is-outlined" type="submit">Check-in</button>
+            @else
+            <div class="field has-addons has-addons-right">
+              <div class="control is-expanded">
+                <input type="time" class="input" value="{{element.checkInTime}}">
+              </div>
+              <div class="control">
+                <a class="button" href="/timesheet/cancel/{{element.checkInRef}}">
+                  <span class="icon has-text-danger-dark">
+                    <i class="fas fa-ban"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+            @end
+          </form>
         </div>
         <div class="column is-half-desktop is-half-mobile">
-          <button class="button is-link is-fullwidth is-outlined" disabled>Check-out</button>
+          <form action="/timesheet/checkIn" method="post">
+            <input type="hidden" name="studentId" value="{{element.id}}">
+            <input type="hidden" name="locationId" value="{{element.locationId}}">
+            <input type="hidden" name="courseId" value="{{element.courseId}}">
+            <input type="hidden" name="time" value="{{{new Date()}}}">
+            <input type="hidden" name="checkIn" value="0">
+            <input type="hidden" name="checkInRef" value="{{element.checkInRef}}">
+            <input type="hidden" name="checkOutRef" value="{{element.checkOutRef}}">
+            @if(element.checkInTime && !element.checkOutTime)
+              <button class="button is-link is-fullwidth is-outlined">Check-out</button>
+            @elseif(element.checkOutTime)
+              <div class="field has-addons has-addons-right">
+                <div class="control is-expanded">
+                  <input type="time" class="input" value="{{element.checkOutTime}}">
+                </div>
+                <div class="control">
+                  <a class="button" href="/timesheet/cancel/{{element.checkOutRef}}">
+                    <span class="icon has-text-danger-dark">
+                      <i class="fas fa-ban"></i>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            @else
+              <button class="button is-link is-fullwidth is-outlined" disabled>Check-out</button>
+            @end
+          </form>
         </div>
       </div>
     </div>

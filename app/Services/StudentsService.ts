@@ -15,6 +15,19 @@ export default class StudentsService {
     return await student.save()
   }
 
+  public static async defaultViewProps(user) {
+    let courses = await Course.query().where('location_id', user.locationId)
+    const coursesView = courses.map((e) => {
+      return {
+        label: e.name,
+        value: e.id,
+      }
+    })
+    let grades = StudentsService.grades()
+    const students = await Student.query().where('location_id', user.locationId)
+    return { coursesView, grades, students }
+  }
+
   public static grades() {
     return [
       { value: 'PK', label: 'PK' },
@@ -32,18 +45,5 @@ export default class StudentsService {
       { value: '11', label: '11' },
       { value: '12', label: '12' },
     ]
-  }
-
-  public static async defaultViewProps(user) {
-    let courses = await Course.query().where('location_id', user.locationId)
-    const coursesView = courses.map((e) => {
-      return {
-        label: e.name,
-        value: e.id,
-      }
-    })
-    let grades = StudentsService.grades()
-    const students = await Student.query().where('location_id', user.locationId)
-    return { coursesView, grades, students }
   }
 }

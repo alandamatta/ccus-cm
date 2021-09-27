@@ -2,13 +2,14 @@ export { generateTimesheetTable }
 
 function generateTimesheetTable(metadata) {
   const elements = metadata.elements
-  let timesheet = ''
+  let timesheet = header()
   for (const element of elements) {
     timesheet += html(element)
   }
+  return timesheet
 }
 
-function html(element) {
+function header() {
   return `
     <div class="box no-shadow is-hidden-mobile transparent">
       <div class="columns">
@@ -46,10 +47,11 @@ function html(element) {
         </div>
       </div>
     </div>
-    <div class="notification is-info is-light">
-      <p class="has-text-weight-medium">No student were found in this
-        location for today's course. Please talk to admin or insert <a href="/student" class="is-link">Students</a></p>
-    </div>
+  `
+}
+
+function html(element) {
+  return `
     <div class="box closer-box">
       <div class="columns is-vcentered">
         <div class="column is-4">
@@ -84,7 +86,9 @@ function html(element) {
         <div class="column">
           <div class="columns is-mobile">
             <div class="column is-half-desktop is-half-mobile">
-              <button class="button is-info is-fullwidth is-outlined">Check-in</button>
+              <form action="" onsubmit="checkInSubmit">
+                <button class="button is-info is-fullwidth is-outlined" type="submit">Check-in</button>
+              </form>
             </div>
             <div class="column is-half-desktop is-half-mobile">
               <button class="button is-link is-fullwidth is-outlined" disabled>Check-out</button>

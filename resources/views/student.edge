@@ -24,53 +24,53 @@ id: 'parentsModal',
 action: '/parent/create',
 title: 'Add a contact'
 })
-@slot('content')
-<div class="columns">
-  <div class="column is-9">
-    @!component('components/input2', {
-    id: 'name',
-    label: 'Name',
-    name: 'name',
-    })
+  @slot('content')
+  <div class="columns">
+    <div class="column is-9">
+      @!component('components/input2', {
+      id: 'name',
+      label: 'Name',
+      name: 'name',
+      })
+    </div>
   </div>
-</div>
-<div class="columns">
-  <div class="column is-7">
-    @!component('components/input2', {
-    id: 'address',
-    name: 'address',
-    label: 'Address',
-    })
+  <div class="columns">
+    <div class="column is-7">
+      @!component('components/input2', {
+      id: 'address',
+      name: 'address',
+      label: 'Address',
+      })
+    </div>
+    <div class="column">
+      @!component('components/input2', {
+      id: 'phone',
+      name: 'phone',
+      label: 'Phone',
+      })
+    </div>
   </div>
-  <div class="column">
-    @!component('components/input2', {
-    id: 'phone',
-    name: 'phone',
-    label: 'Phone',
-    })
-  </div>
-</div>
 
-<div class="columns">
-  <div class="column is-two-thirds">
-    @!component('components/input2', {
-    id: 'email',
-    name: 'email',
-    label: 'Email',
-    })
+  <div class="columns">
+    <div class="column is-two-thirds">
+      @!component('components/input2', {
+      id: 'email',
+      name: 'email',
+      label: 'Email',
+      })
+    </div>
   </div>
-</div>
 
-<div class="columns">
-  <div class="column is-5">
-    @!component('components/select2', {
-    id: 'locationId',
-    name: 'locationId',
-    label: 'Location'
-    })
+  <div class="columns">
+    <div class="column is-5">
+      @!component('components/select2', {
+      id: 'locationId',
+      name: 'locationId',
+      label: 'Location'
+      })
+    </div>
   </div>
-</div>
-@end
+  @end
 @end
 
 @if(!coursesView || coursesView.length <= 0)

@@ -92,3 +92,4 @@ Route.get('/parent/setup', 'ParentsController.setUpTheModal').as('parent.setup')
 |--------------------------------------------------------------------------
 */
 Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init')
+Route.get('/timesheet/setup', 'TimesheetController.setup').as('timesheet.mainPage.setup')

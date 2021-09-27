@@ -9,4 +9,8 @@ export default class TimesheetController {
     const studentsTimesheet = await timesheetService.studentsListTimesheet(user)
     return await ctx.view.render('timesheet', { studentsTimesheet })
   }
+  public async setup(ctx: HttpContextContract) {
+    const user = await ctx.auth.use('web').authenticate()
+    return (await timesheetService.studentsListTimesheet(user))[0]
+  }
 }

@@ -20,6 +20,7 @@ export default class TimesheetService {
       user,
       body.studentId
     )
+    Logger.info('browser time: ' + body.time)
     if (userCanCheckStudentIn) {
       const attendance = new Attendance()
       attendance.fill(ctx.request.body(), true)

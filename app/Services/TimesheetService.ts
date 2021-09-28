@@ -4,7 +4,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Logger from '@ioc:Adonis/Core/Logger'
 import Attendance from 'App/Models/Attendance'
 import Student from 'App/Models/Student'
-import { DateTime } from 'luxon'
 
 export default class TimesheetService {
   public studentsListTimesheet(user) {
@@ -24,7 +23,6 @@ export default class TimesheetService {
     if (userCanCheckStudentIn) {
       const attendance = new Attendance()
       attendance.fill(ctx.request.body(), true)
-      attendance.time = DateTime.now()
       return await attendance.save()
     } else {
       Logger.error('User access violation attempt')

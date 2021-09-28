@@ -4,6 +4,7 @@ import $ from 'jquery'
 import * as bqv from './bulma-quickview.min'
 import { setDefaults, toast } from 'bulma-toast'
 import * as student from './student'
+import * as timesheet from './timesheet'
 
 bqv.attach()
 

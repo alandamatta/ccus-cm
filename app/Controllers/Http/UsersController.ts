@@ -29,6 +29,7 @@ export default class UsersController {
     await ctx.request.validate(UserValidator)
     const user = new User()
     const body = ctx.request.body()
+    delete body.confirmPassword
     await user.fill(body, true).save()
     return ctx.response.redirect('/user')
   }

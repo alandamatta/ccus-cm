@@ -8,30 +8,30 @@
         <option selected>No data found</option>
       </select>
     </div>
-  @elseif(flashMessages.get('errors.'+id))
+  @elseif(flashMessages.get('errors["'+keyName+'"]'))
   <div class="control has-icons-left">
     @if(flashMessages.get(id) === null)
     <div class="select is-fullwidth is-danger {{classes}}">
       <select id="{{id}}" name="{{name}}" value="">
         <option selected value="">Select a Value</option>
-        @each(value in values)
-          @if(value[valueKey] === flashMessages.get(name, ''))
-            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+        @each(element in values)
+          @if(element[valueKey] === flashMessages.get(name, ''))
+            <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
           @else
-            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+            <option value="{{element[valueKey]}}">{{element[labelKey]}}</option>
           @end
         @end
       </select>
     </div>
     @else
     <div class="select is-fullwidth is-danger">
-      <select id="{{id}}" class="is-danger {{classes}}" name="{{name}}" value="{{flashMessages.get(name, '')}}">
+      <select id="{{id}}" class="is-danger {{classes}}" name="{{name}}" value="{{(flashMessages.get(name, ''))}}">
         <option selected value="">Select a Value</option>
-        @each(value in values)
-          @if(value[valueKey] === flashMessages.get(name, ''))
-            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+        @each(element in values)
+          @if(element[valueKey] === flashMessages.get(name, ''))
+            <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
           @else
-            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+            <option value="{{element[valueKey]}}">{{element[labelKey]}}</option>
           @end
         @end
       </select>
@@ -48,11 +48,12 @@
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" class="" name="{{name}}" value="">
         <option selected value="">Select a Value</option>
+        {{--1--}}
         @each(element in values)
           @if(element[valueKey] === (flashMessages.get(keyName, '') || value))
-            <option value="{{value[valueKey]}}" selected>{{element[labelKey]}}</option>
+            <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
           @else
-            <option value="{{value[valueKey]}}">{{element[labelKey]}}</option>
+            <option value="{{element[valueKey]}}">{{element[labelKey]}}</option>
           @end
         @end
       </select>
@@ -61,6 +62,7 @@
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" class="" name="{{name}}" value="{{(flashMessages.get(keyName, '') || value)}}">
         <option selected value="">Select a Value</option>
+        {{--2--}}
         @each(element in values)
           @if(element[valueKey] === (flashMessages.get(keyName, '') || value))
             <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>

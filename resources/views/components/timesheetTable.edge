@@ -84,27 +84,35 @@
             <input type="hidden" name="checkInRef" value="{{element.checkInRef}}">
             <input type="hidden" name="checkOutRef" value="{{element.checkOutRef}}">
             @if(element.checkInTime === null)
-              <button class="button is-info is-fullwidth is-outlined checkInButton" type="submit">Check-in</button>
+              <button class="button is-info is-fullwidth is-outlined checkInButton" type="submit">
+                Check-in
+              </button>
             @else
             <div class="field has-addons has-addons-right">
-              <div class="control is-expanded">
-                <input type="time" class="input" value="{{element.checkInTime}}">
-              </div>
-              <div class="control">
-                @if(element.checkOutRef)
+              @if(element.checkOutRef)
+                <div class="control is-expanded">
+                  <input type="time" class="input" disabled value="{{element.checkInTime}}">
+                  <p class="help"></p>
+                </div>
+                <div class="control">
                   <button class="button" type="button" disabled>
                     <span class="icon has-text-danger-dark">
                       <i class="fas fa-times"></i>
                     </span>
                   </button>
-                @else
+                </div>
+              @else
+                <div class="control is-expanded">
+                  <input type="time" class="input" value="{{element.checkInTime}}">
+                </div>
+                <div class="control">
                   <a class="button cancelCheckInButton" href="/timesheet/cancel/{{element.checkInRef}}">
                     <span class="icon has-text-danger-dark">
                       <i class="fas fa-times"></i>
                     </span>
                   </a>
-                @end
-              </div>
+                </div>
+              @end
             </div>
             @end
           </form>

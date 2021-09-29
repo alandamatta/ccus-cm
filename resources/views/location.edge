@@ -55,7 +55,6 @@
           })
         </div>
       </div>
-
       <div class="columns is-flex">
         <div class="column is-3 is-align-self-flex-end">
           <button class="button is-link is-inverted" type="submit" onclick="addCourse(this)">
@@ -63,14 +62,13 @@
               <i class="fas fa-plus-circle"></i>
             </span>
             <span>
-              Add Course
+              Add Course (Optional)
             </span>
           </button>
         </div>
       </div>
-
       @each(tempCourse in flashMessages.get('tempCourses'))
-        @!courseBox({index: tempCourse.index})
+        @!courseBox({index: tempCourse.index, daysOfTheWeek})
       @end
 
       @!component('components/infos', { info: flashMessages.get('infoModal') })

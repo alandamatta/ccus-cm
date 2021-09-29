@@ -7,36 +7,45 @@
     <p class="title is-3 is-hidden-mobile">
       Timesheet
     </p>
-    <p class="title is-6 is-hidden-mobile">
+    <p class="title is-5 is-hidden-mobile">
       Please enter check-in & check-out information
     </p>
   </div>
 </div>
 <div class="columns">
   <div class="column">
-    <form action="/timesheet" method="post">
+    <form action="/timesheet" method="get" id="searchForm">
       <div class="columns">
         <div class="column">
           @!component('components/input2', {
+            id: 'search',
             label: 'Search',
-            placeholder: 'Search'
+            placeholder: 'Search',
+            name: 'search',
+            value: search,
+            helperText: "Search by: Student's or contact's name",
+            disabled: !isCoursesScheduled
           })
         </div>
         <div class="column is-2">
           @!component('components/select2', {
-          id: 'timesheetCourse',
+          id: 'courses',
           label: 'Courses',
           values: courses,
           valueKey: 'value',
           labelKey: 'label',
+          name: 'courseId',
+          value: courseId,
+          disabled: !isCoursesScheduled
           })
         </div>
         <div class="column is-2">
           @!component('components/input2', {
-          id: 'timesheetDate',
+          id: 'date',
+          name: 'date',
           label: 'Date',
           type: 'date',
-          value: date
+          value: date,
           })
         </div>
       </div>
@@ -44,9 +53,19 @@
     </form>
     <div class="columns">
       <div class="column" id="timesheetList">
-        @!timesheetTable({
-        values: studentsTimesheet[0],
-        })
+        @if(isCoursesScheduled)
+          @!timesheetTable({
+            values: studentsTimesheet[0],
+          })
+        @else
+          <div class="columns">
+            <div class="column">
+              <div class="notification is-warning is-light">
+                No courses scheduled for this date
+              </div>
+            </div>
+          </div>
+        @end
       </div>
     </div>
   </div>
@@ -54,6 +73,20 @@
   @!section('scripts')
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      var form = $('#searchForm')
+      $('#date').on('change', function() {
+        delay(function() {
+          form.submit()
+        }, 500)
+      })
+      $('#courses').on('change', function() {
+        form.submit()
+      })
+      $('#search').on('keyup', function() {
+        delay(function() {
+          form.submit()
+        }, 500)
+      })
     })
   </script>
 @end

@@ -33,6 +33,9 @@ export default class CoursesService {
   public findByLocationId(id) {
     return Course.query().where('location_id', id)
   }
+  public findCourseByDayOfTheWeekAndLocationId(dayOfWeek, locationId) {
+    return Course.query().where('day_of_week', dayOfWeek).andWhere('location_id', locationId)
+  }
   public async defaultProps(user, qs) {
     const locationId = user.locationId
     const locations = await this.getAllLocations(user)

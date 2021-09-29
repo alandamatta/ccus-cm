@@ -6,5 +6,5 @@ const msg = {
   passwordsDontMatch: "Passwords doesn't matching",
   notUnique: 'Already in use',
   max60Char: 'Too long (max. 60)',
-
+  max2Char: 'Too long (max. 2)',
 }

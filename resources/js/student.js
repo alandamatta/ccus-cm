@@ -16,7 +16,7 @@ handleStudentFormSubmitEventToPerformAnAjaxCall()
 modal(modalId, function (data) {
   const modalElement = $(`#${modalId}`)
   findCorrectParentInput().val(data.id)
-  $('#contactsSection').append(contactHTML(data))
+  $('.contactsSection').append(contactHTML(data))
   modalElement.removeClass('is-active')
   clearAllInputs(modalElement)
 })
@@ -69,12 +69,12 @@ function studentFormSubmit(event, studentForm) {
   }
 
   const onDone = (data) => {
-    clearAllInputs(studentForm)
     toast({
       message:
         '<span class="icon"> <i class="far fa-check-circle"></i></span> Data saved successfully!',
       type: 'is-success',
     })
+    document.location.reload()
   }
 
   const onFail = (data) => {

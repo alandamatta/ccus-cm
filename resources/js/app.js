@@ -35,6 +35,8 @@ const delayKeyUp = (() => {
   return delay
 })()
 
+window.delay = delayKeyUp
+
 $('.search').on('keyup', function () {
   const element = $(this)
   const form = $(element.closest('form'))

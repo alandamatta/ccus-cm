@@ -1,8 +1,9 @@
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Location from 'App/Models/Location'
 import LocationsService from 'App/Services/LocationsService'
 import Logger from '@ioc:Adonis/Core/Logger'
+import LocationValidator from 'App/Validators/LocationValidator'
+import DaysOfTheWeek from 'App/Constants/DaysOfTheWeek'
 
 const locationService = new LocationsService()
 const EMPTY: string = ''
@@ -17,7 +18,8 @@ export default class LocationsController {
   public async indexCreate(ctx: HttpContextContract) {
     const auth = ctx.auth
     await auth.use('web').authenticate()
-    return await ctx.view.render('location', { showModal: 'is-active' })
+    const daysOfTheWeek = DaysOfTheWeek
+    return await ctx.view.render('location', { showModal: 'is-active', daysOfTheWeek })
   }
   public async search(ctx: HttpContextContract) {
     Logger.info(JSON.stringify(ctx.request.qs()))
@@ -34,7 +36,7 @@ export default class LocationsController {
     const closeModal = body.closeModal
     const location = new Location()
     location.fill(body, true)
-    await ctx.request.validate({ schema: this.schema() })
+    await ctx.request.validate(LocationValidator)
     await locationService.create(body)
     if (closeModal === 'true') {
       ctx.session.flash('infoIndex', 'Data saved successfully!')
@@ -55,7 +57,7 @@ export default class LocationsController {
     }
     session.flash('tempCourses', tempCourses)
     session.flash({ ...body })
-    await ctx.request.validate({ schema: this.schema() })
+    await ctx.request.validate(LocationValidator)
     return await ctx.response.redirect().toRoute('location.modal.render')
   }
   public async removeTempCourse(ctx: HttpContextContract) {
@@ -64,7 +66,7 @@ export default class LocationsController {
       .course.filter((element) => element.index != ctx.params.index)
     ctx.session.flash('tempCourses', updatedCourses)
     ctx.session.flash({ ...ctx.request.body() })
-    await ctx.request.validate({ schema: this.schema() })
+    await ctx.request.validate(LocationValidator)
     return await ctx.response.redirect().toRoute('location.modal.render')
   }
   private tempCoursesControl({ request, session }: HttpContextContract) {
@@ -76,18 +78,5 @@ export default class LocationsController {
       tempCourses = [...body.course]
     }
     session.flash('tempCourses', tempCourses)
-  }
-  private schema() {
-    return schema.create({
-      name: schema.string({}, [rules.maxLength(60)]),
-      city: schema.string({}, [rules.maxLength(60)]),
-      state: schema.string({}, [rules.maxLength(2)]),
-      zip: schema.string({ trim: true }),
-      course: schema.array.optional().members(
-        schema.object().members({
-          name: schema.string({ trim: true }, [rules.maxLength(60)]),
-        })
-      ),
-    })
   }
 }

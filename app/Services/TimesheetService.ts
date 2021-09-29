@@ -75,6 +75,7 @@ export default class TimesheetService {
 
   public static today(ctx: HttpContextContract) {
     const rawToday = new Date(ctx.session.get('today'))
+    Logger.info('today from session: ' + rawToday)
     const day = `${rawToday.getDate()}`.padStart(2, '0')
     const month = `${rawToday.getMonth() + 1}`.padStart(2, '0')
     return `${rawToday.getFullYear()}-${month}-${day}`
@@ -82,6 +83,9 @@ export default class TimesheetService {
 
   private static getDate(ctx: HttpContextContract) {
     const body = ctx.request.body()
-    return body.date || TimesheetService.today(ctx)
+    const today = TimesheetService.today(ctx)
+    Logger.info('today: ' + today)
+    Logger.info('body.date: ' + body.date)
+    return body.date || today
   }
 }

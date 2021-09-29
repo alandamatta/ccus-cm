@@ -13,7 +13,7 @@ export default class TimesheetService {
     const user = ctx.auth.use('web').user
     const locationId = user ? user.locationId : -1
     let courseId = ''
-    const date = TimesheetService.today(ctx)
+    const date = ctx.session.get('today')
     return Database.rawQuery(studentListTimesheetQuery(), { locationId, courseId, date })
   }
 
@@ -73,19 +73,8 @@ export default class TimesheetService {
     return result && result.length > 0
   }
 
-  public static today(ctx: HttpContextContract) {
-    const rawToday = new Date(ctx.session.get('today'))
-    Logger.info('today from session: ' + rawToday)
-    const day = `${rawToday.getDate()}`.padStart(2, '0')
-    const month = `${rawToday.getMonth() + 1}`.padStart(2, '0')
-    return `${rawToday.getFullYear()}-${month}-${day}`
-  }
-
   private static getDate(ctx: HttpContextContract) {
     const body = ctx.request.body()
-    const today = TimesheetService.today(ctx)
-    Logger.info('today: ' + today)
-    Logger.info('body.date: ' + body.date)
-    return body.date || today
+    return body.date || ctx.session.get('today')
   }
 }

@@ -61,7 +61,11 @@
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('login').addEventListener('click', function(event) {
         event.preventDefault()
-        document.getElementById('today').value = new Date()
+        const rawToday = new Date()
+        const day = `${rawToday.getDate()}`.padStart(2, '0')
+        const month = `${rawToday.getMonth() + 1}`.padStart(2, '0')
+        const year = `${rawToday.getFullYear()}`
+        document.getElementById('today').value = `${year}-${month}-${day}`
         document.getElementById('loginForm').submit()
       })
     })

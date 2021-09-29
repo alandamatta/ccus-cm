@@ -12,12 +12,16 @@
     @else
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" name="{{name}}">
-        <option value="" selected>Select a Value</option>
+        @set('hasDefault', false)
         @each(value in values)
-          @if(value[valueKey] === flashMessages.get(name, ''))
-          <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
-          @else
-          <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @if((value[valueKey] === flashMessages.get(name, '') || value.default))
+            <option value="{{value[valueKey]}}" selected>{{value[labelKey]}}</option>
+            @set('hasDefault', true)
+            @else
+            <option value="{{value[valueKey]}}">{{value[labelKey]}}</option>
+          @end
+          @if(!hasDefault)
+            <option value="" selected>Select a Value</option>
           @end
         @end
       </select>

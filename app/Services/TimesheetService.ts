@@ -4,22 +4,50 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Logger from '@ioc:Adonis/Core/Logger'
 import Attendance from 'App/Models/Attendance'
 import Student from 'App/Models/Student'
+import CoursesService from 'App/Services/CoursesService'
+
+const coursesService = new CoursesService()
 
 export default class TimesheetService {
-  public studentsListTimesheet(user) {
-    const locationId = user.locationId
-    const courseId = null
-    return Database.rawQuery(studentListTimesheetQuery(), [locationId, courseId, courseId])
+  public studentsListTimesheet(ctx: HttpContextContract) {
+    const user = ctx.auth.use('web').user
+    const locationId = user ? user.locationId : -1
+    let courseId = ''
+    const date = TimesheetService.today(ctx)
+    return Database.rawQuery(studentListTimesheetQuery(), { locationId, courseId, date })
+  }
+
+  public async pageDefaultProps(ctx: HttpContextContract) {
+    const user = ctx.auth.use('web').user
+    const body = ctx.request.body()
+    const locationId = user ? user.locationId : -1
+    const date = TimesheetService.getDate(ctx)
+    let courseId = body.courseId || ''
+    const studentsTimesheet = await this.findByLocationIdAndCourseIdAndDate(
+      locationId,
+      courseId,
+      date
+    )
+    const rawCourses = await coursesService.findByLocationId(locationId)
+    const courses = rawCourses.map(CoursesService.mapLocationForTheView)
+    return { studentsTimesheet, date, courses }
+  }
+
+  public async findByLocationIdAndCourseIdAndDate(
+    locationId: number,
+    courseId: number,
+    date: string
+  ) {
+    return Database.rawQuery(studentListTimesheetQuery(), { locationId, courseId, date })
   }
 
   public async checkIn(ctx: HttpContextContract) {
     const user = ctx.auth.use('web').user
     const body = ctx.request.body()
-    const userCanCheckStudentIn = await TimesheetService.userHasRightsToCheckIn(
+    const userCanCheckStudentIn = await TimesheetService.isUserHasRightsOverData(
       user,
       body.studentId
     )
-    Logger.info('browser time: ' + body.time)
     if (userCanCheckStudentIn) {
       const attendance = new Attendance()
       attendance.fill(ctx.request.body(), true)
@@ -31,14 +59,29 @@ export default class TimesheetService {
 
   public async cancel(ctx: HttpContextContract) {
     const { attendanceId } = ctx.request.params()
+    const user = await ctx.auth.use('web').user
     const attendance = await Attendance.findOrFail(attendanceId)
-    await attendance.delete()
+    if (user && attendance.locationId === user.locationId) {
+      return await attendance.delete()
+    }
   }
 
-  private static async userHasRightsToCheckIn(user, studentId) {
+  private static async isUserHasRightsOverData(user, studentId) {
     const result = await Student.query()
       .where('id', studentId)
       .andWhere('locationId', user.locationId)
     return result && result.length > 0
+  }
+
+  public static today(ctx: HttpContextContract) {
+    const rawToday = new Date(ctx.session.get('today'))
+    const day = `${rawToday.getDate()}`.padStart(2, '0')
+    const month = `${rawToday.getMonth() + 1}`.padStart(2, '0')
+    return `${rawToday.getFullYear()}-${month}-${day}`
+  }
+
+  private static getDate(ctx: HttpContextContract) {
+    const body = ctx.request.body()
+    return body.date || TimesheetService.today(ctx)
   }
 }

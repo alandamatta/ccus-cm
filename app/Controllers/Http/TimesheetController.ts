@@ -5,12 +5,12 @@ const timesheetService = new TimesheetService()
 
 export default class TimesheetController {
   public async index(ctx: HttpContextContract) {
-    const user = await ctx.auth.use('web').authenticate()
-    return await TimesheetController.view(user, ctx.view)
+    await ctx.auth.use('web').authenticate()
+    return await TimesheetController.view(ctx)
   }
   public async setup(ctx: HttpContextContract) {
-    const user = await ctx.auth.use('web').authenticate()
-    return (await timesheetService.studentsListTimesheet(user))[0]
+    await ctx.auth.use('web').authenticate()
+    return (await timesheetService.studentsListTimesheet(ctx))[0]
   }
   public async checkIn(ctx: HttpContextContract) {
     await ctx.auth.use('web').authenticate()
@@ -22,8 +22,8 @@ export default class TimesheetController {
     await timesheetService.cancel(ctx)
     return await ctx.response.redirect().toRoute('timesheet.mainPage.init')
   }
-  private static async view(user, view) {
-    const studentsTimesheet = await timesheetService.studentsListTimesheet(user)
-    return view.render('timesheet', { studentsTimesheet })
+  private static async view(ctx) {
+    const defaultProps = await timesheetService.pageDefaultProps(ctx)
+    return ctx.view.render('timesheet', { ...defaultProps })
   }
 }

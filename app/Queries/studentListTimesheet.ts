@@ -10,12 +10,15 @@ SELECT
        notes,
        TIME_FORMAT(a_in.time, '%H:%i')  AS checkInTime,
        TIME_FORMAT(a_out.time, '%H:%i') AS checkOutTime,
+       a_in.time,
        TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age,
        a_in.id as checkInRef,
        a_out.id as checkOutRef
 FROM students s
 LEFT JOIN attendances a_in ON s.id = a_in.student_id AND a_in.check_in IS TRUE
+                                  AND DATE_FORMAT(a_in.created_at, '%m/%d/%Y') = DATE_FORMAT(:date, '%m/%d/%Y')
 LEFT JOIN attendances a_out ON s.id = a_out.student_id AND a_out.check_in IS FALSE
-WHERE s.location_id = ? AND (s.course_id = ? OR ? IS NULL )
+                                   AND DATE_FORMAT(a_out.created_at, '%m/%d/%Y') =  DATE_FORMAT(:date, '%m/%d/%Y')
+WHERE s.location_id = :locationId AND (s.course_id = :courseId OR :courseId = '')
 `
 }

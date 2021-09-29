@@ -9,6 +9,7 @@ export default class LoginController {
     const body = ctx.request.body()
     try {
       await auth.use('web').attempt(body.email, body.password)
+      await ctx.session.put('today', body.today)
       await ctx.response.redirect('/')
     } catch {
       ctx.session.flash('error', 'Invalid credentials')

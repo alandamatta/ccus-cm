@@ -2,18 +2,42 @@
 @set('pageTitle', 'Timesheet')
 @set('currentPage', 'timesheet')
 @section('body')
-<p class="title is-3 is-hidden-mobile">
-  Timesheet
-</p>
-<p class="title is-6 is-hidden-mobile">
-  Please enter check-in & check-out information
-</p>
+<div class="columns">
+  <div class="column is-4">
+    <p class="title is-3 is-hidden-mobile">
+      Timesheet
+    </p>
+    <p class="title is-6 is-hidden-mobile">
+      Please enter check-in & check-out information
+    </p>
+  </div>
+</div>
 <div class="columns">
   <div class="column">
-    <div class="">
+    <form action="/timesheet" method="post">
       <div class="columns">
         <div class="column">
-          <input type="text" class="input" id="studentSearch" placeholder="Search...">
+          @!component('components/input2', {
+            label: 'Search',
+            placeholder: 'Search'
+          })
+        </div>
+        <div class="column is-2">
+          @!component('components/select2', {
+          id: 'timesheetCourse',
+          label: 'Courses',
+          values: courses,
+          valueKey: 'value',
+          labelKey: 'label',
+          })
+        </div>
+        <div class="column is-2">
+          @!component('components/input2', {
+          id: 'timesheetDate',
+          label: 'Date',
+          type: 'date',
+          value: date
+          })
         </div>
       </div>
       {{--Table--}}
@@ -24,7 +48,12 @@
           })
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
+  @!section('scripts')
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    })
+  </script>
 @end

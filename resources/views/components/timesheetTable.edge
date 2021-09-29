@@ -91,11 +91,19 @@
                 <input type="time" class="input" value="{{element.checkInTime}}">
               </div>
               <div class="control">
-                <a class="button cancelCheckInButton" href="/timesheet/cancel/{{element.checkInRef}}">
-                  <span class="icon has-text-danger-dark">
-                    <i class="fas fa-ban"></i>
-                  </span>
-                </a>
+                @if(element.checkOutRef)
+                  <button class="button" type="button" disabled>
+                    <span class="icon has-text-danger-dark">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </button>
+                @else
+                  <a class="button cancelCheckInButton" href="/timesheet/cancel/{{element.checkInRef}}">
+                    <span class="icon has-text-danger-dark">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </a>
+                @end
               </div>
             </div>
             @end
@@ -120,7 +128,7 @@
                 <div class="control">
                   <a class="button cancelCheckInButton" href="/timesheet/cancel/{{element.checkOutRef}}">
                     <span class="icon has-text-danger-dark">
-                      <i class="fas fa-ban"></i>
+                      <i class="fas fa-times"></i>
                     </span>
                   </a>
                 </div>

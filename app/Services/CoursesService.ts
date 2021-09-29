@@ -30,13 +30,16 @@ export default class CoursesService {
     }
     return result.map(CoursesService.mapLocationForTheView)
   }
+  public findByLocationId(id) {
+    return Course.query().where('location_id', id)
+  }
   public async defaultProps(user, qs) {
     const locationId = user.locationId
     const locations = await this.getAllLocations(user)
     const courses = await this.search(qs.search || '')
     return { locations, locationId, courses }
   }
-  private static mapLocationForTheView(location) {
+  public static mapLocationForTheView(location) {
     return {
       label: location.name,
       value: location.id,

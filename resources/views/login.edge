@@ -62,10 +62,10 @@
       document.getElementById('login').addEventListener('click', function(event) {
         event.preventDefault()
         const rawToday = new Date()
-        const day = `${rawToday.getDate()}`.padStart(2, '0')
-        const month = `${rawToday.getMonth() + 1}`.padStart(2, '0')
-        const year = `${rawToday.getFullYear()}`
-        document.getElementById('today').value = `${year}-${month}-${day}`
+        const day = rawToday.getDate().toString().padStart(2, '0')
+        const month = (rawToday.getMonth() + 1).toString().padStart(2, '0')
+        const year = rawToday.getFullYear().toString()
+        document.getElementById('today').value = year+'-'+month+'-'+year
         document.getElementById('loginForm').submit()
       })
     })

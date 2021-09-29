@@ -41,14 +41,14 @@
         </div>
       </div>
       {{--Table--}}
-      <div class="columns">
-        <div class="column" id="timesheetList">
-          @!timesheetTable({
-            values: studentsTimesheet[0],
-          })
-        </div>
-      </div>
     </form>
+    <div class="columns">
+      <div class="column" id="timesheetList">
+        @!timesheetTable({
+        values: studentsTimesheet[0],
+        })
+      </div>
+    </div>
   </div>
 </div>
   @!section('scripts')

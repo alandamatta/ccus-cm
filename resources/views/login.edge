@@ -12,7 +12,7 @@
   <div class="container">
     <div class="columns">
       <div class="column is-one-third is-offset-one-third">
-        <form action="/login" method="post" class="box" style="margin-top: 15rem">
+        <form action="/login" method="post" class="box" style="margin-top: 15rem" id="loginForm">
           <p class="title is-7 ">
             Christian Congregation in the United States
           </p>
@@ -40,10 +40,10 @@
               </div>
             </div>
           </div>
-          <input type="hidden" name="today" value="{{{new Date()}}}">
+          <input type="hidden" name="today" id="today">
           <div class="columns">
             <div class="column">
-              <button class="button is-success is-fullwidth" type="submit">Login</button>
+              <button class="button is-success is-fullwidth" id="login" type="submit">Login</button>
             </div>
           </div>
         </form>
@@ -57,5 +57,14 @@
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('login').addEventListener('click', function(event) {
+        event.preventDefault()
+        document.getElementById('today').value = new Date()
+        document.getElementById('loginForm').submit()
+      })
+    })
+  </script>
 </body>
 </html>

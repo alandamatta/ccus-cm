@@ -7,7 +7,7 @@ import { ajaxGet, ajaxRequest } from './ajaxUtils'
 
 const studentForm = $('#saveStudentForm')
 const submitStudentMobile = $('#submitStudentMobile')
-const dateOfBirth = studentForm.find('#dateOfBirth')
+const dateOfBirth = studentForm.find('.dateOfBirth')
 const modalId = 'parentsModal'
 setFocusOutEventForAgeCalculationOnDOBInput()
 toastSettings()
@@ -37,6 +37,7 @@ function findCorrectParentInput() {
 }
 
 function includeValidationMessageIntoHelpElements(errors) {
+  console.log(errors)
   uiValidationHelper(studentForm, errors)
   uiValidationHelper(submitStudentMobile, errors)
 }
@@ -93,9 +94,9 @@ function toastSettings() {
 }
 
 function setFocusOutEventForAgeCalculationOnDOBInput() {
-  dateOfBirth.on('focusout', (event) => {
+  $('.dateOfBirth').on('focusout', function (event) {
     const today = new Date()
-    const dob = new Date(dateOfBirth.val())
+    const dob = new Date($(this).val())
     let year = today.getYear() - dob.getYear()
     let month = today.getMonth() - dob.getMonth()
     if (month < 0) {
@@ -105,7 +106,7 @@ function setFocusOutEventForAgeCalculationOnDOBInput() {
     }
     if (!isNaN(year)) {
       const result = `${year}y${month}m`
-      $('#age').val(result)
+      $('.age').val(result)
     }
   })
 }

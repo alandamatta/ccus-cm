@@ -3,6 +3,8 @@ import Location from 'App/Models/Location'
 import Course from 'App/Models/Course'
 import Database from '@ioc:Adonis/Lucid/Database'
 import CourseValidator from 'App/Validators/CourseValidator'
+import CourseList from 'App/Queries/CourseList'
+import DaysOfTheWeek from 'App/Constants/DaysOfTheWeek'
 
 export default class CoursesService {
   public async create(ctx: HttpContextContract) {
@@ -17,8 +19,7 @@ export default class CoursesService {
     return await course.fill(body, true).save()
   }
   public async search(search: string) {
-    search = `%${search}%`
-    const result = await Database.rawQuery('select * from courses where name like ?', [search])
+    const result = await Database.rawQuery(CourseList(), { search })
     return result[0]
   }
   public async getAllLocations(user) {
@@ -40,7 +41,8 @@ export default class CoursesService {
     const locationId = user.locationId
     const locations = await this.getAllLocations(user)
     const courses = await this.search(qs.search || '')
-    return { locations, locationId, courses }
+    const daysOfTheWeek = DaysOfTheWeek
+    return { locations, locationId, courses, daysOfTheWeek }
   }
   public static mapLocationForTheView(location) {
     return {

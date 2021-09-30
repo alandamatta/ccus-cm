@@ -12,7 +12,18 @@ SELECT
        TIME_FORMAT(a_out.time, '%H:%i') AS checkOutTime,
        TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age,
        a_in.id as checkInRef,
-       a_out.id as checkOutRef
+       a_out.id as checkOutRef,
+       (select count(_a.id) as attendances from attendances _a
+            where _a.student_id = s.id
+              and check_in is true
+              and DATE_FORMAT(time, '%m/%d/%Y') >= DATE_FORMAT((select min(_a.time) from attendances _a
+            where _a.student_id = s.id and _a.check_in IS TRUE), '%m/%d/%Y') and course_id = s.course_id
+            group by course_id) presence,
+       (select count(_a.id) as attendances from attendances _a
+            where check_in is true
+              and DATE_FORMAT(time, '%m/%d/%Y') >= DATE_FORMAT((select min(_a.time) from attendances _a
+            where _a.student_id = s.id and _a.check_in IS TRUE), '%m/%d/%Y') and course_id = s.course_id
+            group by course_id) classes
 FROM students s
 LEFT JOIN attendances a_in ON s.id = a_in.student_id AND a_in.check_in IS TRUE
                                   AND DATE_FORMAT(a_in.time, '%m/%d/%Y') = DATE_FORMAT(:date, '%m/%d/%Y')

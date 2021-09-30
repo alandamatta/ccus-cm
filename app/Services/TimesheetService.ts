@@ -1,5 +1,5 @@
 import Database from '@ioc:Adonis/Lucid/Database'
-import studentListTimesheetQuery from 'App/Queries/studentListTimesheet'
+import studentListTimesheetQuery from 'App/Queries/StudentListTimesheet'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Logger from '@ioc:Adonis/Core/Logger'
 import Attendance from 'App/Models/Attendance'
@@ -69,6 +69,7 @@ export default class TimesheetService {
       body.studentId
     )
     if (userCanCheckStudentIn) {
+      body.time = DateTime.fromFormat(body.time, 'yyyy-MM-dd HH:mm')
       const attendance = new Attendance()
       attendance.fill(ctx.request.body(), true)
       return await attendance.save()

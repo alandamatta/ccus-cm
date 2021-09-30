@@ -5,7 +5,6 @@
 <p class="title is-3">
   Students
 </p>
-
 <div id="submitPatientQuickView" class="quickview is-hidden-desktop">
   <header class="quickview-header">
     <p class="title">Create a student</p>
@@ -14,7 +13,8 @@
 
   <div class="quickview-body">
     <div class="quickview-block">
-      @!component('components/studentForm', {id: 'submitStudentMobile', grades, coursesView})
+
+      @!component('components/studentForm', {id: 'submitStudentMobile', grades, coursesView, value: selectedStudent})
     </div>
   </div>
 </div>
@@ -115,40 +115,44 @@ title: 'Add a contact'
 
           <div class="columns is-hidden-mobile is-hidden-tablet-only" >
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification is-info" style="padding-right: 0.3em">
-                <div class="columns is-vcentered is-mobile">
-                  <div class="column is-3">
+              <a href="/student">
+                <div class="box notification is-info" style="padding-right: 0.3em">
+                  <div class="columns is-vcentered is-mobile">
+                    <div class="column is-3">
                     <span class="icon">
                       <i class="fas fa-plus-circle"></i>
                     </span>
-                  </div>
-                  <div class="column">
-                    <p class="has-text-weight-semibold" >Create new student</p>
+                    </div>
+                    <div class="column">
+                      <p class="has-text-weight-semibold" >Create new student</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 
           @each(student in students)
           <div class="columns">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <div class="box notification has-background-white" style="padding-right: 0.3em">
-                <div class="columns is-vcentered is-mobile">
-                  <div class="column is-3">
-                    <figure class="image is-32x32">
-                      <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                           class="is-rounded">
-                    </figure>
-                  </div>
-                  <div class="column">
-                    <p class="has-text-weight-semibold">{{student.fullName}}</p>
-                    <div class="content is-small has-text-weight-medium">
-                      <p>{{(student.notes || '--')}}</p>
+              <a href="/student/{{student.id}}">
+                <div class="box notification {{(selectedStudent && student.id == selectedStudent.id) ? 'has-background-info-light' : 'has-background-white'}}" style="padding-right: 0.3em">
+                  <div class="columns is-vcentered is-mobile">
+                    <div class="column is-3">
+                      <figure class="image is-32x32">
+                        <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
+                             class="is-rounded">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <p class="has-text-weight-semibold">{{student.fullName}}</p>
+                      <div class="content is-small has-text-weight-medium">
+                        <p>{{(student.notes || '--')}}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
           @end
@@ -156,7 +160,7 @@ title: 'Add a contact'
         </div>
         <div class="column is-hidden-mobile is-hidden-tablet-only">
           <div class="columns">
-            @!component('components/studentForm', {id: 'saveStudentForm', grades, coursesView})
+            @!component('components/studentForm', {id: 'saveStudentForm', grades, coursesView, value: selectedStudent})
           </div>
         </div>
       </div>

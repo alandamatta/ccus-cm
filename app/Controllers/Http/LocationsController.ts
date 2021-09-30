@@ -4,6 +4,7 @@ import LocationsService from 'App/Services/LocationsService'
 import Logger from '@ioc:Adonis/Core/Logger'
 import LocationValidator from 'App/Validators/LocationValidator'
 import DaysOfTheWeek from 'App/Constants/DaysOfTheWeek'
+import UnitedStatesStates from 'App/Constants/UnitedStatesStates'
 
 const locationService = new LocationsService()
 const EMPTY: string = ''
@@ -19,7 +20,8 @@ export default class LocationsController {
     const auth = ctx.auth
     await auth.use('web').authenticate()
     const daysOfTheWeek = DaysOfTheWeek
-    return await ctx.view.render('location', { showModal: 'is-active', daysOfTheWeek })
+    const states = UnitedStatesStates
+    return await ctx.view.render('location', { showModal: 'is-active', daysOfTheWeek, states })
   }
   public async search(ctx: HttpContextContract) {
     Logger.info(JSON.stringify(ctx.request.qs()))

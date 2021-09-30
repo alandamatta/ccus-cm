@@ -6,7 +6,6 @@ import Database from '@ioc:Adonis/Lucid/Database'
 export default class LocationsService {
   public async create(requestBody: any) {
     let course: Course
-    Logger.info('Creating location')
     const location = await new Location().fill(requestBody, true).save()
     if (requestBody.course) {
       for (const element of requestBody.course) {

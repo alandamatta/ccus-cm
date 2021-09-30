@@ -8,6 +8,22 @@ import * as timesheet from './timesheet'
 
 bqv.attach()
 
+$("input[type='file']").on('change', function() {
+  const input = $(this)
+  const id = input.attr('id')
+  const files = input.prop('files')
+  console.log(input)
+  if (files && files.length > 0) {
+    $('._' + id + '-label').text(files[0].name)
+  }
+})
+// fileInput.onchange = () => {
+//   if (fileInput.files.length > 0) {
+//     const fileName = document.querySelector('#file-js-example .file-name');
+//     fileName.textContent = fileInput.files[0].name;
+//   }
+// }
+
 setDefaults({
   duration: 3000,
   position: 'top-center',

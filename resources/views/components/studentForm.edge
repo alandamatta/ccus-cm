@@ -1,137 +1,167 @@
+@set('value', value)
 <form id="{{id}}" class="column" action="/student/save" enctype="multipart/form-data" style="padding-top: 0.3em">
-    <div class="box has-background-white">
-      <div class="columns is-desktop">
-        <div class="column is-2">
-          <div class="columns">
-            <div class="column">
-              <figure class="image is-96x96">
-                <a href="#">
-                  <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
-                </a>
-              </figure>
-            </div>
+  <div class="box has-background-white">
+    <div class="columns is-desktop">
+      <div class="column is-2">
+        <div class="columns">
+          <div class="column">
+            <figure class="image is-96x96">
+              <a href="#">
+                <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
+              </a>
+            </figure>
           </div>
         </div>
-        <div class="column">
-          <input type="hidden" name="parent1Id" id="parent1">
-          <input type="hidden" name="parent2Id" id="parent2">
-          <div class="">
-            {{--student info--}}
-            <div class="columns">
-              <div class="column is-8">
-                @!component('components/input2', {
-                id: 'fullName',
-                name: 'fullName',
-                classes: '',
-                label: 'Name',
-                })
-              </div>
-              <div class="column">
-                @!component('components/select2', {
-                label: 'Grade',
-                id: 'grade',
-                name: 'grade',
-                values: grades,
-                valueKey: 'value',
-                labelKey: 'label',
-                })
-              </div>
+      </div>
+      <div class="column">
+        <input type="hidden" name="parent1Id" id="parent1">
+        <input type="hidden" name="parent2Id" id="parent2">
+        <div class="">
+          {{--student info--}}
+          <div class="columns">
+            <div class="column is-8">
+              @!component('components/input2', {
+              id: 'fullName',
+              name: 'fullName',
+              classes: '',
+              label: 'Name',
+              value: value ? value.fullName : '',
+              })
+            </div>
+            <div class="column">
+              @!component('components/select2', {
+              label: 'Grade',
+              id: 'grade',
+              name: 'grade',
+              values: grades,
+              valueKey: 'value',
+              labelKey: 'label',
+              value: value ? value.grade : ''
+              })
+            </div>
+          </div>
+
+          <div class="columns is-desktop">
+            <div class="column">
+              @!component('components/input2', {
+              label: 'DOB',
+              type: 'date',
+              id: 'dateOfBirth',
+              name: 'dateOfBirth',
+              classes: 'dateOfBirth',
+              value: value ? value.dateOfBirth : ''
+              })
             </div>
 
-            <div class="columns is-desktop">
-              <div class="column">
-                @!component('components/input2', {
-                label: 'DOB',
-                type: 'date',
-                id: 'dateOfBirth',
-                name: 'dateOfBirth',
-                })
-              </div>
-
-              <div class="column is-2">
-                @!component('components/input2', {
-                label: 'Age',
-                disabled: true,
-                id: 'age',
-                name: 'age',
-                disabled: true,
-                })
-              </div>
-
-              <div class="column">
-                @!component('components/select2', {
-                label: 'Course',
-                id: 'courseId',
-                name: 'courseId',
-                values: coursesView,
-                valueKey: 'value',
-                labelKey: 'label',
-                })
-              </div>
+            <div class="column is-2">
+              @!component('components/input2', {
+              label: 'Age',
+              disabled: true,
+              id: 'age',
+              name: 'age',
+              disabled: true,
+              classes: 'age',
+              value: value ? value.age : ''
+              })
             </div>
 
-            <div class="columns">
-              <div class="column">
-                <div class="field">
-                  <label for="notes" class="label">Notes</label>
-                  <div class="control">
-                    <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"></textarea>
-                  </div>
+            <div class="column">
+              @!component('components/select2', {
+              label: 'Course',
+              id: 'courseId',
+              name: 'courseId',
+              values: coursesView,
+              valueKey: 'value',
+              labelKey: 'label',
+              value: value ? value.courseId : ''
+              })
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <div class="field">
+                <label for="notes" class="label">Notes</label>
+                <div class="control">
+                  <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"
+                            value="{{(value? value.notes : '')}}"></textarea>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="columns">
-              <div class="column">
-                <div id="file-js-example" class="file has-name">
-                  <label class="file-label">
-                    <input class="file-input" type="file" name="file" id="file" >
-                    <span class="file-cta">
-                      <span class="file-icon">
-                        <i class="fas fa-upload"></i>
-                      </span>
-                      <span class="file-label">
-                        Choose a file…
-                      </span>
+          <div class="columns">
+            <div class="column">
+              <div id="file-file" class="file has-name is-small">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="file" id="file" >
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-file"></i>
                     </span>
-                    <span class="file-name">
-                      No file uploaded
+                    <span class="file-label">
+                      Choose a file…
                     </span>
-                  </label>
-                </div>
-                <p class="help is-danger" id="file-help"></p>
+                  </span>
+                  <span class="file-name _file-label">
+                    No file uploaded
+                  </span>
+                </label>
+              </div>
+              <p class="help is-danger" id="file-help"></p>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <div id="picture-file" class="file has-name is-small">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="photo" id="photo" >
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-camera"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a picture…
+                    </span>
+                  </span>
+                  <span class="file-name _photo-label">
+                    No file uploaded
+                  </span>
+                </label>
+              </div>
+              <p class="help is-danger" id="picture-help"></p>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column">
+              <div class="tabs">
+                <ul>
+                  <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
+                  <!--                          <li><a class="no-underscore is-info">Attendance Reports</a></li>-->
+                </ul>
               </div>
             </div>
-
-
-            <div class="columns">
-              <div class="column">
-                <div class="tabs">
-                  <ul>
-                    <li class="is-active"><a class="no-underscore is-info">Contacts</a></li>
-                    <!--                          <li><a class="no-underscore is-info">Attendance Reports</a></li>-->
-                  </ul>
-                </div>
-              </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <button class="button is-info is-outlined" type="button" id="add-contact"
+                      onclick="addContact()">Add contact
+              </button>
             </div>
-            <div class="columns">
-              <div class="column">
-                <button class="button is-info is-outlined" type="button" id="add-contact"
-                        onclick="addContact()">Add contact
-                </button>
-              </div>
-            </div>
+          </div>
 
-            <div class="columns contactsSection"></div>
+          <div class="columns contactsSection"></div>
 
-            <div class="columns">
-              <div class="column">
-                <button class="button is-success" type="submit">Save</button>
-                <button class="button" type="button">Cancel</button>
-              </div>
+          <div class="columns">
+            <div class="column">
+              <button class="button is-success" type="submit">Save</button>
+              <button class="button" type="button">Cancel</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </form>

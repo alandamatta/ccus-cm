@@ -39,9 +39,9 @@
           id: 'dayOfWeek',
           name: 'dayOfWeek',
           label: 'Day of the week',
-          labelKey: 'name',
+          labelKey: 'label',
           valueKey: 'value',
-          values: [{name: 'Sunday', value: 'SUNDAY'}],
+          values: daysOfTheWeek,
           keyName: 'dayOfWeek',
           value: day_of_week,
         })
@@ -68,7 +68,7 @@
     <div class="column">
       @!datatable({
         value: courses,
-        columnKeys: ['name', 'location', 'day_of_week', 'time'],
+        columnKeys: ['name', 'location', 'dayOfWeek', 'time'],
         columnNames: ['Name', 'Location', 'Day of the week', 'Time'],
         searchPath: '/course/search',
         search,

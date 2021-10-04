@@ -6,7 +6,9 @@ $('.checkInButton').on('click', function (event) {
   const form = element.closest('form')
   const date = $('#date').val()
   const now = new Date()
-  const time = `${now.getHours()}:${now.getMinutes()}`.padStart(2, '0')
+  const hours = `${now.getHours()}`.padStart(2, '0')
+  const mins = `${now.getMinutes()}`.padStart(2, '0')
+  const time = `${hours}:${mins}`
   form.find('[name=time]').val(date + ' ' + time)
   $(this).addClass('is-loading')
   $('button').attr('disabled', 'disable')

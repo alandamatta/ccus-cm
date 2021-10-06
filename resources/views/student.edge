@@ -147,7 +147,13 @@ title: 'Add a contact'
                     <div class="column">
                       <p class="has-text-weight-semibold">{{student.fullName}}</p>
                       <div class="content is-small has-text-weight-medium">
-                        <p>{{(student.notes || '--')}}</p>
+                        @if(student.notes && student.notes.length > 15 )
+                        <p>{{student.notes.substring(0, 15) + '...'}}</p>
+                        @elseif(student.notes)
+                        <p>{{student.notes}}</p>
+                        @else
+                        <p>--</p>
+                        @end
                       </div>
                     </div>
                   </div>

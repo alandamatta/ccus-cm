@@ -13,9 +13,18 @@
 
   <div class="quickview-body">
     <div class="quickview-block">
-
       @!component('components/studentForm', {id: 'submitStudentMobile', grades, coursesView, value: selectedStudent})
     </div>
+  </div>
+</div>
+
+<div class="modal" id="creatingStudentModal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <section class="modal-card-body">
+      Creating student<br/>
+      Please wait...
+    </section>
   </div>
 </div>
 
@@ -140,8 +149,13 @@ title: 'Add a contact'
                   <div class="columns is-vcentered is-mobile">
                     <div class="column is-3">
                       <figure class="image is-32x32">
-                        <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                             class="is-rounded">
+                        @if(student.picture)
+                          <img src="{{'/file/' + student.id + '/' + student.picture}}" alt="Student Picture"
+                               class="is-rounded">
+                        @else
+                          <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
+                               class="is-rounded">
+                        @end
                       </figure>
                     </div>
                     <div class="column">

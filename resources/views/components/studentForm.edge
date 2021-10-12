@@ -2,22 +2,56 @@
 <form id="{{id}}" class="column" action="/student/save" enctype="multipart/form-data" style="padding-top: 0.3em">
   <div class="box has-background-white">
     <div class="columns is-desktop">
-      <div class="column is-2">
-        <div class="columns">
-          <div class="column">
-            <figure class="image is-96x96">
-              <a href="#">
-                <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
-              </a>
-            </figure>
-          </div>
-        </div>
-      </div>
       <div class="column">
         <input type="hidden" name="parent1Id" id="parent1">
         <input type="hidden" name="parent2Id" id="parent2">
         <div class="">
           {{--student info--}}
+          <div class="columns">
+            <div class="column is-5-desktop is-full-tablet">
+              <div class="columns is-mobile">
+                <div class="column">
+                  <div class="notification">
+                    <div class="columns is-mobile is-vcentered">
+                      <div class="column is-4">
+                        <figure class="image is-square no-padding">
+                          @if (value && value.picture)
+                          <img src="{{'/file/' + value.id + '/' + value.picture}}" alt="Student Picture"
+                               class="is-rounded">
+                          @else
+                            <img class="currentImg is-rounded" src="https://bulma.io/images/placeholders/480x480.png">
+                          @end
+                        </figure>
+                      </div>
+                      <div class="column no-padding-top no-padding-bottom">
+                        <div class="file is-fullwidth is-small">
+                          <label class="file-label is-fullwidth">
+                            <input class="file-input pictureInput" type="file" id="picture" name="picture">
+                            <span class="file-cta">
+                              <span class="file-icon">
+                                <i class="fas fa-camera"></i>
+                              </span>
+                              @if (value && value.picture)
+                                <span class="file-label">
+                                  Update the picture
+                                </span>
+                              @else
+                                <span class="file-label">
+                                  Choose a picture
+                                </span>
+                              @end
+
+                            </span>
+                          </label>
+                        </div>
+                        <p class="help is-danger" id="picture-help"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="columns">
             <div class="column is-8">
               @!component('components/input2', {
@@ -94,7 +128,7 @@
             <div class="column">
               <div id="file-file" class="file has-name is-small">
                 <label class="file-label">
-                  <input class="file-input" type="file" name="file" id="file" >
+                  <input class="file-input" type="file" name="file" id="file">
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-file"></i>
@@ -114,23 +148,6 @@
 
           <div class="columns">
             <div class="column">
-              <div id="picture-file" class="file has-name is-small">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="photo" id="photo" >
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-camera"></i>
-                    </span>
-                    <span class="file-label">
-                      Choose a picture…
-                    </span>
-                  </span>
-                  <span class="file-name _photo-label">
-                    No file uploaded
-                  </span>
-                </label>
-              </div>
-              <p class="help is-danger" id="picture-help"></p>
             </div>
           </div>
 

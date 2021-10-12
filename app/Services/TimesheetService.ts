@@ -69,13 +69,43 @@ export default class TimesheetService {
       body.studentId
     )
     if (userCanCheckStudentIn) {
-      body.time = DateTime.fromFormat(body.time, 'yyyy-MM-dd HH:mm')
-      const attendance = new Attendance()
-      attendance.fill(ctx.request.body(), true)
-      return await attendance.save()
+      await this.saveOrUpdate(ctx)
     } else {
       Logger.error('User access violation attempt')
     }
+  }
+
+  private async saveOrUpdate(ctx: HttpContextContract) {
+    const body = ctx.request.body()
+    const user = ctx.auth.use('web').user
+    const locationId = user ? user.locationId : -1
+    const studentId = body.studentId || -1
+    const updateCheckIn = body.checkIn === '1' && body.checkInRef && body.checkInRef > 0
+    const updateCheckOut = body.checkIn === '0' && body.checkOutRef && body.checkOutRef > 0
+    const time = this.stringCheckInTimeToDateTimeCheckInTime(body.time)
+    if (updateCheckIn) {
+      await this.update(body.checkInRef, locationId, studentId, time)
+    } else if (updateCheckOut) {
+      await this.update(body.checkOutRef, locationId, studentId, time)
+    } else {
+      await this.save(ctx)
+    }
+  }
+
+  private async save(ctx: HttpContextContract) {
+    const body = ctx.request.body()
+    body.time = this.stringCheckInTimeToDateTimeCheckInTime(body.time)
+    const attendance = new Attendance()
+    attendance.fill(body, true)
+    return attendance.save()
+  }
+
+  public async update(attendanceId, locationId, studentId, time) {
+    return Attendance.query()
+      .where('id', attendanceId)
+      .andWhere('location_id', locationId)
+      .andWhere('student_id', studentId)
+      .update({ time: time.toString() })
   }
 
   public async cancel(ctx: HttpContextContract) {
@@ -108,6 +138,10 @@ export default class TimesheetService {
     const body = ctx.request.qs()
     const date = body.date || ctx.session.get('today')
     return TimesheetService.formatToDateTime(date)
+  }
+
+  private stringCheckInTimeToDateTimeCheckInTime(dateString) {
+    return DateTime.fromFormat(dateString, 'yyyy-MM-dd HH:mm')
   }
 
   private static async isCoursesScheduledAtTheDate(date: DateTime, locationId: number) {

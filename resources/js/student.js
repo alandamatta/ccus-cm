@@ -21,6 +21,22 @@ modal(modalId, function (data) {
   clearAllInputs(modalElement)
 })
 
+$('.pictureInput').each(function (index, element) {
+  const fileInput = $(element)
+  fileInput.on('change', function () {
+    const input = $(this)
+    console.log(input[0])
+    if (input[0] && input[0].files[0]) {
+      console.log('2')
+      let reader = new FileReader()
+      reader.onload = function (event) {
+        $('.currentImg').attr('src', event.target.result)
+      }
+      reader.readAsDataURL(input[0].files[0])
+    }
+  })
+})
+
 window.addContact = function () {
   const modalElement = $(`#${modalId}`)
   modalElement.addClass('is-active')
@@ -37,7 +53,6 @@ function findCorrectParentInput() {
 }
 
 function includeValidationMessageIntoHelpElements(errors) {
-  console.log(errors)
   uiValidationHelper(studentForm, errors)
   uiValidationHelper(submitStudentMobile, errors)
 }
@@ -60,6 +75,8 @@ function studentFormSubmit(event, studentForm) {
   const formData = new FormData(document.getElementById(studentForm.attr('id')))
   const file = studentForm.find('#file').val()
   formData.append('file', file)
+  const loading = $('#creatingStudentModal')
+  loading.addClass('is-active')
   const config = {
     url: '/student/save',
     type: 'POST',
@@ -79,6 +96,7 @@ function studentFormSubmit(event, studentForm) {
   }
 
   const onFail = (data) => {
+    loading.removeClass('is-active')
     includeValidationMessageIntoHelpElements(data.responseJSON.errors)
   }
 

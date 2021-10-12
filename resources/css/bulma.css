@@ -10321,6 +10321,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding-bottom: 0;
 }
 
+.no-padding {
+  padding: 0;
+}
+
 .transparent {
   background-color: transparent;
 }

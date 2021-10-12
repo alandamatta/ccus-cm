@@ -97,3 +97,10 @@ Route.post('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.ma
 Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
   'timesheet.mainPage.checkIn.cancel'
 )
+
+/*
+|--------------------------------------------------------------------------
+| Files
+|-----------------  ---------------------------------------------------------
+*/
+Route.get('/file/:studentId/:fileName', 'FilesController.index')

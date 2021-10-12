@@ -8,6 +8,7 @@
     "build"
   ],
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,

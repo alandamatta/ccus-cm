@@ -34,43 +34,55 @@
         </a>
       @end
 
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          Administration
-        </a>
+      @if(auth.user.admin)
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Administration
+          </a>
 
-        <div class="navbar-dropdown">
-          @if(currentPage && currentPage == 'user')
+          <div class="navbar-dropdown">
+            @if(currentPage && currentPage == 'user')
             <a class="navbar-item is-active">
               Users
             </a>
-          @else
+            @else
             <a href="/user" class="navbar-item">
               Users
             </a>
-          @end
+            @end
 
-          @if(currentPage && currentPage == 'location')
+            @if(currentPage && currentPage == 'location')
             <a class="navbar-item is-active">
               Locations
             </a>
-          @else
+            @else
             <a href="/location" class="navbar-item">
               Locations
             </a>
-          @end
+            @end
 
-          @if(currentPage && currentPage == 'courses')
-          <a class="navbar-item is-active">
-            Courses
-          </a>
-          @else
-          <a href="/course" class="navbar-item">
-            Courses
-          </a>
-          @end
+            @if(currentPage && currentPage == 'courses')
+            <a class="navbar-item is-active">
+              Courses
+            </a>
+            @else
+            <a href="/course" class="navbar-item">
+              Courses
+            </a>
+            @end
+          </div>
         </div>
-      </div>
+      @else
+        @if(currentPage && currentPage == 'timesheet')
+        <a class="navbar-item is-active">
+          <span>Courses</span>
+        </a>
+        @else
+        <a class="navbar-item" href="/course">
+          <span>Courses</span>
+        </a>
+        @end
+      @end
     </div>
 
     <div class="navbar-end">

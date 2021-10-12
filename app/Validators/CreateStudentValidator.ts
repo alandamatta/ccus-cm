@@ -33,6 +33,10 @@ export default class CreateStudentValidator {
       size: '2mb',
       extnames: ['pdf', 'doc', 'txt'],
     }),
+    photo: schema.file.optional({
+      size: '2mb',
+      extnames: ['jpeg', 'jpg', 'png'],
+    }),
   })
 
   /**

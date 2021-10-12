@@ -1,4 +1,4 @@
 {
-  "assets/app.css": "/assets/app.69045506.css",
-  "assets/app.js": "/assets/app.b2a643cd.js"
+  "assets/app.css": "http://localhost:8080/assets/app.css",
+  "assets/app.js": "http://localhost:8080/assets/app.js"
 }

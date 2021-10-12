@@ -88,6 +88,20 @@
           form.submit()
         }, 500)
       })
+      $('.onChangeUpdate').on('change', function(event) {
+        event.preventDefault()
+        const element = $(this)
+        const date = $('#date').val()
+        const time = element.val()
+        const form = element.closest('form')
+        form.find('input[name=time]').val(date + ' ' + time)
+        form.find('.cancelCheckInButton').addClass('is-loading')
+        form.find('.cancelCheckInButton').html('')
+        $('button').attr('disabled', 'disabled')
+        delay(function() {
+          form.submit()
+        }, 500)
+      })
     })
   </script>
 @end

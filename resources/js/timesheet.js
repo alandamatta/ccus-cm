@@ -11,13 +11,14 @@ $('.checkInButton').on('click', function (event) {
   const time = `${hours}:${mins}`
   form.find('[name=time]').val(date + ' ' + time)
   $(this).addClass('is-loading')
-  $('button').attr('disabled', 'disable')
+  $('.is-timesheet-action').attr('disabled', 'disabled')
   form.submit()
 })
 
 $('.cancelCheckInButton').on('click', function (event) {
   const element = $(this)
   element.find('span').addClass('is-hidden')
-  $('button').attr('disabled', 'disable')
+  $('button').attr('disabled', 'disabled')
+  $('input').attr('disabled', 'disabled')
   element.addClass('is-loading')
 })

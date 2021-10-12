@@ -2,15 +2,28 @@ import Student from '../Models/Student'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateStudentValidator from 'App/Validators/CreateStudentValidator'
 import Course from 'App/Models/Course'
-import Logger from '@ioc:Adonis/Core/Logger'
+import Application from '@ioc:Adonis/Core/Application'
+import { DateTime } from 'luxon'
+import PhotoService from 'App/Services/PhotoService'
+// import Logger from '@ioc:Adonis/Core/Logger'
+
+const photoService = new PhotoService()
 
 export default class StudentsService {
   public async create(ctx: HttpContextContract) {
-    const body = ctx.request.body()
-    Logger.info(JSON.stringify(body))
-    await ctx.request.validate(CreateStudentValidator)
     const user = await ctx.auth.use('web').authenticate()
+    await ctx.request.validate(CreateStudentValidator)
+    const body = ctx.request.body()
+    const photo = ctx.request.file('picture')
     const student = new Student().fill(body, true)
+    if (photo) {
+      const tempPath = Application.tmpPath('uploads')
+      photo.clientName = StudentsService.generateFileName(photo)
+      await photo.move(tempPath)
+      const photoPath = StudentsService.file(tempPath, photo.clientName)
+      await photoService.compressImage(photoPath)
+      student.picture = photo.clientName
+    }
     student.locationId = user.locationId
     return await student.save()
   }
@@ -45,5 +58,13 @@ export default class StudentsService {
       { value: '11', label: '11' },
       { value: '12', label: '12' },
     ]
+  }
+
+  private static file(tmpPath, fileName) {
+    return `${tmpPath}/${fileName}`
+  }
+
+  private static generateFileName(photo) {
+    return `${DateTime.now().diff(DateTime.local(1900, 5, 1)).milliseconds}.${photo.extname}`
   }
 }

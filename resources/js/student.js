@@ -13,6 +13,10 @@ setFocusOutEventForAgeCalculationOnDOBInput()
 toastSettings()
 handleStudentFormSubmitEventToPerformAnAjaxCall()
 
+window.editContact = function (contactId) {
+  alert(contactId)
+}
+
 modal(modalId, function (data) {
   const modalElement = $(`#${modalId}`)
   findCorrectParentInput().val(data.id)
@@ -44,8 +48,8 @@ window.addContact = function () {
 }
 
 function findCorrectParentInput() {
-  const parent1 = $('#parent1')
-  const parent2 = $('#parent2')
+  const parent1 = $('.parent1')
+  const parent2 = $('.parent2')
   if (parent1 && parent1.val() && parent1.val() > 0) {
     return parent2
   }
@@ -75,8 +79,7 @@ function studentFormSubmit(event, studentForm) {
   const formData = new FormData(document.getElementById(studentForm.attr('id')))
   const file = studentForm.find('#file').val()
   formData.append('file', file)
-  const loading = $('#creatingStudentModal')
-  loading.addClass('is-active')
+  studentForm.find('.button').addClass('is-loading')
   const config = {
     url: '/student/save',
     type: 'POST',
@@ -156,6 +159,12 @@ function contactHTML(contact) {
         <div class="columns">
           <div class="column">
             <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">${contact.address}</span>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <button type="button" class="button is-small is-info" onclick="editContact(${contact.id})">Edit</button>
           </div>
         </div>
       </div>

@@ -3,8 +3,9 @@
   <div class="box has-background-white">
     <div class="columns is-desktop">
       <div class="column">
-        <input type="hidden" name="parent1Id" id="parent1">
-        <input type="hidden" name="parent2Id" id="parent2">
+        <input type="hidden" name="id" value="{{value && value.id !== null ? value.id : '' }}">
+        <input type="hidden" class="parent1" name="parent1Id" id="parent1" value="{{value && value.parent1Id !== null ? value.parent1Id : '' }}">
+        <input type="hidden" class="parent2" name="parent2Id" id="parent2" value="{{value && value.parent2Id !== null ? value.parent2Id : '' }}">
         <div class="">
           {{--student info--}}
           <div class="columns">
@@ -16,8 +17,8 @@
                       <div class="column is-4">
                         <figure class="image is-square no-padding">
                           @if (value && value.picture)
-                          <img src="{{'/file/' + value.id + '/' + value.picture}}" alt="Student Picture"
-                               class="is-rounded">
+                          <img src="{{'/img/' + value.id + '/' + value.picture}}" alt="Student Picture"
+                               class="is-rounded currentImg">
                           @else
                             <img class="currentImg is-rounded" src="https://bulma.io/images/placeholders/480x480.png">
                           @end
@@ -33,7 +34,7 @@
                               </span>
                               @if (value && value.picture)
                                 <span class="file-label">
-                                  Update the picture
+                                  Update picture
                                 </span>
                               @else
                                 <span class="file-label">
@@ -95,7 +96,7 @@
               name: 'age',
               disabled: true,
               classes: 'age',
-              value: value ? value.age : ''
+              value: value ? value.ageYears + 'y' + value.ageMonths + 'm' : ''
               })
             </div>
 
@@ -117,15 +118,14 @@
               <div class="field">
                 <label for="notes" class="label">Notes</label>
                 <div class="control">
-                  <textarea name="notes" id="notes" cols="20" rows="4" class="textarea"
-                            value="{{(value? value.notes : '')}}"></textarea>
+                  <textarea name="notes" id="notes" cols="20" rows="4" class="textarea">{{value && value.notes !== null ? value.notes : ''}}</textarea>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="columns">
-            <div class="column">
+          <div class="columns no-padding-bottom">
+            <div class="column is-5 no-padding-bottom">
               <div id="file-file" class="file has-name is-small">
                 <label class="file-label">
                   <input class="file-input" type="file" name="file" id="file">
@@ -138,13 +138,22 @@
                     </span>
                   </span>
                   <span class="file-name _file-label">
-                    No file uploaded
+                    {{value && value.file ? value.file : 'No file uploaded'}}
                   </span>
                 </label>
               </div>
               <p class="help is-danger" id="file-help"></p>
             </div>
           </div>
+          @if(value && value.file)
+          <div class="columns no-padding-top">
+            <div class="column no-padding-top">
+              <div class="content has-text-weight-normal">
+                <a href="#" target="_blank" class="is-link is-small is-underlined">Download</a>
+              </div>
+            </div>
+          </div>
+          @end
 
           <div class="columns">
             <div class="column">
@@ -164,12 +173,87 @@
           <div class="columns">
             <div class="column">
               <button class="button is-info is-outlined" type="button" id="add-contact"
-                      onclick="addContact()">Add contact
+                      onclick="addContact()" {{value && value.parent1Id && value.parent2Id ? 'disabled' : ''}}>Add contact
               </button>
             </div>
           </div>
 
-          <div class="columns contactsSection"></div>
+          <div class="columns contactsSection">
+            @if(value && value.parent1Id && value.contacts[0])
+              <div class="column is-half">
+                <div class="notification">
+                  <div class="columns">
+                    <div class="column">
+                      <p class="title is-5">{{value.contacts[0].name}}</p>
+                    </div>
+                  </div>
+
+                  <div class="columns">
+                    <div class="column">
+                      <span class="icon"><i class="fas fa-phone-alt"></i></span><span
+                      class="is-size-6">{{value.contacts[0].phone}}</span>
+                    </div>
+                  </div>
+
+                  <div class="columns">
+                    <div class="column">
+                      <span class="icon"><i class="fas fa-envelope"></i></span><span
+                      class="is-size-6">{{value.contacts[0].email}}</span>
+                    </div>
+                  </div>
+
+                  <div class="columns">
+                    <div class="column">
+                      <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">{{value.contacts[0].address}}</span>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <button type="button" class="button is-small is-info is-outlined" onclick="editContact({{value.contacts[0].id}})">Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            @end
+
+            @if(value && value.parent2Id && value.contacts[1])
+            <div class="column is-half">
+              <div class="notification">
+                <div class="columns">
+                  <div class="column">
+                    <p class="title is-5">{{value.contacts[1].name}}</p>
+                  </div>
+                </div>
+
+                <div class="columns">
+                  <div class="column">
+                    <span class="icon"><i class="fas fa-phone-alt"></i></span><span
+                    class="is-size-6">{{value.contacts[1].phone}}</span>
+                  </div>
+                </div>
+
+                <div class="columns">
+                  <div class="column">
+                    <span class="icon"><i class="fas fa-envelope"></i></span><span
+                    class="is-size-6">{{value.contacts[1].email}}</span>
+                  </div>
+                </div>
+
+                <div class="columns">
+                  <div class="column">
+                    <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">{{value.contacts[1].address}}</span>
+                  </div>
+                </div>
+
+                <div class="columns">
+                  <div class="column">
+                    <button type="button" class="button is-small is-info is-outlined" onclick="editContact({{value.contacts[1].id}})">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            @end
+          </div>
 
           <div class="columns">
             <div class="column">

@@ -25,6 +25,7 @@ WHERE c.day_of_week = :dayOfTheWeek AND s.location_id = :locationId AND (s.cours
 AND (s.full_name LIKE CONCAT('%', TRIM(:search), '%')
          OR p.name LIKE CONCAT('%', TRIM(:search), '%')
          OR p2.name LIKE CONCAT('%', TRIM(:search), '%'))
+AND DATE_FORMAT(s.created_at, '%m/%d/%Y') <= DATE_FORMAT(:date, '%m/%d/%Y')
 ORDER BY s.full_name;
 `
 }

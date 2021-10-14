@@ -103,4 +103,5 @@ Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
 | Files
 |-----------------  ---------------------------------------------------------
 */
-Route.get('/file/:studentId/:fileName', 'FilesController.index')
+Route.get('/img/:studentId/:fileName', 'FilesController.image')
+Route.get('/file/:studentId/:fileName', 'FilesController.file')

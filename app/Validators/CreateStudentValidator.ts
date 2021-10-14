@@ -33,7 +33,7 @@ export default class CreateStudentValidator {
       size: '2mb',
       extnames: ['pdf', 'doc', 'txt'],
     }),
-    photo: schema.file.optional({
+    picture: schema.file.optional({
       size: '2mb',
       extnames: ['jpeg', 'jpg', 'png'],
     }),
@@ -59,5 +59,7 @@ export default class CreateStudentValidator {
     'grade.maxLength': msg.invalid,
     'file.extname': 'Only pdf, doc and txt are allowed',
     'file.required': msg.required,
+    'picture.extname': 'Only jpeg, jpg and png are allowed',
+    'picture.required': msg.required,
   }
 }

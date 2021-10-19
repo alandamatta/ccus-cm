@@ -8,6 +8,10 @@ export default class ParentsService {
     await ParentsService.validate(ctx)
     const parent = new Parent()
     const body = ctx.request.body()
+    if (body && body.id) {
+      const updatedParent = await Parent.findOrFail(body.id)
+      return await updatedParent.merge(body, true).save()
+    }
     return await parent.fill(body, true).save()
   }
   public async setupParentsModal(ctx: HttpContextContract) {

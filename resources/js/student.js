@@ -8,18 +8,38 @@ import { ajaxGet, ajaxRequest } from './ajaxUtils'
 const studentForm = $('#saveStudentForm')
 const submitStudentMobile = $('#submitStudentMobile')
 const dateOfBirth = studentForm.find('.dateOfBirth')
-const modalId = 'parentsModal'
+const parentsModal = 'parentsModal'
 setFocusOutEventForAgeCalculationOnDOBInput()
 toastSettings()
 handleStudentFormSubmitEventToPerformAnAjaxCall()
 
-window.editContact = function (contactId) {
-  alert(contactId)
+window.cleanAll = () => {
+  studentForm.find('input').val('')
+  studentForm.find('select').val('')
+  studentForm.find('textarea').val('')
+  submitStudentMobile.find('input').val('')
+  submitStudentMobile.find('select').val('')
+  submitStudentMobile.find('textarea').val('')
+  $('.contactsSection').html('')
 }
 
-modal(modalId, function (data) {
-  const modalElement = $(`#${modalId}`)
+window.editContact = function (contact) {
+  const modalElement = $(`#${parentsModal}`)
+  const inputs = ['id', 'name', 'address', 'phone', 'email', 'locationId']
+  for (const input of inputs) {
+    modalElement.find(`#${input}`).val($(`#parent${contact}${input}`).val())
+  }
+  modalElement.addClass('is-active')
+  loadLocations()
+}
+
+modal(parentsModal, function (data) {
+  const modalElement = $(`#${parentsModal}`)
   findCorrectParentInput().val(data.id)
+  const savedParentCard = $(`.parent${data.id}card`)
+  if (savedParentCard) {
+    $(`.parent${data.id}card`).remove()
+  }
   $('.contactsSection').append(contactHTML(data))
   modalElement.removeClass('is-active')
   clearAllInputs(modalElement)
@@ -29,9 +49,7 @@ $('.pictureInput').each(function (index, element) {
   const fileInput = $(element)
   fileInput.on('change', function () {
     const input = $(this)
-    console.log(input[0])
     if (input[0] && input[0].files[0]) {
-      console.log('2')
       let reader = new FileReader()
       reader.onload = function (event) {
         $('.currentImg').attr('src', event.target.result)
@@ -42,7 +60,7 @@ $('.pictureInput').each(function (index, element) {
 })
 
 window.addContact = function () {
-  const modalElement = $(`#${modalId}`)
+  const modalElement = $(`#${parentsModal}`)
   modalElement.addClass('is-active')
   loadLocations()
 }
@@ -62,7 +80,7 @@ function includeValidationMessageIntoHelpElements(errors) {
 }
 
 function loadLocations() {
-  const select = $(`#${modalId}`).find('#locationId')
+  const select = $(`#${parentsModal}`).find('#locationId')
   ajaxGet('/parent/setup', function (data) {
     prepareSelect(select, data.locations)
   })
@@ -99,7 +117,7 @@ function studentFormSubmit(event, studentForm) {
   }
 
   const onFail = (data) => {
-    loading.removeClass('is-active')
+    studentForm.find('button').removeClass('is-loading')
     includeValidationMessageIntoHelpElements(data.responseJSON.errors)
   }
 
@@ -134,37 +152,43 @@ function setFocusOutEventForAgeCalculationOnDOBInput() {
 
 function contactHTML(contact) {
   let html = `
-    <div class="column is-half">
+    <div class="column is-half parent${contact.id}card">
+      <input type="hidden" disabled id="parent${contact.id}id" value="${contact.id}">
+      <input type="hidden" disabled id="parent${contact.id}name" value="${contact.name}">
+      <input type="hidden" disabled id="parent${contact.id}phone" value="${contact.phone}">
+      <input type="hidden" disabled id="parent${contact.id}email" value="${contact.email}">
+      <input type="hidden" disabled id="parent${contact.id}address" value="${contact.address}">
+      <input type="hidden" disabled id="parent${contact.id}locationId" value="${contact.locationId}">
       <div class="notification">
-        <div class="columns">
+        <div class="columns no-padding-bottom">
           <div class="column">
             <p class="title is-5">${contact.name}</p>
           </div>
         </div>
 
-        <div class="columns">
-          <div class="column">
+        <div class="columns no-padding-bottom no-padding-top">
+          <div class="column  no-padding-bottom">
             <span class="icon"><i class="fas fa-phone-alt"></i></span><span
             class="is-size-6">${contact.phone}</span>
           </div>
         </div>
 
-        <div class="columns">
-          <div class="column">
+        <div class="columns no-padding-bottom no-padding-top">
+          <div class="column  no-padding-bottom">
             <span class="icon"><i class="fas fa-envelope"></i></span><span
             class="is-size-6">${contact.email}</span>
           </div>
         </div>
 
-        <div class="columns">
-          <div class="column">
+        <div class="columns no-padding-bottom no-padding-top">
+          <div class="column  no-padding-bottom">
             <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">${contact.address}</span>
           </div>
         </div>
 
         <div class="columns">
           <div class="column">
-            <button type="button" class="button is-small is-info" onclick="editContact(${contact.id})">Edit</button>
+            <button type="button" class="button is-small is-info is-outlined" onclick="editContact(${contact.id})">Edit</button>
           </div>
         </div>
       </div>

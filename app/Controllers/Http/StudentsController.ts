@@ -30,7 +30,7 @@ export default class StudentsController {
       const parent1Id = selectedStudent.parent1Id || null
       const parent2Id = selectedStudent.parent2Id || null
       const result = await Database.rawQuery(
-        'select id, name, address, phone, email from parents p where id in (:id)',
+        'select id, name, address, phone, email, location_id as locationId from parents p where id in (:id)',
         {
           id: [parent1Id, parent2Id],
         }

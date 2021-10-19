@@ -22,7 +22,17 @@ export default class StudentsService {
         user.admin
       )
       if (dateExistsAndCurrentUserCanManageIt) {
+        const picture = ctx.request.file('picture')
+        const file = ctx.request.file('file')
         const student = await Student.findOrFail(body.id)
+        if (picture) {
+          // @ts-ignore
+          body.picture = await StudentsService.pictureUpload(ctx)
+        }
+        if (file) {
+          // @ts-ignore
+          body.file = await StudentsService.fileUpload(ctx)
+        }
         return await student.merge(body, true).save()
       }
       return ctx.response.redirect().back()
@@ -36,7 +46,7 @@ export default class StudentsService {
     if (user) {
       const student = new Student().fill(body, true)
       // @ts-ignore
-      student.picture = await this.pictureUpload(ctx)
+      student.picture = await StudentsService.pictureUpload(ctx)
       // @ts-ignore
       student.file = await StudentsService.fileUpload(ctx)
       student.locationId = user.locationId
@@ -44,11 +54,11 @@ export default class StudentsService {
     }
   }
 
-  private async pictureUpload(ctx: HttpContextContract) {
+  private static async pictureUpload(ctx: HttpContextContract) {
     const picture = ctx.request.file('picture')
     if (picture) {
       const tempPath = Application.tmpPath('uploads/pictures')
-      picture.clientName = StudentsService.generateFileName(picture)
+      picture.clientName = StudentsService.generateFileName(picture).replace(/\s/g, '')
       await picture.move(tempPath)
       const photoPath = StudentsService.file(tempPath, picture.clientName)
       await photoService.compressImage(photoPath)
@@ -61,7 +71,7 @@ export default class StudentsService {
     const file = ctx.request.file('file')
     if (file) {
       const tempPath = Application.tmpPath('uploads/files')
-      file.clientName = StudentsService.generateFileName(file)
+      file.clientName = StudentsService.generateFileName(file).replace(/\s/g, '')
       await file.move(tempPath)
       return file.clientName
     }
@@ -113,7 +123,7 @@ export default class StudentsService {
     return `${tmpPath}/${fileName}`
   }
 
-  private static generateFileName(photo) {
+  private static generateFileName(photo): string {
     return `${photo.clientName}_${DateTime.now().diff(DateTime.local(1900, 5, 1)).milliseconds}.${
       photo.extname
     }`

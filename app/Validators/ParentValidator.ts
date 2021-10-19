@@ -3,8 +3,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { msg } from 'App/Messages/Message'
 
 export default class ParentValidator {
-  constructor(protected ctx: HttpContextContract) {
-  }
+  constructor(protected ctx: HttpContextContract) {}
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
@@ -31,7 +30,11 @@ export default class ParentValidator {
     email: schema.string({ trim: true }, [
       rules.maxLength(255),
       rules.email(),
-      rules.unique({ table: 'parents', column: 'email' }),
+      rules.unique({
+        table: 'parents',
+        column: 'email',
+        whereNot: { id: this.ctx.request.body().id },
+      }),
     ]),
     locationId: schema.number(),
   })

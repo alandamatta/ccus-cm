@@ -84,6 +84,7 @@
         form.submit()
       })
       $('#search').on('keyup', function() {
+        $(this).parent().addClass('is-loading')
         delay(function() {
           form.submit()
         }, 500)

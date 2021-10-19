@@ -26,6 +26,7 @@ AND (s.full_name LIKE CONCAT('%', TRIM(:search), '%')
          OR p.name LIKE CONCAT('%', TRIM(:search), '%')
          OR p2.name LIKE CONCAT('%', TRIM(:search), '%'))
 AND DATE_FORMAT(s.created_at, '%m/%d/%Y') <= DATE_FORMAT(:date, '%m/%d/%Y')
+AND (s.disabled_at IS NULL OR DATE_FORMAT(:date, '%m/%d/%Y') <= DATE_FORMAT(s.disabled_at, '%m/%d/%Y'))
 ORDER BY s.full_name;
 `
 }

@@ -19,11 +19,13 @@ export default class FilesController {
     const request = ctx.request
     const { studentId } = request.params()
     const location = folderBase + request.param('fileName')
-    const student = await Student.query()
-      .where('id', studentId)
-      .andWhere('location_id', user.locationId)
+    const student = await this.findStudent(studentId, user.locationId)
     if (student && student.length > 0) {
       return ctx.response.stream(await Drive.getStream(location))
     }
+  }
+
+  private static async findStudent(studentId: number, locationId: number) {
+    return Student.query().where('id', studentId).andWhere('location_id', locationId)
   }
 }

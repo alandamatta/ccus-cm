@@ -24,6 +24,9 @@ export default class Parent extends BaseModel {
   @belongsTo(() => Location)
   public location: BelongsTo<typeof Location>
 
+  @column()
+  public locationId: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

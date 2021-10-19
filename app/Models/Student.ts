@@ -59,6 +59,9 @@ export default class Student extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+  @column.dateTime()
+  public disabledAt: DateTime
+
   public getAge(): string {
     const today = new DateTime()
     const thisYear = today.year

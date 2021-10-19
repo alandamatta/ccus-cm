@@ -5,7 +5,7 @@
 <p class="title is-3">
   Students
 </p>
-<div id="submitPatientQuickView" class="quickview is-hidden-desktop">
+<div id="submitPatientQuickView" class="quickview is-hidden-desktop {{selectedStudent && selectedStudent.id ? 'is-active' : ''}}">
   <header class="quickview-header">
     <p class="title">Create a student</p>
     <span class="delete" data-dismiss="quickview"></span>
@@ -34,6 +34,8 @@ action: '/parent/create',
 title: 'Add a contact'
 })
   @slot('content')
+  <input type="hidden" name="id" id="id">
+  <input type="hidden" name="studentId" id="studentId" value="{{selectedStudent && selectedStudent.id ? selectedStudent.id : ''}}">
   <div class="columns">
     <div class="column is-9">
       @!component('components/input2', {
@@ -105,7 +107,7 @@ title: 'Add a contact'
         <div class="column is-3-desktop is-12-tablet-only is-12-mobile">
 
           {{--element--}}
-          <div class="columns is-hidden-desktop" data-show="quickview" data-target="submitPatientQuickView">
+          <div class="columns is-hidden-desktop" data-show="quickview" data-target="submitPatientQuickView" onclick="cleanAll()">
             <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
               <div class="box notification is-info" style="padding-right: 0.3em">
                 <div class="columns is-vcentered is-mobile">
@@ -187,4 +189,15 @@ title: 'Add a contact'
     </div>
   </div>
 </div>
+@section('script')
+  <script>
+    // window.onbeforeunload = function() {
+    //
+    //   if (true) {
+    //     return 'There is unsaved data.';
+    //   }
+    //   return undefined;
+    // }
+  </script>
+@end
 @end

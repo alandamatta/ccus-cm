@@ -39,16 +39,25 @@ Route.get('/logout', 'LoginController.logout')
 | Location
 |--------------------------------------------------------------------------
 */
-Route.get('/location', 'LocationsController.index').as('location.index')
-Route.get('/location/create', 'LocationsController.indexCreate').as('location.modal.render')
-Route.post('/location/create', 'LocationsController.create').as('location.modal.post')
-Route.post('/location/create/addTempCourse', 'LocationsController.addTempCourse').as(
-  'location.modal.addTempCourse'
-)
-Route.post('/location/create/removeTempCourse/:index', 'LocationsController.removeTempCourse').as(
-  'location.modal.removeTempCourse'
-)
-Route.get('/location/search', 'LocationsController.search').as('location.search')
+Route.get('/location', 'LocationsController.index')
+  .as('location.index')
+  .middleware('adminMiddleware')
+Route.get('/location/create', 'LocationsController.indexCreate')
+  .as('location.modal.render')
+  .middleware('adminMiddleware')
+Route.post('/location/create', 'LocationsController.create')
+  .as('location.modal.post')
+  .middleware('adminMiddleware')
+Route.post('/location/create/addTempCourse', 'LocationsController.addTempCourse')
+  .as('location.modal.addTempCourse')
+  .middleware('adminMiddleware')
+Route.post('/location/create/removeTempCourse/:index', 'LocationsController.removeTempCourse')
+  .as('location.modal.removeTempCourse')
+  .middleware('adminMiddleware')
+Route.get('/location/search', 'LocationsController.search')
+  .as('location.search')
+  .middleware('adminMiddleware')
+Route.get('/location/:id', 'LocationsController.find').middleware('adminMiddleware')
 
 /*
 |--------------------------------------------------------------------------
@@ -65,9 +74,11 @@ Route.get('/course/:id', 'CoursesController.find').as('course.find')
 | User
 |--------------------------------------------------------------------------
 */
-Route.get('/user', 'UsersController.index')
-Route.get('/user/create', 'UsersController.indexCreate')
-Route.post('/user/create', 'UsersController.create')
+Route.get('/user', 'UsersController.index').middleware('adminMiddleware')
+Route.get('/user/create', 'UsersController.indexCreate').middleware('adminMiddleware')
+Route.post('/user/create', 'UsersController.create').middleware('adminMiddleware')
+Route.get('/user/:id', 'UsersController.find').middleware('adminMiddleware')
+Route.get('/user/delete/:id', 'UsersController.delete').middleware('adminMiddleware')
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +106,7 @@ Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init
 Route.post('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.search')
 Route.post('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.mainPage.checkIn')
 Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
-  'timesheet.mainPage.checkIn.cancel'
+  'timesheet.mainPage.checkIn.cancel',
 )
 
 /*

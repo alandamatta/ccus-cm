@@ -34,7 +34,7 @@
     </div>
 
     <div class="columns">
-      <div class="column">
+      <div class="column is-half">
         @!component('components/select', {
           id: 'dayOfWeek',
           name: 'dayOfWeek',
@@ -44,19 +44,6 @@
           values: daysOfTheWeek,
           keyName: 'dayOfWeek',
           value: day_of_week,
-        })
-      </div>
-
-      <div class="column">
-        @!component('components/select', {
-          id: 'locationId',
-          name: 'locationId',
-          label: 'Location',
-          values: locations,
-          valueKey: 'value',
-          labelKey: 'label',
-          keyName: 'locationId',
-          value: location_id,
         })
       </div>
     </div>

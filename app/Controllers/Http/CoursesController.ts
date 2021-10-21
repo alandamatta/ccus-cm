@@ -26,9 +26,9 @@ export default class CoursesController {
   }
   public async search(ctx: HttpContextContract) {
     const auth = ctx.auth
-    await auth.use('web').authenticate()
+    const user = await auth.use('web').authenticate()
     const { search } = ctx.request.qs()
-    const courses = await coursesService.search(search)
+    const courses = await coursesService.search(search, user.locationId)
     return await ctx.view.render('course', { search, courses })
   }
   public async find(ctx: HttpContextContract) {

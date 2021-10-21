@@ -17,7 +17,8 @@
               id: 'name',
               name: 'name',
               label: 'Full name',
-              keyName: 'name'
+              keyName: 'name',
+              value: user? user.name : ''
             })
           </div>
         </div>
@@ -29,7 +30,7 @@
               name: 'email',
               label: 'Email',
               keyName: 'email',
-              value: email
+              value: user ? user.email : '',
             })
           </div>
 
@@ -39,7 +40,7 @@
               name: 'phone',
               label: 'Phone',
               keyName: 'phone',
-              value: phone
+              value: user ? user.phone : ''
             })
           </div>
         </div>
@@ -51,7 +52,6 @@
               name: 'password',
               label: 'Password',
               keyName: 'password',
-              value: password,
               type: 'password',
             })
           </div>
@@ -62,7 +62,6 @@
               name: 'confirmPassword',
               label: 'Confirm password',
               keyName: 'confirmPassword',
-              value: confirmPassword,
               type: 'password',
             })
           </div>
@@ -74,7 +73,7 @@
               name: 'locationId',
               label: 'Location',
               keyName: 'locationId',
-              value: locationId,
+              value: user ? user.locationId : -1,
               values: locations,
               valueKey: 'value',
               labelKey: 'label',
@@ -94,8 +93,8 @@
     <div class="column">
       @!component('components/datatable', {
         sessionListName: 'users',
-        columnKeys: ['name', 'email', 'phone', 'admin'],
-        columnNames: ['Name', 'Email', 'Phone', 'Is Admin'],
+        columnKeys: ['name', 'email', 'phone', 'location', 'userType'],
+        columnNames: ['Name', 'Email', 'Phone', 'Location', 'User Type'],
         value: users,
         searchPath: '/user',
         editPath: '/user/'
@@ -104,7 +103,6 @@
   </div>
 
   @section('script')
-    @entryPointScripts('app')
     <script>
 
     </script>

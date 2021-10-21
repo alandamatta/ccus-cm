@@ -20,6 +20,7 @@
           label: 'Location Name',
           name: 'name',
           keyName: 'name',
+          value: location ? location.name : ''
           })
         </div>
       </div>
@@ -31,6 +32,7 @@
           label: 'City',
           name: 'city',
           keyName: 'city',
+          value: location ? location.city : ''
           })
         </div>
 
@@ -43,6 +45,7 @@
           labelKey: 'name',
           values: states,
           keyName: 'state',
+          value: location ? location.state : ''
           })
         </div>
 
@@ -52,6 +55,7 @@
           label: 'ZIP',
           name: 'zip',
           keyName: 'zip',
+          value: location? location.zip : ''
           })
         </div>
       </div>

@@ -36,7 +36,6 @@ export default class ParentValidator {
         whereNot: { id: this.ctx.request.body().id },
       }),
     ]),
-    locationId: schema.number(),
   })
 
   /**

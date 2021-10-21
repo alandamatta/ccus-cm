@@ -43,8 +43,6 @@ const delayKeyUp = (() => {
   return delay
 })()
 
-window.delay = delayKeyUp
-
 $('.search').on('keyup', function () {
   const element = $(this)
   const form = $(element.closest('form'))
@@ -53,6 +51,11 @@ $('.search').on('keyup', function () {
   }, 500)
 })
 
+$('.datatableDelete').on('click', function () {
+  return confirm('Are you sure?')
+})
+
+window.delay = delayKeyUp
 window.ajaxSaveStudent = () => {}
 window.$ = $
 window.toast = toast

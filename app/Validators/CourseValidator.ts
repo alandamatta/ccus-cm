@@ -24,9 +24,8 @@ export default class CourseValidator {
    *    ```
    */
   public schema = schema.create({
-    name: schema.string({ trim: true }, [rules.maxLength(60), rules.alpha({ allow: ['space'] })]),
+    name: schema.string({ trim: true }, [rules.maxLength(60)]),
     time: schema.date({ format: 'HH:mm' }),
-    locationId: schema.number(),
     dayOfWeek: schema.string({ trim: true }),
   })
 

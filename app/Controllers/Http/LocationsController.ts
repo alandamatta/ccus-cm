@@ -81,4 +81,21 @@ export default class LocationsController {
     }
     session.flash('tempCourses', tempCourses)
   }
+  public async find(ctx: HttpContextContract) {
+    await ctx.auth.use('web').authenticate()
+    const params = ctx.request.params()
+    const locationId = params.id
+    const location = await Location.findBy('id', locationId)
+    const locationList = await locationService.search(EMPTY)
+    const daysOfTheWeek = DaysOfTheWeek
+    const states = UnitedStatesStates
+    return await ctx.view.render('location', {
+      showModal: 'is-active',
+      ...ctx.request.qs(),
+      locationList,
+      location,
+      daysOfTheWeek,
+      states,
+    })
+  }
 }

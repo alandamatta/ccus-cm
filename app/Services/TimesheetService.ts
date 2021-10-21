@@ -82,7 +82,7 @@ export default class TimesheetService {
     const studentId = body.studentId || -1
     const updateCheckIn = body.checkIn === '1' && body.checkInRef && body.checkInRef > 0
     const updateCheckOut = body.checkIn === '0' && body.checkOutRef && body.checkOutRef > 0
-    const time = this.stringCheckInTimeToDateTimeCheckInTime(body.time)
+    const time = TimesheetService.stringCheckInTimeToDateTimeCheckInTime(body.time)
     if (updateCheckIn) {
       await this.update(body.checkInRef, locationId, studentId, time)
     } else if (updateCheckOut) {
@@ -94,7 +94,7 @@ export default class TimesheetService {
 
   private async save(ctx: HttpContextContract) {
     const body = ctx.request.body()
-    body.time = this.stringCheckInTimeToDateTimeCheckInTime(body.time)
+    body.time = TimesheetService.stringCheckInTimeToDateTimeCheckInTime(body.time)
     const attendance = new Attendance()
     attendance.fill(body, true)
     return attendance.save()
@@ -140,7 +140,7 @@ export default class TimesheetService {
     return TimesheetService.formatToDateTime(date)
   }
 
-  private stringCheckInTimeToDateTimeCheckInTime(dateString) {
+  private static stringCheckInTimeToDateTimeCheckInTime(dateString) {
     return DateTime.fromFormat(dateString, 'yyyy-MM-dd HH:mm')
   }
 

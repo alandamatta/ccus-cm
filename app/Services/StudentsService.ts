@@ -26,6 +26,7 @@ export default class StudentsService {
         const file = ctx.request.file('file')
         this.handleParentFlow(body)
         const student = await Student.findOrFail(body.id)
+        student.locationId = user.locationId
         if (picture) {
           // @ts-ignore
           body.picture = await StudentsService.pictureUpload(ctx)
@@ -47,6 +48,7 @@ export default class StudentsService {
     if (user) {
       this.handleParentFlow(body)
       const student = new Student().fill(body, true)
+      student.locationId = user.locationId
       // @ts-ignore
       student.picture = await StudentsService.pictureUpload(ctx)
       // @ts-ignore

@@ -2,6 +2,7 @@ import Location from 'App/Models/Location'
 import Course from 'App/Models/Course'
 import Logger from '@ioc:Adonis/Core/Logger'
 import Database from '@ioc:Adonis/Lucid/Database'
+import LocationList from 'App/Queries/LocationList'
 
 export default class LocationsService {
   public async create(requestBody: any) {
@@ -17,7 +18,7 @@ export default class LocationsService {
   }
   public async search(search) {
     search = `%${search}%`
-    const result = await Database.rawQuery('select * from locations where name like ?', [search])
+    const result = await Database.rawQuery(LocationList(), [search])
     return result[0]
   }
 }

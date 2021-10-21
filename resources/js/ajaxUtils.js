@@ -8,7 +8,6 @@ function handleAjaxFormSubmit(form, onDone, onFail) {
   $.post(form.attr('action'), formData)
     .done((data) => {
       onDone ? onDone(data) : false
-      infoToast('Data saved successfully!')
     })
     .fail((data) => {
       onFail ? onFail(data) : false

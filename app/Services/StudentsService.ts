@@ -24,6 +24,7 @@ export default class StudentsService {
       if (dateExistsAndCurrentUserCanManageIt) {
         const picture = ctx.request.file('picture')
         const file = ctx.request.file('file')
+        this.handleParentFlow(body)
         const student = await Student.findOrFail(body.id)
         if (picture) {
           // @ts-ignore
@@ -44,6 +45,7 @@ export default class StudentsService {
     const body = ctx.request.body()
     const user = ctx.auth.use('web').user
     if (user) {
+      this.handleParentFlow(body)
       const student = new Student().fill(body, true)
       // @ts-ignore
       student.picture = await StudentsService.pictureUpload(ctx)
@@ -127,5 +129,18 @@ export default class StudentsService {
     return `${photo.clientName}_${DateTime.now().diff(DateTime.local(1900, 5, 1)).milliseconds}.${
       photo.extname
     }`
+  }
+
+  private handleParentFlow(body) {
+    if (Array.isArray(body.parent)) {
+      body.parent1Id = body.parent[0]
+      body.parent2Id = body.parent[1]
+    } else if (body.parent && body.parent1Id) {
+      body.parent2Id = body.parent
+    } else if (body.parent && body.parent2Id) {
+      body.parent1Id = body.parent
+    } else if (body.parent && !body.parent2Id && !body.parent2Id) {
+      body.parent1Id = body.parent
+    }
   }
 }

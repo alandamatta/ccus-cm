@@ -35,12 +35,15 @@ window.editContact = function (contact) {
 
 modal(parentsModal, function (data) {
   const modalElement = $(`#${parentsModal}`)
-  findCorrectParentInput().val(data.id)
-  const savedParentCard = $(`.parent${data.id}card`)
-  if (savedParentCard) {
-    $(`.parent${data.id}card`).remove()
+  const clazz = `.parent${data.id}card`
+  $(clazz).val(data.id)
+  const parentName = findCorrectParentInput()
+  const card = $(`.parent${data.id}card`)
+  if (card.val()) {
+    card.replaceWith(contactHTML(data, false))
+  } else {
+    $('.contactsSection').append(contactHTML(data, true))
   }
-  $('.contactsSection').append(contactHTML(data))
   modalElement.removeClass('is-active')
   clearAllInputs(modalElement)
 })
@@ -69,9 +72,9 @@ function findCorrectParentInput() {
   const parent1 = $('.parent1')
   const parent2 = $('.parent2')
   if (parent1 && parent1.val() && parent1.val() > 0) {
-    return parent2
+    return 'parent2'
   }
-  return parent1
+  return 'parent1'
 }
 
 function includeValidationMessageIntoHelpElements(errors) {
@@ -150,9 +153,10 @@ function setFocusOutEventForAgeCalculationOnDOBInput() {
   })
 }
 
-function contactHTML(contact) {
+function contactHTML(contact, newContact) {
   let html = `
-    <div class="column is-half parent${contact.id}card">
+    <div class="column is-half parent${contact.id}card parentContactCard" ${newContact ? "attr-new='true'" : ""}">
+      <input type="hidden" name="parent" value="${contact.id}">
       <input type="hidden" disabled id="parent${contact.id}id" value="${contact.id}">
       <input type="hidden" disabled id="parent${contact.id}name" value="${contact.name}">
       <input type="hidden" disabled id="parent${contact.id}phone" value="${contact.phone}">

@@ -191,13 +191,21 @@ title: 'Add a contact'
 </div>
 @section('script')
   <script>
-    // window.onbeforeunload = function() {
-    //
-    //   if (true) {
-    //     return 'There is unsaved data.';
-    //   }
-    //   return undefined;
-    // }
+    window.onbeforeunload = function(event) {
+      let flag = false
+      console.log($(event.srcElement.activeElement))
+      if($(event.srcElement.activeElement).prop('tagName') != 'BUTTON') {
+        $('.parentContactCard').each(function(){
+          if ($(this).attr('attr-new')) {
+            flag = true
+          }
+        })
+      }
+      if (flag) {
+        return "You have unsaved data (contact). If you proceed, all the updated data will be lost."
+      }
+      return undefined;
+    }
   </script>
 @end
 @end

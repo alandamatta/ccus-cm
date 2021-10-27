@@ -80,10 +80,12 @@
             })
           </div>
           <div class="column is-align-self-flex-end">
-            <label class="checkbox">
-              <input type="checkbox" name="admin" value="1">
-              Admin
-            </label>
+            @!switch({
+              id: 'admin',
+              name: 'admin',
+              value: user && user.admin,
+              label: 'Admin'
+            })
           </div>
         </div>
     @end

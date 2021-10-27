@@ -58,6 +58,7 @@ Route.get('/location/search', 'LocationsController.search')
   .as('location.search')
   .middleware('adminMiddleware')
 Route.get('/location/:id', 'LocationsController.find').middleware('adminMiddleware')
+Route.get('/location/:id/delete', 'LocationsController.delete').middleware('adminMiddleware')
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,7 @@ Route.get('/course/create', 'CoursesController.indexCreate').as('course.modal.re
 Route.post('/course/create', 'CoursesController.create').as('course.modal.post')
 Route.get('/course/search', 'CoursesController.search').as('course.search')
 Route.get('/course/:id', 'CoursesController.find').as('course.find')
+Route.get('/course/:id/delete', 'CoursesController.delete').as('course.delete')
 /*
 |--------------------------------------------------------------------------
 | User
@@ -78,7 +80,7 @@ Route.get('/user', 'UsersController.index').middleware('adminMiddleware')
 Route.get('/user/create', 'UsersController.indexCreate').middleware('adminMiddleware')
 Route.post('/user/create', 'UsersController.create').middleware('adminMiddleware')
 Route.get('/user/:id', 'UsersController.find').middleware('adminMiddleware')
-Route.get('/user/delete/:id', 'UsersController.delete').middleware('adminMiddleware')
+Route.get('/user/:id/delete', 'UsersController.delete').middleware('adminMiddleware')
 
 /*
 |--------------------------------------------------------------------------

@@ -98,4 +98,14 @@ export default class LocationsController {
       states,
     })
   }
+  public async delete(ctx: HttpContextContract) {
+    await ctx.auth.use('web').authenticate()
+    const params = ctx.request.params()
+    const locationId = params.id
+    const dependents = await locationService.checkForLocationDependents(locationId)
+    if (dependents && dependents.length > 0) {
+      return await ctx.view.render('location', { dependents })
+    }
+    return await ctx.response.redirect().toRoute('/location')
+  }
 }

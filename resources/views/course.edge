@@ -47,6 +47,18 @@
         })
       </div>
     </div>
+
+    <div class="columns">
+      <div class="column">
+        @!switch({
+          value: false,
+          name: 'disabled',
+          id: 'disabled',
+          label: 'Disabled'
+        })
+      </div>
+    </div>
+
     @!component('components/infos', { info: flashMessages.get('infoModal') })
     @end
   @end
@@ -61,6 +73,43 @@
         search,
         editPath: '/course/'
       })
+    </div>
+  </div>
+
+  <div class="modal {{dependents && dependents.length > 0 ? 'is-active' : ''}}" id="locationDependents">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="overflow: auto;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Warning</p>
+        <a type="button" class="delete close" aria-label="close" href="/course"></a>
+      </header>
+      <section class="modal-card-body">
+        <div class="columns">
+          <div class="column">
+            <div class="content has-text-weight-bold">
+              <p>You cannot delete this course. Students are enrolled:</p>
+            </div>
+          </div>
+        </div>
+        @each(dependent in dependents)
+        <div class="columns">
+          <div class="column">
+            <div class="box closer-box no-padding-bottom">
+              <div class="columns is-vcentered">
+                <div class="column is-8">
+                  <div class="content">
+                    <p>{{dependent.description}}</p>
+                  </div>
+                </div>
+                <div class="column">
+                  <a href="{{dependent.url}}" class="button is-link is-outlined">{{dependent.label}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @end
+      </section>
     </div>
   </div>
 

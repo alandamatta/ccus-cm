@@ -3,7 +3,7 @@
 <div class="field">
   <label for="{{id}}" class="label">{{label}}</label>
   <div class="control">
-    @if(!values || values.length <= 0 || disabled)
+    @if(!values || values.length <= 0)
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" name="{{name}}" disabled>
         <option selected>No data found</option>
@@ -11,7 +11,7 @@
     </div>
     @else
     <div class="select is-fullwidth {{classes}}">
-      <select id="{{id}}" name="{{name}}">
+      <select id="{{id}}" name="{{name}}" {{disabled ? 'disabled' : ''}}>
         @set('hasDefault', false)
         @each(element in values)
           @if((element[valueKey] === flashMessages.get(name, '') || element.default || element[valueKey] == value))

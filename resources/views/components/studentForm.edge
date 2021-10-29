@@ -50,6 +50,15 @@
                 </div>
               </div>
             </div>
+            <div class="column is-align-self-center is-4">
+              @!component('components/input2', {
+                id: 'createdAt',
+                value: value? value.createdAt : '',
+                name: 'createdAt',
+                label: 'Start date',
+                type: 'date'
+              })
+            </div>
           </div>
           <div class="columns">
             <div class="column is-8">
@@ -273,7 +282,11 @@
             <div class="column">
               <button class="button is-success saveButton" type="submit">Save</button>
               @if(value && value.id)
-                <button class="button is-danger is-light" type="button">Remove</button>
+                @if (value.disabledAt)
+                  <a class="button is-success is-light" type="button" href="/student/{{value.id}}/reactivate">Reactivate</a>
+                @else
+                  <a class="button is-danger is-light" type="button" href="/student/{{value.id}}/inactivate">Inactivate</a>
+                @end
               @end
             </div>
           </div>

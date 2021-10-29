@@ -104,6 +104,14 @@ export default class StudentsService {
     return result[0][0]
   }
 
+  public inactivateById(id: number) {
+    return Database.rawQuery('UPDATE students SET disabled_at = NOW() WHERE id = :id', { id })
+  }
+
+  public reactivateById(id: number) {
+    return Database.rawQuery('UPDATE students SET disabled_at = NULL WHERE id = :id', { id })
+  }
+
   public static grades() {
     return [
       { value: 'PK', label: 'PK' },

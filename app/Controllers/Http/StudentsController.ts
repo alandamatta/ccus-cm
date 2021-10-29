@@ -38,6 +38,16 @@ export default class StudentsController {
       contacts = result[0]
       selectedStudent.contacts = contacts
     }
-    return await ctx.view.render('student', { ...defaultViewProps, selectedStudent })
+    return ctx.view.render('student', { ...defaultViewProps, selectedStudent })
+  }
+  public async inactivate(ctx: HttpContextContract) {
+    const { id } = ctx.request.params()
+    await studentsService.inactivateById(id)
+    return ctx.response.redirect().back()
+  }
+  public async reactivate(ctx: HttpContextContract) {
+    const { id } = ctx.request.params()
+    await studentsService.reactivateById(id)
+    return ctx.response.redirect().back()
   }
 }

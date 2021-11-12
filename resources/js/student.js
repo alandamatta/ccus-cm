@@ -184,12 +184,6 @@ function contactHTML(contact, newContact) {
           </div>
         </div>
 
-        <div class="columns no-padding-bottom no-padding-top">
-          <div class="column  no-padding-bottom">
-            <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">${contact.address}</span>
-          </div>
-        </div>
-
         <div class="columns">
           <div class="column">
             <button type="button" class="button is-small is-info is-outlined" onclick="editContact(${contact.id})">Edit</button>

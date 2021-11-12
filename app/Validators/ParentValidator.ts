@@ -25,7 +25,6 @@ export default class ParentValidator {
    */
   public schema = schema.create({
     name: schema.string({ trim: true }, [rules.maxLength(60)]),
-    address: schema.string({ trim: true }, [rules.maxLength(80)]),
     phone: schema.number(),
     email: schema.string({ trim: true }, [
       rules.maxLength(255),
@@ -51,8 +50,8 @@ export default class ParentValidator {
    */
   public messages = {
     'name.required': msg.required,
-    'address.required': msg.required,
-    'address.maxLength': msg.max60Char,
+    // 'address.required': msg.required,
+    // 'address.maxLength': msg.max60Char,
     'phone.required': msg.required,
     'phone.maxLength': msg.invalid,
     'phone.number': msg.invalid,

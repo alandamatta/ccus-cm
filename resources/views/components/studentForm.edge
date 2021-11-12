@@ -57,7 +57,6 @@
                                   Choose a picture
                                 </span>
                               @end
-
                             </span>
                           </label>
                         </div>
@@ -68,25 +67,25 @@
                 </div>
               </div>
             </div>
-            <div class="column is-align-self-center is-4">
-              @!component('components/input2', {
-                id: 'createdAt',
-                value: value? value.createdAt : '',
-                name: 'createdAt',
-                label: 'Start date',
-                type: 'date',
-                disabled: value && value.disabledAt
-              })
-            </div>
           </div>
-          <div class="columns">
-            <div class="column is-8">
+          <div class="columns is-desktop">
+            <div class="column is-6">
               @!component('components/input2', {
               id: 'fullName',
               name: 'fullName',
               classes: '',
               label: 'Name',
               value: value ? value.fullName : '',
+              disabled: value && value.disabledAt
+              })
+            </div>
+            <div class="column">
+              @!component('components/input2', {
+              id: 'createdAt',
+              value: value? value.createdAt : new Date().toJSON().split('T')[0],
+              name: 'createdAt',
+              label: 'Start date',
+              type: 'date',
               disabled: value && value.disabledAt
               })
             </div>
@@ -177,6 +176,7 @@
               <p class="help is-danger" id="file-help"></p>
             </div>
           </div>
+
           @if(value && value.file)
           <div class="columns no-padding-top">
             <div class="column no-padding-top">
@@ -237,11 +237,6 @@
                     </div>
                   </div>
 
-                  <div class="columns no-padding-bottom no-padding-top">
-                    <div class="column no-padding-bottom">
-                      <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">{{value.contacts[0].address}}</span>
-                    </div>
-                  </div>
                   <div class="columns">
                     <div class="column">
                       <button type="button" class="button is-small is-info is-outlined" onclick="editContact({{value.contacts[0].id}})">Edit</button>
@@ -278,12 +273,6 @@
                   <div class="column  no-padding-bottom">
                     <span class="icon"><i class="fas fa-envelope"></i></span><span
                     class="is-size-6">{{value.contacts[1].email}}</span>
-                  </div>
-                </div>
-
-                <div class="columns no-padding-bottom no-padding-top">
-                  <div class="column  no-padding-bottom">
-                    <span class="icon"><i class="fas fa-map-marker-alt"></i></span><span class="is-size-6">{{value.contacts[1].address}}</span>
                   </div>
                 </div>
 

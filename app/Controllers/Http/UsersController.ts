@@ -27,6 +27,7 @@ export default class UsersController {
     const user = new User()
     const body = ctx.request.body()
     delete body.confirmPassword
+    body.admin = body.admin.toString().toLowerCase() === 'on'
     await user.fill(body, true).save()
     return ctx.response.redirect('/user')
   }

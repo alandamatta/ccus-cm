@@ -44,7 +44,7 @@ else
   echo "Prerequesites were met :)"
 fi
 echo "################"
-hide_output=$(npm install)
+hide_output=$(npm install --no-optional)
 echo "node version:"
 node --version
 echo "################"

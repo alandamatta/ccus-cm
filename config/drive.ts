@@ -53,7 +53,7 @@ const driveConfig: DriveConfig = {
       | files.
       |
       */
-      root: Application.tmpPath('uploads'),
+      root: Env.get('UPLOAD_ROOT'),
 
       /*
       |--------------------------------------------------------------------------

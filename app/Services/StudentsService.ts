@@ -2,11 +2,11 @@ import Student from '../Models/Student'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import CreateStudentValidator from 'App/Validators/CreateStudentValidator'
 import Course from 'App/Models/Course'
-import Application from '@ioc:Adonis/Core/Application'
 import { DateTime } from 'luxon'
 import PhotoService from 'App/Services/PhotoService'
 import StudentByIdAndLocation from 'App/Queries/StudentByIdAndLocation'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Env from '@ioc:Adonis/Core/Env'
 
 const photoService = new PhotoService()
 
@@ -61,9 +61,9 @@ export default class StudentsService {
   private static async pictureUpload(ctx: HttpContextContract) {
     const picture = ctx.request.file('picture')
     if (picture) {
-      const tempPath = Application.tmpPath('uploads/pictures')
+      const tempPath = Env.get('UPLOAD_ROOT') + '/pictures'
       picture.clientName = StudentsService.generateFileName(picture).replace(/\s/g, '')
-      await picture.move(tempPath)
+      await picture.moveToDisk(tempPath, { name: picture.clientName })
       const photoPath = StudentsService.file(tempPath, picture.clientName)
       await photoService.compressImage(photoPath)
       return picture.clientName
@@ -74,9 +74,9 @@ export default class StudentsService {
   private static async fileUpload(ctx: HttpContextContract) {
     const file = ctx.request.file('file')
     if (file) {
-      const tempPath = Application.tmpPath('uploads/files')
+      const tempPath = Env.get('UPLOAD_ROOT') + '/files'
       file.clientName = StudentsService.generateFileName(file).replace(/\s/g, '')
-      await file.move(tempPath)
+      await file.moveToDisk(tempPath, { name: file.clientName })
       return file.clientName
     }
     return null

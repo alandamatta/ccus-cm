@@ -28,6 +28,9 @@ export default class User extends BaseModel {
   @column()
   public admin: boolean
 
+  @column()
+  public key: string
+
   @belongsTo(() => Location)
   public location: BelongsTo<typeof Location>
 

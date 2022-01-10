@@ -30,7 +30,7 @@ Route.get('/', async ({ auth, response }) => {
 | Auth
 |--------------------------------------------------------------------------
 */
-Route.get('/login', 'LoginController.index')
+Route.get('/login', 'LoginController.index').as('login')
 Route.post('/login', 'LoginController.login')
 Route.get('/logout', 'LoginController.logout')
 
@@ -110,7 +110,7 @@ Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init
 Route.post('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.search')
 Route.post('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.mainPage.checkIn')
 Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
-  'timesheet.mainPage.checkIn.cancel',
+  'timesheet.mainPage.checkIn.cancel'
 )
 
 /*
@@ -120,3 +120,10 @@ Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
 */
 Route.get('/img/:studentId/:fileName', 'FilesController.image')
 Route.get('/file/:studentId/:fileName', 'FilesController.file')
+/*
+|--------------------------------------------------------------------------
+| User Activation
+|--------------------------------------------------------------------------
+*/
+Route.get('/activate/:key', 'UserActivationController.index')
+Route.post('/activate/:key', 'UserActivationController.create')

@@ -5,6 +5,7 @@ import Location from 'App/Models/Location'
 import UsersService from 'App/Services/UsersService'
 
 const userService = new UsersService()
+const emailService = new EmailService()
 
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
@@ -27,7 +28,9 @@ export default class UsersController {
     const user = new User()
     const body = ctx.request.body()
     delete body.confirmPassword
+    body.password = randomUUID()
     body.admin = !!body.admin
+    body.key = randomUUID()
     await user.fill(body, true).save()
     return ctx.response.redirect('/user')
   }

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://kit.fontawesome.com/1fe4c8b08c.js" crossorigin="anonymous"></script>
+  <title>CCUS-CM | Password Creation</title>
+  @entryPointStyles('app')
+</head>
+<body>
+<div class="container">
+  <div class="columns">
+    <div class="column is-one-third is-offset-one-third">
+      <form action="/activate/{{key}}" method="post" class="box" style="margin-top: 45%" id="loginForm">
+        <input type="hidden" name="today" id="today">
+        <p class="title is-3">
+          Create your password
+        </p>
+        @!input({
+          id: 'key',
+          label: '',
+          name: 'key',
+          type: 'hidden',
+          keyName: 'key',
+          value: key || ''
+        })
+        <div class="columns">
+          <div class="column">
+            @!input({
+            id: 'email',
+            name: 'email',
+            label: 'Email',
+            type: 'text',
+            keyName: 'email'
+            })
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            @!input({
+              id: 'password',
+              name: 'password',
+              label: 'Password',
+              type: 'password',
+              keyName: 'password'
+            })
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            @!input({
+              id: 'confirmPassword',
+              name: 'confirmPassword',
+              label: 'Confirm Password',
+              type: 'password',
+              keyName: 'confirmPassword'
+            })
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <button class="button is-success is-fullwidth" id="login" type="submit">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('login').addEventListener('click', function(event) {
+      event.preventDefault()
+      const rawToday = new Date()
+      const day = rawToday.getDate().toString().padStart(2, '0')
+      const month = (rawToday.getMonth() + 1).toString().padStart(2, '0')
+      const year = rawToday.getFullYear().toString()
+      document.getElementById('today').value = year+'-'+month+'-'+day
+      document.getElementById('loginForm').submit()
+    })
+  })
+</script>
+</body>
+</html>

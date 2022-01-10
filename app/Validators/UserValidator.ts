@@ -28,11 +28,13 @@ export default class UserValidator {
     name: schema.string({ trim: true }, [rules.maxLength(60), rules.alpha({ allow: ['space'] })]),
     email: schema.string({ trim: true }, [
       rules.email(),
-      rules.unique({ table: 'users', column: 'email' }),
+      rules.unique({
+        table: 'users',
+        column: 'email',
+        whereNot: { email: this.ctx.request.body().email },
+      }),
     ]),
     phone: schema.string(),
-    password: schema.string({}, [rules.confirmed('confirmPassword')]),
-    confirmPassword: schema.string(),
     locationId: schema.number(),
   })
 
@@ -54,10 +56,6 @@ export default class UserValidator {
     'email.required': msg.required,
     'email.email': msg.invalid,
     'email.unique': msg.notUnique,
-    'password.confirmed': msg.passwordsDontMatch,
-    'password.required': msg.required,
-    'confirmPassword.required': msg.required,
-    'confirmPassword.confirmed': msg.passwordsDontMatch,
     'phone.required': msg.required,
     'locationId.required': msg.required,
   }

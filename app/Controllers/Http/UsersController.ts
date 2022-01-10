@@ -3,6 +3,8 @@ import User from 'App/Models/User'
 import UserValidator from 'App/Validators/UserValidator'
 import Location from 'App/Models/Location'
 import UsersService from 'App/Services/UsersService'
+import EmailService from 'App/Services/EmailService'
+import { randomUUID } from 'crypto'
 
 const userService = new UsersService()
 const emailService = new EmailService()
@@ -32,6 +34,7 @@ export default class UsersController {
     body.admin = !!body.admin
     body.key = randomUUID()
     await user.fill(body, true).save()
+    await emailService.sendUserActivation(user)
     return ctx.response.redirect('/user')
   }
   public async find(ctx: HttpContextContract) {

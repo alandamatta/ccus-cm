@@ -4,7 +4,7 @@ import UserValidator from 'App/Validators/UserValidator'
 import Location from 'App/Models/Location'
 import UsersService from 'App/Services/UsersService'
 import EmailService from 'App/Services/EmailService'
-import { randomUUID } from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 
 const userService = new UsersService()
 const emailService = new EmailService()
@@ -35,8 +35,8 @@ export default class UsersController {
       const updatedUser = await User.findOrFail(body.id)
       await updatedUser.merge(body, true).save()
     } else {
-      body.password = randomUUID()
-      body.key = randomUUID()
+      body.password = uuidv4()
+      body.key = uuidv4()
       const user = new User()
       await user.fill(body, true).save()
       await emailService.sendUserActivation(user)

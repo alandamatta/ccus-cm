@@ -37,6 +37,7 @@ export default class UsersController {
     } else {
       body.password = uuidv4()
       body.key = uuidv4()
+      delete body.id
       const user = new User()
       await user.fill(body, true).save()
       await emailService.sendUserActivation(user)

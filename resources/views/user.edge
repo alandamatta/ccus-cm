@@ -11,6 +11,7 @@
     dialogButtonLabel: 'Add new user'
   })
     @slot('content')
+        <input type="hidden" name="id" value="{{(flashMessages.get('id', id) || null)}}">
         <div class="columns is-flex">
           <div class="column is-8">
             @!input({

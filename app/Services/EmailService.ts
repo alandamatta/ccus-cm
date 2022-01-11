@@ -2,7 +2,7 @@ import Mail from '@ioc:Adonis/Addons/Mail'
 import User from 'App/Models/User'
 import Env from '@ioc:Adonis/Core/Env'
 
-const NOTIFIATION_MESSAGE = 'Christian Congregation in the US - CCUSCM app Notification'
+const NOTIFICATION_MESSAGE = 'Christian Congregation in the US - CCUSCM app Notification'
 
 export default class EmailService {
   public sendUserActivation(user: User) {
@@ -15,7 +15,7 @@ export default class EmailService {
       },
       name: 'emails/create_account',
     }
-    return this.send(user.email, NOTIFIATION_MESSAGE, view)
+    return this.send(user.email, NOTIFICATION_MESSAGE, view)
   }
   public send(email: string, subject: string, view: any) {
     return Mail.use('smtp').send((message) => {

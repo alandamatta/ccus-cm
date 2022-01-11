@@ -31,7 +31,7 @@ export default class UserValidator {
       rules.unique({
         table: 'users',
         column: 'email',
-        whereNot: { email: this.ctx.request.body().email },
+        whereNot: { id: this.ctx.request.body().id || null },
       }),
     ]),
     phone: schema.string(),

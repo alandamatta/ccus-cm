@@ -1,5 +1,6 @@
 node_modules
 build
+buid/*
 coverage
 .vscode
 .DS_STORE
@@ -7,3 +8,4 @@ coverage
 tmp
 .idea
 build.tgz
+

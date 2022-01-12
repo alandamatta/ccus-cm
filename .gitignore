@@ -8,4 +8,5 @@ coverage
 tmp
 .idea
 build.tgz
+public/assets
 

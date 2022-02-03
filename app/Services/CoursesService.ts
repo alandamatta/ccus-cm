@@ -9,6 +9,11 @@ import CourseDependentsCheck from 'App/Queries/CourseDependentsCheck'
 import DeleteCourseByIdAndLocationId from 'App/Queries/DeleteCourseByIdAndLocationId'
 import User from 'App/Models/User'
 import LocationByIdWhenUserHaveAccess from 'App/Queries/LocationByIdWhenUserHaveAccess'
+import FindCoursesByLoationId from 'App/Queries/FindCoursesByLoationId'
+import GetLocationsForUser from 'App/Queries/GetLocationsForUser'
+import StudentsService from 'App/Services/StudentsService'
+
+const studentsService = new StudentsService()
 
 export default class CoursesService {
   public async create(ctx: HttpContextContract) {
@@ -17,7 +22,7 @@ export default class CoursesService {
     let body = ctx.request.body()
     if (body.id && body.id > 0) {
       const course = await Course.findOrFail(body.id)
-      course.locationId = user.locationId
+      course.locationId = user.admin ? user.locationId : course.locationId
       return await course.merge(body, true).save()
     }
     body.id = null
@@ -25,27 +30,32 @@ export default class CoursesService {
     body.locationId = user.locationId
     return await course.fill(body, true).save()
   }
-  public async deleteByIdAndLocationId(courseId: number, locationId: number) {
+  public async deleteByIdAndLocationId(courseId: number, user) {
+    const { locationId, admin } = user
     await Database.rawQuery(DeleteCourseByIdAndLocationId(), {
       courseId,
       locationId,
+      admin,
     })
   }
-  public async search(search: string, locationId: number) {
-    const result = await Database.rawQuery(CourseList(), { search, locationId })
+  public async search(search: string, user: any) {
+    const { locationId, admin } = user
+    const result = await Database.rawQuery(CourseList(), { search, locationId, admin })
     return result[0]
   }
-  public async getAllLocations(user) {
+  public async getAllLocations(user: User, courseId: number = -1) {
     let result: Location[] = []
+    const { admin } = user
     if (user.admin) {
-      result = await Location.all()
-    } else {
-      result = await Location.query().where('id', user.locationId)
+      result = await Database.rawQuery(GetLocationsForUser(), { admin, id: courseId })
+    } else if (user.admin) {
+      return []
     }
-    return result.map(CoursesService.mapLocationForTheView)
+    return result[0]
   }
-  public findByLocationId(id) {
-    return Course.query().where('location_id', id)
+  public async findByLocationId(locationId) {
+    const result = await Database.rawQuery(FindCoursesByLoationId(), { locationId })
+    return result[0]
   }
   public findCourseByDayOfTheWeekAndLocationId(dayOfWeek, locationId) {
     return Course.query().where('day_of_week', dayOfWeek).andWhere('location_id', locationId)
@@ -64,12 +74,40 @@ export default class CoursesService {
     const result = await Database.rawQuery(CourseDependentsCheck(), { courseId })
     return result[0]
   }
-  public async defaultProps(user, qs) {
-    const locationId = user.locationId
-    const locations = await this.getAllLocations(user)
-    const courses = await this.search(qs.search || '', user.locationId)
+  public async defaultProps(user, request) {
+    const qs = request.qs()
+    const courseId = request.params().id || -1
+    const locations = await this.getAllLocations(user, courseId)
+    const courses = await this.search(qs.search || '', user)
     const daysOfTheWeek = DaysOfTheWeek
-    return { locations, locationId, courses, daysOfTheWeek }
+    const showLocationSelect = user.admin
+    const studentsEnrolledInCourse = await studentsService.findByCourseId(courseId)
+    const locationUpdateRestrictionMessage = studentsEnrolledInCourse.length > 0
+    return {
+      locations,
+      courses,
+      daysOfTheWeek,
+      showLocationSelect,
+      locationUpdateRestrictionMessage,
+    }
+  }
+  public async updateMany(courses: Course[], location: Location) {
+    for (let course of courses) {
+      const oldCourse = await Course.findBy('id', course.id)
+      if (oldCourse) {
+        await oldCourse.merge(course, true).save()
+      } else {
+        course.locationId = location.id
+        const newCourse = new Course()
+        await newCourse.fill(course, true).save()
+      }
+    }
+  }
+  public deleteManyByIdAndLocationId(ids: number[], locationId) {
+    return Database.rawQuery(
+      'DELETE FROM courses WHERE location_id = :locationId AND id NOT IN(:ids)',
+      { ids, locationId }
+    )
   }
   public static mapLocationForTheView(location) {
     return {

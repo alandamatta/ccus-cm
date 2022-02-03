@@ -13,6 +13,7 @@
     dialogButtonLabel: 'Add new location'
   })
     @slot('content')
+      <input type="hidden" value="{{{location? location.id : flashMessages.get('id') || ''}}}" name="id">
       <div class="columns">
         <div class="column is-8">
           @!component('components/input', {
@@ -71,8 +72,8 @@
           </button>
         </div>
       </div>
-      @each(tempCourse in flashMessages.get('tempCourses'))
-        @!courseBox({index: tempCourse.index, daysOfTheWeek})
+      @each(tempCourse in (flashMessages.get('tempCourses') || tempCourses))
+        @!courseBox({index: tempCourse.index, daysOfTheWeek, course: tempCourse})
       @end
 
       @!component('components/infos', { info: flashMessages.get('infoModal') })

@@ -7,6 +7,7 @@ import PhotoService from 'App/Services/PhotoService'
 import StudentByIdAndLocation from 'App/Queries/StudentByIdAndLocation'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Env from '@ioc:Adonis/Core/Env'
+import FindStudentByCourseId from 'App/Queries/FindStudentByCourseId'
 
 const photoService = new PhotoService()
 
@@ -94,7 +95,6 @@ export default class StudentsService {
     const students = await Student.query().where('location_id', user.locationId)
     return { coursesView, grades, students }
   }
-
   public async findByIdAndLocationId(locationId, studentId, admin) {
     const result = await Database.rawQuery(StudentByIdAndLocation(), {
       locationId,
@@ -103,15 +103,16 @@ export default class StudentsService {
     })
     return result[0][0]
   }
-
   public inactivateById(id: number) {
     return Database.rawQuery('UPDATE students SET disabled_at = NOW() WHERE id = :id', { id })
   }
-
   public reactivateById(id: number) {
     return Database.rawQuery('UPDATE students SET disabled_at = NULL WHERE id = :id', { id })
   }
-
+  public async findByCourseId(courseId: number) {
+    const result = await Database.rawQuery(FindStudentByCourseId(), { courseId })
+    return result[0]
+  }
   public static grades() {
     return [
       { value: 'PK', label: 'PK' },

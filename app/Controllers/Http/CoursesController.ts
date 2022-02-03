@@ -7,8 +7,7 @@ export default class CoursesController {
   public async index(ctx: HttpContextContract) {
     const auth = ctx.auth
     const user = await auth.use('web').authenticate()
-    const qs = ctx.request.qs()
-    const defaultProps = await coursesService.defaultProps(user, qs)
+    const defaultProps = await coursesService.defaultProps(user, ctx.request)
     return await ctx.view.render('course', { ...defaultProps })
   }
   public async create(ctx: HttpContextContract) {
@@ -19,22 +18,21 @@ export default class CoursesController {
   public async indexCreate(ctx: HttpContextContract) {
     const auth = ctx.auth
     const user = await auth.use('web').authenticate()
-    const qs = ctx.request.qs()
-    const defaultProps = await coursesService.defaultProps(user, qs)
+    const defaultProps = await coursesService.defaultProps(user, ctx.request)
     return await ctx.view.render('course', { showModal: 'is-active', ...defaultProps })
   }
   public async search(ctx: HttpContextContract) {
     const auth = ctx.auth
     const user = await auth.use('web').authenticate()
     const { search } = ctx.request.qs()
-    const courses = await coursesService.search(search, user.locationId)
+    const courses = await coursesService.search(search, user)
     return await ctx.view.render('course', { search, courses })
   }
   public async find(ctx: HttpContextContract) {
     const user = await ctx.auth.use('web').authenticate()
     const qs = ctx.request.params()
     const course = await coursesService.findByIdWhenUserHaveAccess(user, qs.id)
-    const defaultProps = await coursesService.defaultProps(user, qs)
+    const defaultProps = await coursesService.defaultProps(user, ctx.request)
     return await ctx.view.render('course', {
       ...course,
       showModal: 'is-active',
@@ -48,11 +46,10 @@ export default class CoursesController {
     const { id } = params
     const dependents = await coursesService.checkForCourseDependents(id)
     if (dependents && dependents.length > 0) {
-      const qs = ctx.request.qs()
-      const defaultProps = await coursesService.defaultProps(user, qs)
+      const defaultProps = await coursesService.defaultProps(user, ctx.request)
       return await ctx.view.render('course', { dependents, ...defaultProps })
     }
-    await coursesService.deleteByIdAndLocationId(id, user.locationId)
+    await coursesService.deleteByIdAndLocationId(id, user)
     return await ctx.response.redirect().toPath('/course')
   }
 }

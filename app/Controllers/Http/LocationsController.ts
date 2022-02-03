@@ -5,7 +5,9 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import LocationValidator from 'App/Validators/LocationValidator'
 import DaysOfTheWeek from 'App/Constants/DaysOfTheWeek'
 import UnitedStatesStates from 'App/Constants/UnitedStatesStates'
+import CoursesService from 'App/Services/CoursesService'
 
+const coursesService = new CoursesService()
 const locationService = new LocationsService()
 const EMPTY: string = ''
 
@@ -29,17 +31,21 @@ export default class LocationsController {
     return await ctx.view.render('location', { ...ctx.request.qs(), locationList })
   }
   public async create(ctx: HttpContextContract) {
-    //modal
-    const locationService = new LocationsService()
     this.tempCoursesControl(ctx)
     const auth = ctx.auth
     await auth.use('web').authenticate()
     const body = ctx.request.body()
     const closeModal = body.closeModal
-    const location = new Location()
-    location.fill(body, true)
     await ctx.request.validate(LocationValidator)
-    await locationService.create(body)
+    if (body?.id > 0) {
+      const location = await Location.findOrFail(body.id)
+      const updated = await location.merge(body, true).save()
+      await coursesService.updateMany(body.course, updated)
+      const coursesIds = await body.course.map((element) => element.id)
+      await coursesService.deleteManyByIdAndLocationId(coursesIds, location.id)
+    } else {
+      await locationService.create(body)
+    }
     if (closeModal === 'true') {
       ctx.session.flash('infoIndex', 'Data saved successfully!')
       return await ctx.response.redirect().toRoute('location.index')
@@ -89,6 +95,12 @@ export default class LocationsController {
     const locationList = await locationService.search(EMPTY)
     const daysOfTheWeek = DaysOfTheWeek
     const states = UnitedStatesStates
+    const tempCourses = await coursesService.findByLocationId(locationId)
+    let index = 0
+    tempCourses.map((element) => {
+      element.index = index
+      index++
+    })
     return await ctx.view.render('location', {
       showModal: 'is-active',
       ...ctx.request.qs(),
@@ -96,16 +108,18 @@ export default class LocationsController {
       location,
       daysOfTheWeek,
       states,
+      tempCourses,
     })
   }
   public async delete(ctx: HttpContextContract) {
-    await ctx.auth.use('web').authenticate()
+    const user = await ctx.auth.use('web').authenticate()
     const params = ctx.request.params()
     const locationId = params.id
     const dependents = await locationService.checkForLocationDependents(locationId)
     if (dependents && dependents.length > 0) {
       return await ctx.view.render('location', { dependents })
     }
+    await locationService.deleteById(locationId, user)
     return await ctx.response.redirect().toRoute('/location')
   }
 }

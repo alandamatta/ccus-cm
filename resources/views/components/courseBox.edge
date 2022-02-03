@@ -1,16 +1,42 @@
-<div class="columns" id="{{id}}">
+<div class="columns">
   <input type="hidden" value="{{index}}" name="{{'course.'+index+'.index'}}" id="{{'course.'+index+'.index'}}">
   <div class="column">
     <div class="notification is-link is-light">
-      <button class="delete" type="button" onclick="removeCourse(this, '{{index}}')"></button>
+      @if(course.usage && course.usage >= 0)
+        <div class="columns">
+          <div class="column">
+            <div class="help is-info">
+              <p>There are students enrolled in this course. You won't be able to delete it!</p>
+            </div>
+          </div>
+        </div>
+      @else
+        <button class="delete" type="button" onclick="removeCourse(this, '{{index}}')"></button>
+      @end
       <div class="columns">
+        @!input({
+          id: 'course.'+index+'.id',
+          label: '',
+          name: 'course['+index+'].id',
+          keyName: 'course.'+index+'.id',
+          value: course.id,
+          type: 'hidden'
+        })
+        @!input({
+        id: 'course.'+index+'.usage',
+        label: '',
+        name: 'course['+index+'].usage',
+        keyName: 'course.'+index+'.usage',
+        value: course.usage,
+        type: 'hidden'
+        })
         <div class="column">
           @!input({
             id: 'course.'+index+'.name',
             label: 'Course name',
             name: 'course['+index+'].name',
             keyName: 'course.'+index+'.name',
-            classes: 'is-small'
+            value: course.name,
           })
         </div>
       </div>
@@ -21,10 +47,10 @@
             label: 'Day of the week',
             name: 'course['+index+'].dayOfWeek',
             keyName: 'course.'+index+'.dayOfWeek',
-            classes: 'is-small',
             valueKey: 'value',
             labelKey: 'label',
             values: daysOfTheWeek,
+            value: course.dayOfWeek
           })
         </div>
         <div class="column is-4">
@@ -33,11 +59,10 @@
             label: 'Time',
             name: 'course['+index+'].time',
             keyName: 'course.'+index+'.time',
-            classes: 'is-small',
             type: 'time',
+            value: course.time
           })
         </div>
-
       </div>
     </div>
   </div>

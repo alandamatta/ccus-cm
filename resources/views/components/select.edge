@@ -13,7 +13,7 @@
     @if(flashMessages.get(id) === null)
     <div class="select is-fullwidth is-danger {{classes}}">
       <select id="{{id}}" name="{{name}}" value="">
-        <option selected value="">Select a Value</option>
+        <option selected disabled="disabled">Select a Value</option>
         @each(element in values)
           @if(element[valueKey] === flashMessages.get(name, ''))
             <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
@@ -26,7 +26,7 @@
     @else
     <div class="select is-fullwidth is-danger">
       <select id="{{id}}" class="is-danger {{classes}}" name="{{name}}" value="{{(flashMessages.get(name, ''))}}">
-        <option selected value="">Select a Value</option>
+        <option selected disabled="disabled">Select a Value</option>
         @each(element in values)
           @if(element[valueKey] === flashMessages.get(name, ''))
             <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
@@ -47,7 +47,7 @@
     @if(flashMessages.get(id) === null)
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" class="" name="{{name}}" value="">
-        <option selected value="">Select a Value</option>
+        <option selected disabled="disabled">Select a Value</option>
         {{--1--}}
         @each(element in values)
           @if(element[valueKey] === (flashMessages.get(keyName, '') || value))
@@ -61,10 +61,10 @@
     @else
     <div class="select is-fullwidth {{classes}}">
       <select id="{{id}}" class="" name="{{name}}" value="{{(flashMessages.get(keyName, '') || value)}}">
-        <option selected value="">Select a Value</option>
+        <option selected disabled="disabled">Select a Value</option>
         {{--2--}}
         @each(element in values)
-          @if(element[valueKey] === (flashMessages.get(keyName, '') || value))
+          @if(element[valueKey] == (flashMessages.get(keyName, '') || value))
             <option value="{{element[valueKey]}}" selected>{{element[labelKey]}}</option>
           @else
             <option value="{{element[valueKey]}}">{{element[labelKey]}}</option>

@@ -12,6 +12,7 @@ import LocationByIdWhenUserHaveAccess from 'App/Queries/LocationByIdWhenUserHave
 import FindCoursesByLoationId from 'App/Queries/FindCoursesByLoationId'
 import GetLocationsForUser from 'App/Queries/GetLocationsForUser'
 import StudentsService from 'App/Services/StudentsService'
+import { DateTime } from 'luxon'
 
 const studentsService = new StudentsService()
 
@@ -20,14 +21,14 @@ export default class CoursesService {
     const user = await ctx.auth.use('web').authenticate()
     await ctx.request.validate(CourseValidator)
     let body = ctx.request.body()
+    body.locationId = user.admin ? body.locationId : user.locationId
+    body.deletedAt = body.disabled === 'on' ? DateTime.now() : null
     if (body.id && body.id > 0) {
       const course = await Course.findOrFail(body.id)
-      course.locationId = user.admin ? user.locationId : course.locationId
       return await course.merge(body, true).save()
     }
     body.id = null
     const course = new Course()
-    body.locationId = user.locationId
     return await course.fill(body, true).save()
   }
   public async deleteByIdAndLocationId(courseId: number, user) {

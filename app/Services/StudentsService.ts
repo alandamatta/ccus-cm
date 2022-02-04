@@ -84,7 +84,9 @@ export default class StudentsService {
   }
 
   public static async defaultViewProps(user) {
-    let courses = await Course.query().where('location_id', user.locationId)
+    let courses = await Course.query()
+      .where('location_id', user.locationId)
+      .andWhereNull('deleted_at')
     const coursesView = courses.map((e) => {
       return {
         label: e.name,

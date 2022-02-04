@@ -4,7 +4,8 @@ export default function () {
        name,
        day_of_week,
        time,
-       location_id
+       location_id,
+       deleted_at
 FROM courses
 WHERE
       id = :courseId AND

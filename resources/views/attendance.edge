@@ -1,0 +1,98 @@
+@layout('layouts/main')
+@set('pageTitle', 'Attendance')
+@set('currentPage', 'attendance')
+@section('body')
+  <div class="columns">
+    <div class="column">
+      <h1 class="title">Attendance Report</h1>
+    </div>
+  </div>
+  <form action="" class="">
+    <div class="columns">
+      <div class="column is-2">
+        @!component('components/input2', {
+        id: 'startDate',
+        name: 'startDate',
+        label: 'Start Date',
+        type: 'date',
+        value: startDate || '',
+        })
+      </div>
+      <div class="column is-2">
+        @!component('components/input2', {
+        id: 'endDate',
+        name: 'endDate',
+        label: 'End Date',
+        type: 'date',
+        value: endDate || '',
+        })
+      </div>
+      @if(auth && auth.user && auth.user.admin)
+        <div class="column is-2">
+          @!component('components/select2', {
+          id: 'locationId',
+          name: 'locationId',
+          label: 'Location',
+          valueKey: 'value',
+          labelKey: 'label',
+          values: [{value: -1, label: "All"}, ...locations],
+          value: locationId || -1
+          })
+        </div>
+      @end
+      <div class="column is-2">
+        @!component('components/select2', {
+        id: 'courseId',
+        name: 'courseId',
+        label: 'Course',
+        valueKey: 'value',
+        labelKey: 'label',
+        values: [{value: -1, label: "All"}, ...courses],
+        value: courseId || -1
+        })
+      </div>
+    </div>
+  </form>
+
+  <div class="columns">
+    <div class="column">
+      <div class="table-container">
+        <table class="table is-fullwidth is-striped is-narrow is-hoverable">
+          <thead>
+            <tr>
+              <th>Student's Name</th>
+              <th>Location</th>
+              <th>Course</th>
+              <th>Present</th>
+              <th>Absent</th>
+            </tr>
+          </thead>
+          <tbody>
+            @each(attendance in attendances)
+              <tr>
+                <td>{{attendance.studentName}}</td>
+                <td>{{attendance.locationName}}</td>
+                <td>{{attendance.courseName}}</td>
+                <td>{{attendance.present}}</td>
+                <td>{{attendance.absent}}</td>
+              </tr>
+            @end
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  @section('script')
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      $('input,select').on('change', function() {
+        var form = $('form')
+        delay(() => {
+          form.submit()
+        }, 500)
+      })
+    })
+  </script>
+  @end
+@end

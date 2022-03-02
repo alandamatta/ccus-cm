@@ -127,3 +127,9 @@ Route.get('/file/:studentId/:fileName', 'FilesController.file')
 */
 Route.get('/activate/:key', 'UserActivationController.index')
 Route.post('/activate/:key', 'UserActivationController.create')
+/*
+|--------------------------------------------------------------------------
+| Reports
+|-----------------  ---------------------------------------------------------
+*/
+Route.get('/attendance', 'ReportsController.index').as('reports.attendance.init')

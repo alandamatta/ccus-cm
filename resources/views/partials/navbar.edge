@@ -83,14 +83,32 @@
         </a>
         @end
       @end
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Reports
+        </a>
+        <div class="navbar-dropdown">
+          @if(currentPage && currentPage == 'attendance')
+          <a class="navbar-item is-active">
+            <span>Attendance</span>
+          </a>
+          @else
+          <a class="navbar-item" href="/attendance">
+            <span>Attendance</span>
+          </a>
+          @end
+        </div>
+      </div>
+
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary">
-            <strong>My Account</strong>
-          </a>
+<!--          <a class="button is-primary">-->
+<!--            <strong>My Account</strong>-->
+<!--          </a>-->
           <a class="button is-light" href="/logout">
             Log out
           </a>

@@ -22,6 +22,9 @@ export default class LocationsService {
     const result = await Database.rawQuery(LocationList(), [search])
     return result[0]
   }
+  public findAll() {
+    return Location.all()
+  }
   public async checkForLocationDependents(locationId: number) {
     const result = await Database.rawQuery(LocationDependentsCheck(), { locationId })
     return result[0]

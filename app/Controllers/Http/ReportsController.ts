@@ -7,6 +7,7 @@ import User from 'App/Models/User'
 import Location from 'App/Models/Location'
 import UtilsService from 'App/Services/UtilsService'
 import CoursesService from 'App/Services/CoursesService'
+import Course from 'App/Models/Course'
 
 const locationsService = new LocationsService()
 const coursesService = new CoursesService()
@@ -38,7 +39,7 @@ export default class ReportsController {
     return await ctx.view.render('attendance', props)
   }
   private static async getUserCourses(user: User, locationId: number) {
-    let courses = []
+    let courses: Course[] = []
     if (user.admin) {
       courses = await coursesService.findByLocationId(locationId)
     } else {
@@ -47,7 +48,7 @@ export default class ReportsController {
     return courses.map((element) => {
       return {
         label: element.name,
-        value: element.id
+        value: element.id,
       }
     })
   }

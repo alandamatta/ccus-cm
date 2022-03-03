@@ -143,7 +143,9 @@ title: 'Add a contact'
                     <div class="column">
                       <p class="has-text-weight-semibold">{{student.fullName}}</p>
                       <div class="content is-small has-text-weight-medium">
-                        @if(student.notes && student.notes.length > 15 )
+                        @if(student.disabledAt != null)
+                        <span class="tag is-danger is-light">Disabled</span>
+                        @elseif(student.notes && student.notes.length > 15 )
                         <p>{{student.notes.substring(0, 15) + '...'}}</p>
                         @elseif(student.notes)
                         <p>{{student.notes}}</p>

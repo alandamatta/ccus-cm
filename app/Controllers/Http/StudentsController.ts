@@ -16,6 +16,12 @@ export default class StudentsController {
     return await studentsService.create(ctx)
   }
 
+  public async search(ctx: HttpContextContract) {
+    const user = await ctx.auth.use('web').authenticate()
+    const { data, meta } = await StudentsService.studentsPaginated(ctx.request.qs(), user)
+    return ctx.view.render('components/studentList', { students: data, meta })
+  }
+
   public async find(ctx: HttpContextContract) {
     const user = await ctx.auth.use('web').authenticate()
     const defaultViewProps = await StudentsService.defaultViewProps(user)
@@ -40,11 +46,13 @@ export default class StudentsController {
     }
     return ctx.view.render('student', { ...defaultViewProps, selectedStudent })
   }
+
   public async inactivate(ctx: HttpContextContract) {
     const { id } = ctx.request.params()
     await studentsService.inactivateById(id)
     return ctx.response.redirect().back()
   }
+
   public async reactivate(ctx: HttpContextContract) {
     const { id } = ctx.request.params()
     await studentsService.reactivateById(id)

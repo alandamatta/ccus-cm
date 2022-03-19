@@ -1,0 +1,76 @@
+<div id="studentList">
+  @each(student in students)
+  <div class="columns">
+    <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
+      <a href="/student/{{student.id}}">
+        <div class="box notification {{(selectedStudent && student.id == selectedStudent.id) ? 'has-background-info-light' : 'has-background-white'}}" style="padding-right: 0.3em">
+          <div class="columns is-vcentered is-mobile">
+            <div class="column is-3">
+              <figure class="image is-32x32">
+                @if(student.picture)
+                <img src="{{'/img/' + student.id + '/' + student.picture}}" alt="Student Picture"
+                     class="is-rounded">
+                @else
+                <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
+                     class="is-rounded">
+                @end
+              </figure>
+            </div>
+            <div class="column">
+              <p class="has-text-weight-semibold">{{student.fullName}}</p>
+              <div class="content is-small has-text-weight-medium">
+                @if(student.disabledAt != null)
+                <span class="tag is-danger is-light">Inactive</span>
+                @elseif(student.notes && student.notes.length > 15 )
+                <p>{{student.notes.substring(0, 15) + '...'}}</p>
+                @elseif(student.notes)
+                <p>{{student.notes}}</p>
+                @else
+                <p>--</p>
+                @end
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  @end
+  <div class="columns">
+    <div class="column">
+      <form class="ajaxPagination" action="/student/search">
+        <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
+          @if(meta.first_page != meta.current_page)
+          <button class="pagination-previous" name="page" value="{{meta.first_page}}" type="submit" html-target="#studentList"> << </button>
+          @else
+          <button class="pagination-previous" disabled aria-label="Goto page {{meta.first_page}}"> << </button>
+          @end
+          <ul class="pagination-list">
+            @if(meta.current_page - 1 > 0)
+            <li><button class="pagination-link" name="page" value="{{meta.current_page - 1}}" type="submit" html-target="#studentList">{{"<"}}</button></li>
+            @else
+            <li><button class="pagination-link" disabled>{{"<"}}</button></li>
+            @end
+            @if(meta.current_page - 1 > 0)
+              <li><button class="pagination-link" name="page" value="{{meta.current_page - 1}}" type="submit" html-target="#studentList">{{meta.current_page - 1}}</button></li>
+            @end
+            <li><button class="pagination-link is-current" name="page" value="{{meta.current_page}}" type="submit" html-target="#studentList">{{meta.current_page}}</button></li>
+            @if(meta.current_page + 1 <= Math.ceil(meta.total / meta.per_page))
+              <li><button class="pagination-link" name="page" value="{{meta.current_page + 1}}" type="submit" html-target="#studentList">{{meta.current_page + 1}}</button></li>
+            @end
+            @if(meta.current_page + 1 <= Math.ceil(meta.total / meta.per_page))
+            <li><button class="pagination-link" name="page" value="{{meta.current_page + 1}}" type="submit" html-target="#studentList">{{">"}}</button></li>
+            @else
+            <li><button class="pagination-link" disabled>{{">"}}</button></li>
+            @end
+          </ul>
+          @if(meta.last_page != meta.current_page)
+          <button class="pagination-next" name="page" value="{{meta.last_page}}" type="submit" html-target="#studentList"> >> </button>
+          @else
+          <button class="pagination-next" disabled> >> </button>
+          @end
+        </nav>
+      </form>
+    </div>
+  </div>
+</div>

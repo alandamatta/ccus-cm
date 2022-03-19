@@ -8,7 +8,7 @@ import * as timesheet from './timesheet'
 
 bqv.attach()
 
-$("input[type='file']").on('change', function() {
+$("input[type='file']").on('change', function () {
   const input = $(this)
   const id = input.attr('id')
   const files = input.prop('files')
@@ -51,10 +51,60 @@ $('.search').on('keyup', function () {
   }, 500)
 })
 
+
+function ajaxSearch() {
+  $('.ajaxSearch').on('keyup', function () {
+    var element = $(this)
+    var params =
+      'search=' +
+      element.val() +
+      '&status=' +
+      $('#studentStatusFilter').val() +
+      '&courseId=' +
+      $('#studentCoursesFilter').val()
+    delayKeyUp(() => {
+      $.get('/student/search/?' + params, function (data) {
+        var target = element.attr('html-target')
+        $(target).replaceWith(data)
+        ajaxSearch()
+        ajaxPagination()
+      })
+    }, 500)
+  })
+}
+
+ajaxSearch()
+
+function ajaxPagination() {
+  $('.ajaxPagination').on('submit', function (event) {
+    event.preventDefault()
+    var submitter = event.originalEvent.submitter
+    var params =
+      '&search=' +
+      $('#search').val() +
+      '&status=' +
+      $('#studentStatusFilter').val() +
+      '&courseId=' +
+      $('#studentCoursesFilter').val()
+    $.get('/student/search/?page=' + submitter.value + params, function (data) {
+      var target = $(submitter).attr('html-target')
+      $(target).replaceWith(data)
+      ajaxPagination()
+    })
+  })
+}
+
+ajaxPagination()
+
 $('.datatableDelete').on('click', function () {
   return confirm('Are you sure?')
 })
 
+function fireKeyup(selector) {
+  $(selector).trigger('keyup')
+}
+
+window.fireKeyup = fireKeyup
 window.delay = delayKeyUp
 window.ajaxSaveStudent = () => {}
 window.$ = $

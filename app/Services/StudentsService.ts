@@ -8,6 +8,9 @@ import StudentByIdAndLocation from 'App/Queries/StudentByIdAndLocation'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Env from '@ioc:Adonis/Core/Env'
 import FindStudentByCourseId from 'App/Queries/FindStudentByCourseId'
+import User from 'App/Models/User'
+import SearchStudents from 'App/Queries/SearchStudents'
+import SearchStudentsCount from 'App/Queries/SearchStudentsCount'
 
 const photoService = new PhotoService()
 
@@ -94,9 +97,41 @@ export default class StudentsService {
       }
     })
     let grades = StudentsService.grades()
-    const students = await Student.query().where('location_id', user.locationId)
-    return { coursesView, grades, students }
+    const qs = {
+      page: 1,
+      search: '',
+      status: 1,
+    }
+    const { data, meta } = await StudentsService.studentsPaginated(qs, user)
+    return { coursesView, grades, students: data, meta }
   }
+
+  public static async studentsPaginated(qs: any, user: User) {
+    const limit = 5
+    const { page = 1, search = '', status = '', courseId = -1 } = qs
+    const offset = limit * (page - 1)
+    const params = {
+      search,
+      locationId: user.locationId,
+      inactive: false,
+      limit,
+      offset,
+      status,
+      courseId,
+    }
+    const total = await Database.rawQuery(SearchStudentsCount(), params)
+    const result = await Database.rawQuery(SearchStudents(), params)
+    const data = result[0]
+    const meta = {
+      total: total[0][0].total,
+      per_page: limit,
+      current_page: Number(page),
+      last_page: Math.ceil(total[0][0].total / limit),
+      first_page: 1,
+    }
+    return { data, meta }
+  }
+
   public async findByIdAndLocationId(locationId, studentId, admin) {
     const result = await Database.rawQuery(StudentByIdAndLocation(), {
       locationId,

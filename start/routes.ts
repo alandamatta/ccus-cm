@@ -89,6 +89,7 @@ Route.get('/user/:id/delete', 'UsersController.delete').middleware('adminMiddlew
 */
 Route.get('/student', 'StudentsController.index').as('student.init')
 Route.post('/student/save', 'StudentsController.create').as('student.ajaxSave')
+Route.get('/student/search', 'StudentsController.search').as('student.ajaxSearch')
 Route.get('/student/:id', 'StudentsController.find').as('student.find')
 Route.get('/student/:id/inactivate', 'StudentsController.inactivate').as('student.inactivate')
 Route.get('/student/:id/reactivate', 'StudentsController.reactivate').as('student.reactivate')

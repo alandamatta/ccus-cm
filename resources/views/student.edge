@@ -80,7 +80,44 @@ title: 'Add a contact'
     <div class="">
       <div class="columns">
         <div class="column">
-          <input type="text" class="input" id="search" placeholder="Search...">
+          <div class="field">
+            <label for="search" class="label">Search</label>
+            <div class="control">
+              <input type="text" class="input ajaxSearch" id="search" placeholder="Search..." html-target="#studentList">
+            </div>
+            <p class="help is-info">{{helperText || ''}}</p>
+            <p class="help is-danger" id="{{id + '-help'}}"></p>
+          </div>
+        </div>
+<!--        coursesView-->
+        <div class="column is-2">
+          <div class="field">
+            <label class="label" for="studentStatusFilter">Status</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="studentStatusFilter" name="status" onchange="fireKeyup('#search')">
+                  <option value="3">All</option>
+                  <option value="1" selected>Active</option>
+                  <option value="2">Inactive</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="field">
+            <label class="label" for="studentCoursesFilter">Course</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select id="studentCoursesFilter" name="courseId" onchange="fireKeyup('#search')">
+                  <option value="-1" selected>All</option>
+                  @each(course in coursesView)
+                    <option value="{{course.value}}">{{course.label}}</option>
+                  @end
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="columns">
@@ -123,43 +160,11 @@ title: 'Add a contact'
             </div>
           </div>
 
-          @each(student in students)
           <div class="columns">
-            <div class="column is-hand-cursor" style="padding-bottom: 0;padding-top: 0.3em">
-              <a href="/student/{{student.id}}">
-                <div class="box notification {{(selectedStudent && student.id == selectedStudent.id) ? 'has-background-info-light' : 'has-background-white'}}" style="padding-right: 0.3em">
-                  <div class="columns is-vcentered is-mobile">
-                    <div class="column is-3">
-                      <figure class="image is-32x32">
-                        @if(student.picture)
-                          <img src="{{'/img/' + student.id + '/' + student.picture}}" alt="Student Picture"
-                               class="is-rounded">
-                        @else
-                          <img src="https://bulma.io/images/placeholders/32x32.png" alt="Student Picture"
-                               class="is-rounded">
-                        @end
-                      </figure>
-                    </div>
-                    <div class="column">
-                      <p class="has-text-weight-semibold">{{student.fullName}}</p>
-                      <div class="content is-small has-text-weight-medium">
-                        @if(student.disabledAt != null)
-                        <span class="tag is-danger is-light">Disabled</span>
-                        @elseif(student.notes && student.notes.length > 15 )
-                        <p>{{student.notes.substring(0, 15) + '...'}}</p>
-                        @elseif(student.notes)
-                        <p>{{student.notes}}</p>
-                        @else
-                        <p>--</p>
-                        @end
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
+            <div class="column">
+              @!component('components/studentList', { students, selectedStudent, meta })
             </div>
           </div>
-          @end
 
         </div>
         <div class="column is-hidden-mobile is-hidden-tablet-only">

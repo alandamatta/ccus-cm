@@ -51,7 +51,6 @@ $('.search').on('keyup', function () {
   }, 500)
 })
 
-
 function ajaxSearch() {
   $('.ajaxSearch').on('keyup', function () {
     var element = $(this)
@@ -62,7 +61,7 @@ function ajaxSearch() {
       $('#studentStatusFilter').val() +
       '&courseId=' +
       $('#studentCoursesFilter').val()
-    delayKeyUp(() => {
+    delayKeyUp(function () {
       $.get('/student/search/?' + params, function (data) {
         var target = element.attr('html-target')
         $(target).replaceWith(data)
@@ -104,6 +103,20 @@ function fireKeyup(selector) {
   $(selector).trigger('keyup')
 }
 
+function buildParams(start = '') {
+  return {
+    add: function (key, value) {
+      var all = key + '=' + value
+      all.trim()
+      return buildParams(start === '' ? '?' + all : start + '&' + all)
+    },
+    build: function () {
+      return start
+    },
+  }
+}
+
+window.buildParams = buildParams
 window.fireKeyup = fireKeyup
 window.delay = delayKeyUp
 window.ajaxSaveStudent = () => {}

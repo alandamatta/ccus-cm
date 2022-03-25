@@ -91,7 +91,7 @@
     <div class="column">
       <div class="columns ">
         <div class="column is-half-desktop is-full-mobile">
-          <form action="/timesheet/checkIn" method="post">
+          <form action="/timesheet/checkIn" method="get">
             <input type="hidden" name="studentId" value="{{element.id}}">
             <input type="hidden" name="locationId" value="{{element.locationId}}">
             <input type="hidden" name="courseId" value="{{element.courseId}}">
@@ -127,7 +127,7 @@
           </form>
         </div>
         <div class="column is-half-desktop is-full-mobile">
-          <form action="/timesheet/checkIn" method="post">
+          <form action="/timesheet/checkIn" method="get">
             <input type="hidden" name="studentId" value="{{element.id}}">
             <input type="hidden" name="locationId" value="{{element.locationId}}">
             <input type="hidden" name="courseId" value="{{element.courseId}}">

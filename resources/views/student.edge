@@ -180,7 +180,6 @@ title: 'Add a contact'
   <script>
     window.onbeforeunload = function(event) {
       let flag = false
-      console.log($(event.srcElement.activeElement))
       if($(event.srcElement.activeElement).prop('tagName') != 'BUTTON') {
         $('.parentContactCard').each(function(){
           if ($(this).attr('attr-new')) {

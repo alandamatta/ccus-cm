@@ -2,107 +2,232 @@
 @set('pageTitle', 'Timesheet')
 @set('currentPage', 'timesheet')
 @section('body')
-<div class="columns">
+<div class="columns is-hidden-mobile">
   <div class="column is-4">
-    <p class="title is-3 is-hidden-mobile">
+    <p class="title is-4">
       Timesheet
     </p>
-    <p class="title is-5 is-hidden-mobile">
+    <p class="title is-6">
       Please enter check-in & check-out information
     </p>
   </div>
 </div>
-<div class="columns">
+<div class="columns {{isCoursesScheduled ? '' : 'is-hidden' }}" id="filtersButton">
   <div class="column">
-    <form action="/timesheet" method="get" id="searchForm">
-      <div class="columns">
-        <div class="column">
-          @!component('components/input2', {
+    <button class="button is-info is-outlined" onclick="showFilters()">
+      <span class="icon is-small">
+        <i class="fas fa-sliders-h"></i>
+      </span>
+      <span>Filters</span>
+    </button>
+  </div>
+</div>
+<div class="columns {{isCoursesScheduled ? 'is-hidden' : '' }}" id="filtersSection">
+  <div class="column">
+    <div class="notification is-info is-light">
+      <button class="delete" onclick="hideFilters()"></button>
+      <form action="/timesheet" method="get" id="searchForm">
+        <div class="columns">
+          <div class="column is-5">
+            @!component('components/input2', {
             id: 'search',
             label: 'Search',
             placeholder: 'Search',
             name: 'search',
             value: search,
             helperText: "Search by: Student's or contact's name",
-            disabled: !isCoursesScheduled
-          })
-        </div>
-        <div class="column is-2">
-          @!component('components/select2', {
-          id: 'courses',
-          label: 'Courses',
-          values: courses,
-          valueKey: 'value',
-          labelKey: 'label',
-          name: 'courseId',
-          value: courseId,
-          disabled: !isCoursesScheduled
-          })
-        </div>
-        <div class="column is-2">
-          @!component('components/input2', {
-          id: 'date',
-          name: 'date',
-          label: 'Date',
-          type: 'date',
-          value: date,
-          classes: isCoursesScheduled ? '' : 'is-warning'
-          })
-        </div>
-      </div>
-      {{--Table--}}
-    </form>
-    <div class="columns">
-      <div class="column" id="timesheetList">
-        @if(isCoursesScheduled)
-          @!timesheetTable({
-            values: studentsTimesheet[0],
-          })
-        @else
-          <div class="columns">
-            <div class="column">
-              <div class="notification is-warning is-light">
-                No courses scheduled for this date
-              </div>
-            </div>
+            })
           </div>
-        @end
-      </div>
+          <div class="column is-2">
+            @!component('components/select2', {
+            id: 'courses',
+            label: 'Courses',
+            values: courses,
+            valueKey: 'value',
+            labelKey: 'label',
+            name: 'courseIdFilter',
+            value: courseIdFilter,
+            })
+          </div>
+          <div class="column is-2">
+            @!component('components/input2', {
+            id: 'date',
+            name: 'date',
+            label: 'Date',
+            type: 'date',
+            value: date
+            })
+          </div>
+          <div class="column is-3 is-align-self-center">
+            <label for="hideCI" class="checkbox">
+              <input type="checkbox" id="hideCI" name="hideCI">
+              Hide students checked in
+            </label>
+            <label for="hideCO" class="checkbox">
+              <input type="checkbox" id="hideCO" name="hideCO">
+              Hide students checked out
+            </label>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
-  @!section('scripts')
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
+<div id="timesheetSection">
+  @!component('components/timesheetList', {
+    search, courseIdFilter, date, isCoursesScheduled, studentsTimesheet
+  })
+</div>
+@!section('scripts')
+<script>
+  function showFilters() {
+    $('#filtersButton').addClass('is-hidden')
+    $('#filtersSection').removeClass('is-hidden')
+  }
+
+  function hideFilters() {
+    $('#filtersButton').removeClass('is-hidden')
+    $('#filtersSection').addClass('is-hidden')
+  }
+
+  function loading() {
+    var loading = '<progress class="progress is-small is-primary" max="100">15%</progress>'
+    $('#timesheetSection').html(loading)
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    function allRequiredParams() {
+      var date = $('#date').val()
+      var search = $('#search').val()
+      var course = $('#courses').val()
+      var hideCI = $('#hideCI').is(':checked')
+      var hideCO = $('#hideCO').is(':checked')
+      return buildParams().add('date', date).add('search', search).add('courseIdFilter', course)
+        .add('hideCI', hideCI).add('hideCO', hideCO).build()
+    }
+
+    function formSubmitEventListener() {
+      var form = $('#searchForm')
+      form.on('submit', function(event) {
+        event.preventDefault()
+        var params = allRequiredParams()
+        $.get('/timesheet/search' + params, function(data) {
+          $('#timesheetSection').html(data)
+          $('.is-loading').removeClass('is-loading')
+          onCheckInOrCheckOutChangeEventListener()
+          checkInCheckOutButtonClickEventListener()
+          cancelCheckInCheckOutClickEventListener()
+        })
+      })
+    }
+
+    function onCheckInOrCheckOutChangeEventListener() {
+      $('.onChangeUpdate').on('change', function(event) {
+        event.preventDefault()
+        var element = $(this)
+        var date = $('#date').val()
+        var time = element.val()
+        var form = element.closest('form')
+        form.find('input[name=time]').val(date + ' ' + time)
+        form.find('.cancelCheckInButton').addClass('is-loading')
+        form.find('.cancelCheckInButton').html('')
+        $('button').attr('disabled', 'disabled')
+        var serialized = form.serialize()
+        var params = allRequiredParams() + '&' + serialized
+        delay(function() {
+          $.get('/timesheet/checkIn' + params, function(data) {
+            $('#timesheetSection').html(data)
+            formSubmitEventListener()
+            onCheckInOrCheckOutChangeEventListener()
+            checkInCheckOutButtonClickEventListener()
+            cancelCheckInCheckOutClickEventListener()
+          })
+        }, 500)
+      })
+    }
+    function filtersOnChangeEventListener() {
       var form = $('#searchForm')
       $('#date').on('change', function() {
+        loading()
         delay(function() {
           form.submit()
         }, 500)
       })
       $('#courses').on('change', function() {
+        loading()
         form.submit()
       })
       $('#search').on('keyup', function() {
+        loading()
         $(this).parent().addClass('is-loading')
         delay(function() {
           form.submit()
         }, 500)
       })
-      $('.onChangeUpdate').on('change', function(event) {
-        event.preventDefault()
-        const element = $(this)
-        const date = $('#date').val()
-        const time = element.val()
-        const form = element.closest('form')
-        form.find('input[name=time]').val(date + ' ' + time)
-        form.find('.cancelCheckInButton').addClass('is-loading')
-        form.find('.cancelCheckInButton').html('')
-        $('button').attr('disabled', 'disabled')
+      $('#hideCI').on('change', function() {
+        loading()
         delay(function() {
           form.submit()
         }, 500)
       })
-    })
-  </script>
+      $('#hideCO').on('change', function() {
+        loading()
+        delay(function() {
+          form.submit()
+        }, 500)
+      })
+    }
+
+    function checkInCheckOutButtonClickEventListener() {
+      $('.checkInButton').on('click', function (event) {
+        event.preventDefault()
+        const element = $(this)
+        const form = element.closest('form')
+        const date = $('#date').val()
+        const now = new Date()
+        const hours = `${now.getHours()}`.padStart(2, '0')
+        const mins = `${now.getMinutes()}`.padStart(2, '0')
+        const time = `${hours}:${mins}`
+        form.find('[name=time]').val(date + ' ' + time)
+        $(this).addClass('is-loading')
+        $('.is-timesheet-action').attr('disabled', 'disabled')
+        var serialized = form.serialize()
+        var params = allRequiredParams() + '&' + serialized
+        $.get('/timesheet/checkIn' + params, function(data) {
+          $('#timesheetSection').html(data)
+          checkInCheckOutButtonClickEventListener()
+          cancelCheckInCheckOutClickEventListener()
+          onCheckInOrCheckOutChangeEventListener()
+        })
+      })
+    }
+    function cancelCheckInCheckOutClickEventListener() {
+      $('.cancelCheckInButton').on('click', function (event) {
+        event.preventDefault()
+        const element = $(this)
+        element.find('span').addClass('is-hidden')
+        $('button').attr('disabled', 'disabled')
+        $('input').attr('disabled', 'disabled')
+        $('select').attr('disabled', 'disabled')
+        element.addClass('is-loading')
+        var href = element.attr('href')
+        var params = allRequiredParams()
+        $.get(href + params, function(data){
+          $('#timesheetSection').html(data)
+          checkInCheckOutButtonClickEventListener()
+          cancelCheckInCheckOutClickEventListener()
+          onCheckInOrCheckOutChangeEventListener()
+          var searchForm = $('#searchForm')
+          searchForm.find('button').attr('disabled', false)
+          searchForm.find('input').attr('disabled', false)
+          searchForm.find('select').attr('disabled', false)
+        })
+      })
+    }
+    filtersOnChangeEventListener()
+    formSubmitEventListener()
+    checkInCheckOutButtonClickEventListener()
+    cancelCheckInCheckOutClickEventListener()
+  })
+</script>
 @end

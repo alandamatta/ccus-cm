@@ -1,0 +1,30 @@
+<div class="columns">
+  <div class="column">
+    <div class="columns">
+      <div class="column" id="timesheetList">
+        @if(isCoursesScheduled)
+          @!timesheetTable({
+            values: studentsTimesheet[0],
+          })
+          @if(studentsTimesheet[0].length < 1)
+            <div class="columns">
+              <div class="column">
+                <div class="notification is-light">
+                  No results found
+                </div>
+              </div>
+            </div>
+          @end
+        @else
+        <div class="columns">
+          <div class="column">
+            <div class="notification is-warning is-light">
+              <p>No courses scheduled for this date!</p>
+            </div>
+          </div>
+        </div>
+        @end
+      </div>
+    </div>
+  </div>
+</div>

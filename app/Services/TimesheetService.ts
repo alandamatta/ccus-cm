@@ -18,12 +18,16 @@ export default class TimesheetService {
     const rawDate = TimesheetService.getDate(ctx)
     const date = TimesheetService.formatDateToString(rawDate)
     const search = body.search || ''
-    let courseId = await TimesheetService.getCourseId(locationId, body.courseId || -1)
+    const hideCI = body.hideCI === 'true'
+    const hideCO = body.hideCO === 'true'
+    let courseIdFilter = await TimesheetService.getCourseId(locationId, body.courseIdFilter || -1)
     const studentsTimesheet = await this.findByLocationIdAndCourseIdAndDate(
       locationId,
-      courseId,
+      courseIdFilter,
       rawDate,
-      search
+      search,
+      hideCI,
+      hideCO
     )
     const rawCourses = await coursesService.findByLocationId(locationId)
     let courses = rawCourses.map(CoursesService.mapLocationForTheView)
@@ -32,14 +36,16 @@ export default class TimesheetService {
       rawDate,
       locationId
     )
-    return { studentsTimesheet, date, courses, courseId, search, isCoursesScheduled }
+    return { studentsTimesheet, date, courses, courseIdFilter, search, isCoursesScheduled }
   }
 
   public async findByLocationIdAndCourseIdAndDate(
     locationId: number,
     courseId: number,
     rawDate: DateTime,
-    search: string
+    search: string,
+    hideCI: boolean,
+    hideCO: boolean
   ) {
     const dayOfTheWeek = rawDate.weekday
     const date = TimesheetService.formatDateToString(rawDate)
@@ -49,6 +55,8 @@ export default class TimesheetService {
       date,
       search,
       dayOfTheWeek,
+      hideCI,
+      hideCO,
     }
     return Database.rawQuery(studentListTimesheetQuery(), args)
   }
@@ -63,7 +71,7 @@ export default class TimesheetService {
 
   public async checkIn(ctx: HttpContextContract) {
     const user = ctx.auth.use('web').user
-    const body = ctx.request.body()
+    const body = ctx.request.qs()
     const userCanCheckStudentIn = await TimesheetService.isUserHasRightsOverStudentData(
       user,
       body.studentId
@@ -76,7 +84,7 @@ export default class TimesheetService {
   }
 
   private async saveOrUpdate(ctx: HttpContextContract) {
-    const body = ctx.request.body()
+    const body = ctx.request.qs()
     const user = ctx.auth.use('web').user
     const locationId = user ? user.locationId : -1
     const studentId = body.studentId || -1
@@ -93,7 +101,7 @@ export default class TimesheetService {
   }
 
   private async save(ctx: HttpContextContract) {
-    const body = ctx.request.body()
+    const body = ctx.request.qs()
     body.time = TimesheetService.stringCheckInTimeToDateTimeCheckInTime(body.time)
     const attendance = new Attendance()
     attendance.fill(body, true)
@@ -113,7 +121,7 @@ export default class TimesheetService {
     const user = await ctx.auth.use('web').user
     const attendance = await Attendance.findOrFail(attendanceId)
     if (user && attendance.locationId === user.locationId) {
-      return await attendance.delete()
+      await attendance.delete()
     }
   }
 

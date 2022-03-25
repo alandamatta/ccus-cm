@@ -108,8 +108,8 @@ Route.get('/parent/setup', 'ParentsController.setUpTheModal').as('parent.setup')
 |-----------------  ---------------------------------------------------------
 */
 Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init')
-Route.post('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.search')
-Route.post('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.mainPage.checkIn')
+Route.get('/timesheet/search', 'TimesheetController.search').as('timesheet.mainPage.search')
+Route.get('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.mainPage.checkIn')
 Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
   'timesheet.mainPage.checkIn.cancel'
 )

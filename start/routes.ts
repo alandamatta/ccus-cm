@@ -65,12 +65,20 @@ Route.get('/location/:id/delete', 'LocationsController.delete').middleware('admi
 | Course
 |--------------------------------------------------------------------------
 */
-Route.get('/course', 'CoursesController.index').as('course.index')
-Route.get('/course/create', 'CoursesController.indexCreate').as('course.modal.render')
-Route.post('/course/create', 'CoursesController.create').as('course.modal.post')
-Route.get('/course/search', 'CoursesController.search').as('course.search')
-Route.get('/course/:id', 'CoursesController.find').as('course.find')
-Route.get('/course/:id/delete', 'CoursesController.delete').as('course.delete')
+Route.get('/course', 'CoursesController.index').as('course.index').middleware('adminMiddleware')
+Route.get('/course/create', 'CoursesController.indexCreate')
+  .as('course.modal.render')
+  .middleware('adminMiddleware')
+Route.post('/course/create', 'CoursesController.create')
+  .as('course.modal.post')
+  .middleware('adminMiddleware')
+Route.get('/course/search', 'CoursesController.search')
+  .as('course.search')
+  .middleware('adminMiddleware')
+Route.get('/course/:id', 'CoursesController.find').as('course.find').middleware('adminMiddleware')
+Route.get('/course/:id/delete', 'CoursesController.delete')
+  .as('course.delete')
+  .middleware('adminMiddleware')
 /*
 |--------------------------------------------------------------------------
 | User
@@ -87,12 +95,29 @@ Route.get('/user/:id/delete', 'UsersController.delete').middleware('adminMiddlew
 | Student
 |--------------------------------------------------------------------------
 */
-Route.get('/student', 'StudentsController.index').as('student.init')
-Route.post('/student/save', 'StudentsController.create').as('student.ajaxSave')
-Route.get('/student/search', 'StudentsController.search').as('student.ajaxSearch')
-Route.get('/student/:id', 'StudentsController.find').as('student.find')
-Route.get('/student/:id/inactivate', 'StudentsController.inactivate').as('student.inactivate')
-Route.get('/student/:id/reactivate', 'StudentsController.reactivate').as('student.reactivate')
+Route.get('/student', 'StudentsController.index').as('student.init').middleware('adminMiddleware')
+Route.post('/student/save', 'StudentsController.create')
+  .as('student.ajaxSave')
+  .middleware('adminMiddleware')
+Route.get('/student/search', 'StudentsController.search')
+  .as('student.ajaxSearch')
+  .middleware('adminMiddleware')
+Route.get('/student/:id', 'StudentsController.find')
+  .as('student.find')
+  .middleware('adminMiddleware')
+Route.get('/student/:id/inactivate', 'StudentsController.inactivate')
+  .as('student.inactivate')
+  .middleware('adminMiddleware')
+Route.get('/student/:id/reactivate', 'StudentsController.reactivate')
+  .as('student.reactivate')
+  .middleware('adminMiddleware')
+
+/*
+|--------------------------------------------------------------------------
+| StudentBatchImport
+|--------------------------------------------------------------------------
+*/
+Route.get('/studentBatchImport', 'StudentBatchImport.index').as('studentBatchImport.init')
 
 /*
 |--------------------------------------------------------------------------
@@ -107,12 +132,18 @@ Route.get('/parent/setup', 'ParentsController.setUpTheModal').as('parent.setup')
 | TimeSheet
 |-----------------  ---------------------------------------------------------
 */
-Route.get('/timesheet', 'TimesheetController.index').as('timesheet.mainPage.init')
-Route.get('/timesheet/search', 'TimesheetController.search').as('timesheet.mainPage.search')
-Route.get('/timesheet/checkIn', 'TimesheetController.checkIn').as('timesheet.mainPage.checkIn')
-Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel').as(
-  'timesheet.mainPage.checkIn.cancel'
-)
+Route.get('/timesheet', 'TimesheetController.index')
+  .as('timesheet.mainPage.init')
+  .middleware('adminMiddleware')
+Route.get('/timesheet/search', 'TimesheetController.search')
+  .as('timesheet.mainPage.search')
+  .middleware('adminMiddleware')
+Route.get('/timesheet/checkIn', 'TimesheetController.checkIn')
+  .as('timesheet.mainPage.checkIn')
+  .middleware('adminMiddleware')
+Route.get('/timesheet/cancel/:attendanceId', 'TimesheetController.cancel')
+  .as('timesheet.mainPage.checkIn.cancel')
+  .middleware('adminMiddleware')
 
 /*
 |--------------------------------------------------------------------------
@@ -133,4 +164,6 @@ Route.post('/activate/:key', 'UserActivationController.create')
 | Reports
 |-----------------  ---------------------------------------------------------
 */
-Route.get('/attendance', 'ReportsController.index').as('reports.attendance.init')
+Route.get('/attendance', 'ReportsController.index')
+  .as('reports.attendance.init')
+  .middleware('adminMiddleware')

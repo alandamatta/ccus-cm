@@ -52,13 +52,16 @@ export default class StudentsService {
     if (user) {
       this.handleParentFlow(body)
       const student = new Student().fill(body, true)
+      const course = await Course.findOrFail(student.courseId)
       student.locationId = user.locationId
       // @ts-ignore
       student.picture = await StudentsService.pictureUpload(ctx)
       // @ts-ignore
       student.file = await StudentsService.fileUpload(ctx)
       student.locationId = user.locationId
-      return student.save()
+      const savedStudent = await student.save()
+      savedStudent.related('courses').save(course)
+      return savedStudent
     }
   }
 

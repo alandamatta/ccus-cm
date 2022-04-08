@@ -105,10 +105,12 @@
 
     <div class="navbar-end">
       <div class="navbar-item">
+          <div class="column">
+            <div class="content is-small">
+              <p>{{auth.user.name}}, {{session.get('global_userLocation')}}</p>
+            </div>
+          </div>
         <div class="buttons">
-<!--          <a class="button is-primary">-->
-<!--            <strong>My Account</strong>-->
-<!--          </a>-->
           <a class="button is-light" href="/logout">
             Log out
           </a>

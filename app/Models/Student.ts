@@ -1,5 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  belongsTo,
+  BelongsTo,
+  column,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import Location from 'App/Models/Location'
 import Course from 'App/Models/Course'
 import Parent from 'App/Models/Parent'
@@ -52,6 +59,13 @@ export default class Student extends BaseModel {
 
   @column()
   public courseId: number
+
+  @manyToMany(() => Course, {
+    pivotTable: 'students_courses',
+    pivotTimestamps: true,
+    pivotColumns: ['disabled_at'],
+  })
+  public courses: ManyToMany<typeof Course>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

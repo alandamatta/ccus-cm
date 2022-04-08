@@ -49,6 +49,8 @@ export default class User extends BaseModel {
   @column.dateTime()
   public deletedAt: DateTime
 
+  public locationName: string
+
   @beforeSave()
   public static async hashPassword(user: User) {
     if (user.$dirty.password) {

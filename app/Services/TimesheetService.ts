@@ -3,10 +3,10 @@ import studentListTimesheetQuery from 'App/Queries/StudentListTimesheet'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Logger from '@ioc:Adonis/Core/Logger'
 import Attendance from 'App/Models/Attendance'
-import Student from 'App/Models/Student'
 import CoursesService from 'App/Services/CoursesService'
 import Course from 'App/Models/Course'
 import { DateTime } from 'luxon'
+import checkUserAccessToStudent from 'App/Queries/CheckUserAccessToStudent'
 
 const coursesService = new CoursesService()
 
@@ -126,10 +126,9 @@ export default class TimesheetService {
   }
 
   private static async isUserHasRightsOverStudentData(user, studentId) {
-    const result = await Student.query()
-      .where('id', studentId)
-      .andWhere('locationId', user.locationId)
-    return result && result.length > 0
+    const locationId = user.locationId
+    const result = await Database.rawQuery(checkUserAccessToStudent(), { locationId, studentId })
+    return result && result[0].length > 0
   }
 
   private static async getCourseId(locationId: number, courseId: number) {

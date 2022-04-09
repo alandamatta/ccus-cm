@@ -39,6 +39,7 @@ export default class StudentsService {
           // @ts-ignore
           body.file = await StudentsService.fileUpload(ctx)
         }
+        delete body.createdAt
         return await student.merge(body, true).save()
       }
       return ctx.response.redirect().back()

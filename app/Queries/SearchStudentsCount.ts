@@ -1,13 +1,15 @@
 export default function SearchStudentsCount() {
   return `
   SELECT
-    COUNT(*) as total
-FROM students s
-INNER JOIN courses c on s.course_id = c.id
+    count(*) as total
+FROM students_courses sc
+INNER JOIN students s ON sc.student_id = s.id
+INNER JOIN courses c ON sc.course_id = c.id
+INNER JOIN locations l ON c.location_id = l.id
 WHERE
-    s.location_id = :locationId AND
+    l.id = :locationId AND
     (c.id = :courseId OR :courseId <= 0) AND
     (s.full_name LIKE CONCAT('%', :search, '%') OR :search = TRIM('')) AND
-    ((s.disabled_at IS NULL AND :status = 1) OR  (s.disabled_at IS NOT NULL AND :status = 2) OR (:status NOT IN (1,2)))
+    ((sc.disabled_at IS NULL AND :status = 1) OR  (sc.disabled_at IS NOT NULL AND :status = 2) OR (:status NOT IN (1,2)));
 `
 }

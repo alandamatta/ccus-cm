@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Student from 'App/Models/Student'
 import Drive from '@ioc:Adonis/Core/Drive'
+import Database from '@ioc:Adonis/Lucid/Database'
+import findStudent from 'App/Queries/FindStudent'
 
 export default class FilesController {
   public async image(ctx: HttpContextContract) {
@@ -26,6 +27,6 @@ export default class FilesController {
   }
 
   private static async findStudent(studentId: number, locationId: number) {
-    return Student.query().where('id', studentId).andWhere('location_id', locationId)
+    return (await Database.rawQuery(findStudent(), { studentId, locationId }))[0]
   }
 }

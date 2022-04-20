@@ -8,5 +8,5 @@ jobs:
           password: $DOCKERHUB_PWD
     steps:
       - checkout
-      - run: npm run install
+      - run: npm install
       - run: npm run build

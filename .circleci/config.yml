@@ -17,6 +17,10 @@ jobs:
       - run:
           name: Node CI Packages Download (No optionals)
           command: cd ./build && npm ci --production --no-optional
+
+      - add_ssh_keys:
+          fingerprints:
+            - "70:ff:c6:63:8b:b3:6e:29:87:93:13:97:a5:07:f3:93"
       - run:
           name: Generate Artifact
           command: |

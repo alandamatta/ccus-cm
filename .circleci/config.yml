@@ -18,21 +18,14 @@ jobs:
           name: Node CI Packages Download (No optionals)
           command: cd ./build && npm ci --production --no-optional
 
-      - add_ssh_keys:
-          fingerprints:
-            - "70:ff:c6:63:8b:b3:6e:29:87:93:13:97:a5:07:f3:93"
+      - add_ssh_keys
       - run:
           name: Generate Artifact
           command: |
             mkdir /tmp/artifacts
             tar -czf /tmp/build.tar.gz ./build
-            echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINDHgNsTIwcf1yHAO6ITnCojSk2pVsB2fO7sfFQ91nHn alandamatta@live.com' >> ~/.ssh/known_hosts
-            ssh root@155.138.227.209 <<'ENDSSH'
-            nvm use 16
-            npm run build
-            cd build
-            npm ci --production --no-optional
-            ENDSSH
+            run: ssh-keyscan -H 155.138.227.209 >> ~/.ssh/known_hosts
+            rsync -avce ssh --delete ./build root@155.138.227.209:~/circleci-folder
       - store_artifacts:
           path: /tmp/build.tar.gz
           destination: artifact-file

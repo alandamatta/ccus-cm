@@ -4,8 +4,10 @@ SELECT
     s.full_name studentName,
     l.name as locationName,
     c.name as courseName,
-    CONCAT(count(s.id), '(', ABS(FLOOR((100 * count(s.id)) / FLOOR(DATEDIFF(DATE(:endDate), DATE(:startDate)) / 7))),'%)') as present,
-    FLOOR(DATEDIFF(DATE(NOW()), DATE(:startDate)) / 7) - count(s.id) absent
+    CONCAT(COUNT(sc.student_id), '(',
+        ABS(FLOOR(100 * COUNT(sc.student_id)) / FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)),
+        '%) ') present,
+    (COUNT(sc.student_id) - FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)) missed
 FROM attendances a
         INNER JOIN students_courses sc ON sc.student_id = a.student_id AND sc.course_id = a.course_id
         INNER JOIN courses c on sc.course_id = c.id

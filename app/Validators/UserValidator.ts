@@ -36,6 +36,8 @@ export default class UserValidator {
     ]),
     phone: schema.string(),
     locationId: schema.number(),
+    password: schema.string({}, [rules.confirmed('confirmPassword')]),
+    confirmPassword: schema.string(),
   })
 
   /**
@@ -58,5 +60,9 @@ export default class UserValidator {
     'email.unique': msg.notUnique,
     'phone.required': msg.required,
     'locationId.required': msg.required,
+    'password.confirmed': msg.passwordsDontMatch,
+    'password.required': msg.required,
+    'confirmPassword.required': msg.required,
+    'confirmPassword.confirmed': msg.passwordsDontMatch,
   }
 }

@@ -3,11 +3,8 @@ import User from 'App/Models/User'
 import UserValidator from 'App/Validators/UserValidator'
 import Location from 'App/Models/Location'
 import UsersService from 'App/Services/UsersService'
-import EmailService from 'App/Services/EmailService'
-import { v4 as uuidv4 } from 'uuid'
 
 const userService = new UsersService()
-const emailService = new EmailService()
 
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
@@ -27,26 +24,15 @@ export default class UsersController {
   }
   public async create(ctx: HttpContextContract) {
     await ctx.request.validate(UserValidator)
+    const user = new User()
     const body = ctx.request.body()
-    body.admin = !!body.admin
     delete body.confirmPassword
-    if (body.id && body.id > 0) {
-      delete body.password
-      const updatedUser = await User.findOrFail(body.id)
-      await updatedUser.merge(body, true).save()
-    } else {
-      body.password = uuidv4()
-      body.key = uuidv4()
-      delete body.id
-      const user = new User()
-      await user.fill(body, true).save()
-      await emailService.sendUserActivation(user)
-    }
+    body.admin = !!body.admin
+    await user.fill(body, true).save()
     return ctx.response.redirect('/user')
   }
   public async find(ctx: HttpContextContract) {
     const qs = ctx.request.params()
-    const id = qs.id
     const user = await User.findBy('id', qs.id)
     const rawLocations = await Location.all()
     const locations = rawLocations.map((location) => {
@@ -55,8 +41,7 @@ export default class UsersController {
         value: location.id,
       }
     })
-
-    return ctx.view.render('user', { showModal: 'is-active', user, locations, id })
+    return ctx.view.render('user', { showModal: 'is-active', user, locations })
   }
   public async delete(ctx: HttpContextContract) {
     const params = ctx.request.params()

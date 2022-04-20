@@ -11,7 +11,6 @@
     dialogButtonLabel: 'Add new user'
   })
     @slot('content')
-        <input type="hidden" name="id" value="{{(flashMessages.get('id', id) || null)}}">
         <div class="columns is-flex">
           <div class="column is-8">
             @!input({
@@ -43,9 +42,30 @@
               keyName: 'phone',
               value: user ? user.phone : ''
             })
-          </div>
+          </div>  
         </div>
 
+        <div class="columns">
+          <div class="column">
+            @!input({
+              id: 'password',
+              name: 'password',
+              label: 'Password',
+              keyName: 'password',
+              type: 'password',
+            })
+          </div>
+
+          <div class="column">
+            @!input({
+              id: 'confirmPassword',
+              name: 'confirmPassword',
+              label: 'Confirm password',
+              keyName: 'confirmPassword',
+              type: 'password',
+            })
+          </div>
+        </div>
         <div class="columns">
           <div class="column">
             @!select({
@@ -75,8 +95,8 @@
     <div class="column">
       @!component('components/datatable', {
         sessionListName: 'users',
-        columnKeys: ['name', 'phone', 'location', 'userType'],
-        columnNames: ['Name', 'Phone', 'Location', 'User Type'],
+        columnKeys: ['name', 'email', 'phone', 'location', 'userType'],
+        columnNames: ['Name', 'Email', 'Phone', 'Location', 'User Type'],
         value: users,
         searchPath: '/user',
         editPath: '/user/'

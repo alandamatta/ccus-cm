@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:16.13.0
+        auth:
+          username: $DOCKERHUB_PWD
+          password: $DOCKERHUB_PWD
+    steps:
+      - checkout
+      - run: npm run build

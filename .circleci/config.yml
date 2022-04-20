@@ -7,6 +7,9 @@ jobs:
           username: $DOCKERHUB_USR
           password: $DOCKERHUB_PWD
     steps:
+      - type: shell
+          shell: /bin/sh
+          pwd: /
       - checkout
       - run:
           name: Node Packages Download
@@ -17,7 +20,6 @@ jobs:
       - run:
           name: Node CI Packages Download (No optionals)
           command: cd ./build && npm ci --production --no-optional
-
       - add_ssh_keys
       - run:
           name: Generate Artifact

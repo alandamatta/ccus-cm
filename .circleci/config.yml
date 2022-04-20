@@ -10,3 +10,5 @@ jobs:
       - checkout
       - run: npm run install
       - run: npm run build
+      - run: cd ./build
+      - run: npm ci --production --no-optional

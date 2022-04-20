@@ -8,12 +8,12 @@ jobs:
           password: $DOCKERHUB_PWD
     steps:
       - checkout
-      - run: 
-        name: Node Packages Download 
-        command: npm install
-      - run: 
-        name: Project Build
-        command: npm run build
-      - run: 
-        name: Node CI Packages Download (No optionals)
-        command: cd ./build && npm ci --production --no-optional
+      - run:
+          name: Node Packages Download
+          command: npm install
+      - run:
+          name: Project Build
+          command: npm run build
+      - run:
+          name: Node CI Packages Download (No optionals)
+          command: cd ./build && npm ci --production --no-optional

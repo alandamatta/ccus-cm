@@ -10,6 +10,7 @@ jobs:
       - type: shell
           shell: /bin/sh
           pwd: /
+          command:
       - checkout
       - run:
           name: Node Packages Download

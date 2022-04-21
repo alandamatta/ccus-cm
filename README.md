@@ -1,4 +1,4 @@
-# CM-App ^1
+# CM-App
 > Stands for Children's Meeting.
 > That's because it was developed to help a church to better manage the children participation of a biblical studies.
 

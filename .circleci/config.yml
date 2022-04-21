@@ -19,15 +19,15 @@ jobs:
           command: cd ./build && npm ci --production --no-optional
       - add_ssh_keys
       - run:
-          name: Generate Artifact
+          name: Generate Artifact & Deploy
           command: |
             apt-get update && apt-get -y install rsync
             mkdir /tmp/artifacts
             tar -czf /tmp/build.tar.gz ./build
-            ssh-keyscan -H 155.138.227.209 >> ~/.ssh/known_hosts
-            rsync -va --delete /tmp/build.tar.gz root@155.138.227.209:/root/circleci-folder
-            ssh root@155.138.227.209 <<'ENDSSH'
-            cd /root/circleci-folder
+            ssh-keyscan -H $PRD_SERVER >> ~/.ssh/known_hosts
+            rsync -va --delete /tmp/build.tar.gz $PRD_USR@$PRD_SERVER:$PRD_PATH
+            ssh $PRD_USR@$PRD_SERVER <<'ENDSSH'
+            cd $PRD_PATH
             tar -xf build.tar.gz
             pm2 stop 0
             pm2 start 0

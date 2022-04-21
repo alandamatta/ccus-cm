@@ -7,7 +7,7 @@ SELECT
     CONCAT(COUNT(sc.student_id), '(',
         ABS(FLOOR(100 * COUNT(sc.student_id)) / FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)),
         '%) ') present,
-    (COUNT(sc.student_id) - FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)) missed
+    (COUNT(sc.student_id) - FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)) absent
 FROM attendances a
         INNER JOIN students_courses sc ON sc.student_id = a.student_id AND sc.course_id = a.course_id
         INNER JOIN courses c on sc.course_id = c.id

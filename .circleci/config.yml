@@ -27,6 +27,10 @@ jobs:
             ssh-keyscan -H 155.138.227.209 >> ~/.ssh/known_hosts
             rsync -va --delete /tmp/build.tar.gz root@155.138.227.209:/root/circleci-folder
             ssh root@155.138.227.209 <<'ENDSSH'
+            cd /root/circleci-folder
+            tar -xf build.tar.gz
+            pm2 stop 0
+            pm2 start 0
             ENDSSH
       - store_artifacts:
           path: /tmp/build.tar.gz

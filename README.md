@@ -1,6 +1,7 @@
 # CM-App ^1
 > Stands for Children's Meeting.
 > That's because it was developed to help a church to better manage the children participation of a biblical studies.
+
 [![CircleCI](https://circleci.com/gh/alandamatta/ccus-cm/tree/main.svg?style=svg)](https://circleci.com/gh/alandamatta/ccus-cm/tree/main)
 
 

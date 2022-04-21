@@ -7,10 +7,6 @@ jobs:
           username: $DOCKERHUB_USR
           password: $DOCKERHUB_PWD
     steps:
-      - type: shell
-          shell: /bin/sh
-          pwd: /
-          command:
       - checkout
       - run:
           name: Node Packages Download
@@ -25,11 +21,10 @@ jobs:
       - run:
           name: Generate Artifact
           command: |
+            sudo apt-get update && sudo apt-get install rsync
             sudo apt-get install rsync
             mkdir /tmp/artifacts
             tar -czf /tmp/build.tar.gz ./build
-            ssh-keyscan -H 155.138.227.209 >> ~/.ssh/known_hosts
-            rsync -avce ssh --delete ./build root@155.138.227.209:~/circleci-folder
       - store_artifacts:
           path: /tmp/build.tar.gz
           destination: artifact-file

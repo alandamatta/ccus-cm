@@ -1,4 +1,4 @@
-##CM-App[^1]
+##CM-App [^1]
 [![CircleCI](https://circleci.com/gh/alandamatta/ccus-cm/tree/main.svg?style=svg)](https://circleci.com/gh/alandamatta/ccus-cm/tree/main)
 
 

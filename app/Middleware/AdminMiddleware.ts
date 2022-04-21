@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Location from 'App/Models/Location'
 
-const ADMIN_ONLY_PATHS = ['/user', '/location']
+const ADMIN_ONLY_PATHS = ['/user', '/location', '/course']
 
 export default class AdminMiddleware {
   public async handle(ctx: HttpContextContract, next: () => Promise<void>) {

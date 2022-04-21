@@ -5,7 +5,7 @@ SELECT
     l.name as locationName,
     c.name as courseName,
     CONCAT(COUNT(sc.student_id), '(',
-        ABS(FLOOR(100 * COUNT(sc.student_id)) / FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)),
+        FORMAT(ABS(FLOOR(100 * COUNT(sc.student_id)) / FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)), 0),
         '%) ') present,
     (COUNT(sc.student_id) - FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7)) absent
 FROM attendances a
@@ -22,5 +22,6 @@ WHERE check_in IS TRUE AND
       (:admin IS TRUE || c.location_id = :userLocation)
 GROUP BY s.id, s.full_name, l.name, c.name, sc.id
 ORDER BY s.full_name;
+
 `
 }

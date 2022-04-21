@@ -24,11 +24,19 @@ export default class UsersController {
   }
   public async create(ctx: HttpContextContract) {
     await ctx.request.validate(UserValidator)
-    const user = new User()
+    let user = new User()
     const body = ctx.request.body()
     delete body.confirmPassword
     body.admin = !!body.admin
-    await user.fill(body, true).save()
+    if (body.id) {
+      user = await User.findOrFail(body.id)
+      if (user.password === body.password) {
+        delete body.password
+      }
+      await user.merge(body, true).save()
+    } else {
+      await user.fill(body, true).save()
+    }
     return ctx.response.redirect('/user')
   }
   public async find(ctx: HttpContextContract) {

@@ -11,6 +11,7 @@
     dialogButtonLabel: 'Add new user'
   })
     @slot('content')
+        <input type="hidden" name="id" value="{{user && user.id !== null ? user.id : '' }}">
         <div class="columns is-flex">
           <div class="column is-8">
             @!input({
@@ -42,9 +43,10 @@
               keyName: 'phone',
               value: user ? user.phone : ''
             })
-          </div>  
+          </div>
         </div>
 
+        @if(!id)
         <div class="columns">
           <div class="column">
             @!input({
@@ -53,6 +55,7 @@
               label: 'Password',
               keyName: 'password',
               type: 'password',
+              value: user? user.password : '',
             })
           </div>
 
@@ -63,9 +66,11 @@
               label: 'Confirm password',
               keyName: 'confirmPassword',
               type: 'password',
+              value: user? user.password : '',
             })
           </div>
         </div>
+        @end
         <div class="columns">
           <div class="column">
             @!select({

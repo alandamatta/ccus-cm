@@ -27,9 +27,7 @@ jobs:
             ssh-keyscan -H $PRD_SERVER >> ~/.ssh/known_hosts
             rsync -va --delete /tmp/build.tar.gz $PRD_USR@$PRD_SERVER:$PRD_PATH
             ssh $PRD_USR@$PRD_SERVER <<'ENDSSH'
-            cd $PRD_PATH
-            ls $PRD_PATH
-            pwd
+            cd /root/circleci-folder
             rm -rf ./build
             tar -xf build.tar.gz
             pm2 restart 0

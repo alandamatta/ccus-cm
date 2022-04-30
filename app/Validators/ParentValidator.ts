@@ -25,16 +25,8 @@ export default class ParentValidator {
    */
   public schema = schema.create({
     name: schema.string({ trim: true }, [rules.maxLength(60)]),
-    phone: schema.number(),
-    email: schema.string({ trim: true }, [
-      rules.maxLength(255),
-      rules.email(),
-      rules.unique({
-        table: 'parents',
-        column: 'email',
-        whereNot: { id: this.ctx.request.body().id },
-      }),
-    ]),
+    phone: schema.number.optional(),
+    email: schema.string.optional({ trim: true }, [rules.maxLength(255), rules.email()]),
   })
 
   /**

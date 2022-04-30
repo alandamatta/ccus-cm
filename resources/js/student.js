@@ -173,14 +173,14 @@ function contactHTML(contact, newContact) {
         <div class="columns no-padding-bottom no-padding-top">
           <div class="column  no-padding-bottom">
             <span class="icon"><i class="fas fa-phone-alt"></i></span><span
-            class="is-size-6">${contact.phone}</span>
+            class="is-size-6">${contact.phone || '--'}</span>
           </div>
         </div>
 
         <div class="columns no-padding-bottom no-padding-top">
           <div class="column  no-padding-bottom">
             <span class="icon"><i class="fas fa-envelope"></i></span><span
-            class="is-size-6">${contact.email}</span>
+            class="is-size-6">${contact.email || '--'}</span>
           </div>
         </div>
 

@@ -2,6 +2,7 @@ export default function studentByIdAndLocation() {
   return `
   SELECT
      s.id,
+     sc.id as studentReferenceId,
      s.full_name AS fullName,
      s.grade,
      DATE_FORMAT(s.date_of_birth, '%Y-%m-%d') as dateOfBirth,

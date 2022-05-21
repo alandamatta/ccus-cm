@@ -1,5 +1,6 @@
 @set('value', value)
 <form id="{{id}}" class="column" action="/student/save" enctype="multipart/form-data" style="padding-top: 0.3em">
+  <input type="hidden" value="{{value ? value.studentReferenceId : ''}}" name="studentReferenceId">
   <div class="box has-background-white">
     @if(value && value.disabledAt)
     <div class="columns">

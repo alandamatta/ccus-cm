@@ -35,7 +35,7 @@ const bodyParserConfig: BodyParserConfig = {
     types: [
       'application/json',
       'application/json-patch+json',
-      'application/vnd.api+json',
+      'application/vnd.Api+json',
       'application/csp-report',
     ],
   },

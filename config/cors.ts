@@ -23,7 +23,7 @@ const corsConfig: CorsConfig = {
   enabled: false,
 
   // You can also use a function that return true or false.
-  // enabled: (request) => request.url().startsWith('/api')
+  // enabled: (request) => request.url().startsWith('/Api')
 
   /*
   |--------------------------------------------------------------------------

@@ -9,7 +9,10 @@ jobs:
     steps:
       - checkout
       - when:
-          condition: [ main ]
+          condition:
+            equal: [ main ]
+          steps:
+            - run: echo "Main branch"
       - run:
           name: Node Packages Download
           command: npm install

@@ -77,7 +77,7 @@ export default class Student extends BaseModel {
   public disabledAt: DateTime
 
   public getAge(): string {
-    const today = new DateTime()
+    const today = DateTime.now()
     const thisYear = today.year
     const thisMonth = today.month
     const dobYear = this.dateOfBirth.year

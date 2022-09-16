@@ -11,7 +11,5 @@ export default class ParentInfo {
 
   public addressLine2: string
 
-  public locationId: string
-
   public phone1: string
 }

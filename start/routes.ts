@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import apiRoutes from './apiRoutes'
 
 Route.get('/', async ({ auth, response }) => {
   await auth.use('web').authenticate()
@@ -167,3 +168,10 @@ Route.post('/activate/:key', 'UserActivationController.create')
 Route.get('/attendance', 'ReportsController.index')
   .as('reports.attendance.init')
   .middleware('adminMiddleware')
+
+/*
+|--------------------------------------------------------------------------
+| API
+|-----------------  ---------------------------------------------------------
+*/
+Route.group(apiRoutes).prefix('/api')

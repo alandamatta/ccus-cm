@@ -1,0 +1,8 @@
+POST http://localhost:3333/api/student/enroll
+Content-Type: application/json
+
+{
+  "code": "123"
+}
+
+###

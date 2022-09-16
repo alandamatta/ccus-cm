@@ -8,6 +8,8 @@ jobs:
           password: $DOCKERHUB_PWD
     steps:
       - checkout
+      - when:
+          condition: [ main ]
       - run:
           name: Node Packages Download
           command: npm install

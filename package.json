@@ -13,6 +13,8 @@
   "devDependencies": {
     "@symfony/webpack-encore": "^4.0.0",
     "eslint": "^8.23.1",
+    "@japa/preset-adonis": "^1.2.0",
+    "@japa/runner": "^2.2.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-adonis": "^2.1.1",
     "eslint-plugin-prettier": "^4.2.1",

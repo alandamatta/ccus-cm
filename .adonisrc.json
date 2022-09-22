@@ -40,5 +40,16 @@
   ],
   "aceProviders": [
     "@adonisjs/repl"
-  ]
+  ],
+  "tests": {
+    "suites": [
+      {
+        "name": "functional",
+        "files": [
+          "tests/functional/**/*.spec(.ts|.js)"
+        ],
+        "timeout": 60000
+      }
+    ]
+  }
 }

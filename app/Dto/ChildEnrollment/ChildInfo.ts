@@ -1,9 +1,5 @@
 export default class ChildInfo {
-  public firstName: string
-
-  public lastName: string
-
-  public middleName: string
+  public fullName: string
 
   public grade: string
 

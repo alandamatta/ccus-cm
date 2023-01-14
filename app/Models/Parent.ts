@@ -24,6 +24,9 @@ export default class Parent extends BaseModel {
   @belongsTo(() => Location)
   public location: BelongsTo<typeof Location>
 
+  /**
+   * @deprecated locationId should not be set for parent
+   */
   @column()
   public locationId: number
 

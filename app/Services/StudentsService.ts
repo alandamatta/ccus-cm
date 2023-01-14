@@ -11,6 +11,9 @@ import FindStudentByCourseId from 'App/Queries/FindStudentByCourseId'
 import User from 'App/Models/User'
 import SearchStudents from 'App/Queries/SearchStudents'
 import SearchStudentsCount from 'App/Queries/SearchStudentsCount'
+import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
+import Parent from 'App/Models/Parent'
+const readXlsxFile = require('read-excel-file/node')
 
 const photoService = new PhotoService()
 
@@ -47,6 +50,60 @@ export default class StudentsService {
     return await this.save(ctx)
   }
 
+  public async importXlsxEntity(data: StudentInterface) {
+    let parent1: Parent | null = data.parents[0] ? data.parents[0] : null
+    let student = data.student
+    if (parent1) {
+      parent1 = await parent1.save()
+      student.parent1Id = parent1.id
+      data.parents[0] = parent1
+    }
+    let parent2: Parent | null = data.parents[1] ? data.parents[1] : null
+    if (parent2) {
+      parent2 = await parent2.save()
+      student.parent2Id = parent2.id
+      data.parents[1] = parent2
+    }
+    student = await student.save()
+    data.student = student
+    return data
+  }
+  public async xlsx2Entity(file: MultipartFileContract | null, courses: Course[]): Promise<any[]> {
+    if (file !== null) {
+      const rows = await readXlsxFile(file.tmpPath)
+      let result: StudentInterface[] = []
+      rows.shift()
+      let coursesList: Course[] = await Course.findMany(courses.map((e) => e.id))
+      for (let row of rows) {
+        result.push({
+          student: new Student().fill({
+            fullName: row[0],
+            dateOfBirth: row[1],
+            grade: row[2],
+            notes: row[3],
+          }),
+          parents: [
+            new Parent().fill({
+              name: row[4],
+              address: row[5],
+              email: row[6],
+              phone: row[7],
+            }),
+            new Parent().fill({
+              name: row[8],
+              address: row[9],
+              email: row[10],
+              phone: row[11],
+            }),
+          ],
+          courses: coursesList,
+        })
+      }
+      return result
+    }
+    return []
+  }
+
   private async save(ctx: HttpContextContract) {
     const body = ctx.request.body()
     const user = ctx.auth.use('web').user
@@ -80,9 +137,12 @@ export default class StudentsService {
   }
 
   private static async fileUpload(ctx: HttpContextContract) {
-    const file = ctx.request.file('file')
+    return this.uploadAFile(ctx.request.file('file'))
+  }
+
+  public static async uploadAFile(file: MultipartFileContract | null) {
     if (file) {
-      const tempPath = Env.get('UPLOAD_ROOT') + '/files'
+      const tempPath = '/files'
       file.clientName = StudentsService.generateFileName(file).replace(/\s/g, '')
       await file.moveToDisk(tempPath, { name: file.clientName })
       return file.clientName
@@ -195,4 +255,9 @@ export default class StudentsService {
       body.parent1Id = body.parent
     }
   }
+}
+interface StudentInterface {
+  student: Student
+  parents: Parent[]
+  courses: Course[]
 }

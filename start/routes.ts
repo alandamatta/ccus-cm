@@ -167,3 +167,10 @@ Route.post('/activate/:key', 'UserActivationController.create')
 Route.get('/attendance', 'ReportsController.index')
   .as('reports.attendance.init')
   .middleware('adminMiddleware')
+
+/*
+|--------------------------------------------------------------------------
+| API
+|-----------------  ---------------------------------------------------------
+*/
+Route.post('/api/private/student/read/xlsx', 'Api/StudentV1Controller.readXlsx')

@@ -7,7 +7,6 @@ import * as student from './student'
 import * as timesheet from './timesheet'
 
 bqv.attach()
-
 $("input[type='file']").on('change', function () {
   const input = $(this)
   const id = input.attr('id')

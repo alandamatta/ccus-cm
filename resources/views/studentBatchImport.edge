@@ -4,7 +4,145 @@
 @section('body')
   <div class="container">
     <form action="">
-      <input type="file">
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <div class="file has-name is-boxed">
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file…
+                  </span>
+                </span>
+                <span class="file-name">
+                  No file uploaded
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label">Course(s)</label>
+            <div class="dropdown">
+              <div class="dropdown-trigger">
+                <button class="button" type="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span>Dropdown</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <div class="field">
+                    <p class="control has-icons-left">
+                      <input class="dropdown input" type="text" placeholder="Search...">
+                      <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </p>
+                  </div>
+                  @each(course in courses)
+                    <div class="dropdown-item">
+                      <label class="checkbox">
+                        <input class="dropdown" type="checkbox" name="option" value="{{course.id}}"/>
+                        {{course.name}} at {{ course.location}}
+                      </label>
+                    </div>
+                  @end
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary">Import</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
+
+    <div class="table-container">
+      <table class="table is-fullwidth is-bordered is-hoverable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="collapsible">
+            <td>John Doe</td>
+            <td>johndoe@example.com</td>
+            <td>123-456-7890</td>
+            <td>San Francisco</td>
+            <td>CA</td>
+          </tr>
+          <tr class="content is-hidden">
+            <td colspan="5">
+              <p><strong>Address:</strong> 123 Main St, San Francisco, CA 94110</p>
+              <p><strong>Notes:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at augue sed nibh rhoncus laoreet.</p>
+            </td>
+          </tr>
+          <tr class="collapsible">
+            <td>Jane Smith</td>
+            <td>janesmith@example.com</td>
+            <td>456-789-1234</td>
+            <td>New York City</td>
+            <td>NY</td>
+          </tr>
+          <tr class="content is-hidden">
+            <td colspan="5">
+              <p><strong>Address:</strong> 456 Broadway, New York, NY 10013</p>
+              <p><strong>Notes:</strong> Sed auctor euismod purus, a luctus erat interdum at. Fusce eu tristique augue. In euismod consectetur felis, vitae maximus est laoreet eget.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  @!section('script')
+    <script>
+      // Add click event listener to collapsible rows
+        const collapsibles = document.querySelectorAll('.collapsible')
+        collapsibles.forEach(collapsible => {
+          collapsible.addEventListener('click', () => {
+            const content = collapsible.nextElementSibling
+            content.classList.toggle('is-hidden')
+          })
+        })
+        const input = document.querySelector('.dropdown input');
+        const checkboxes = document.querySelectorAll('.checkbox');
+
+        input.addEventListener('input', () => {
+          const query = input.value.toLowerCase();
+          checkboxes.forEach(checkbox => {
+            const label = checkbox.textContent.toLowerCase();
+            checkbox.closest('.dropdown-item').style.display = label.includes(query) ? 'block' : 'none';
+          });
+        });
+
+        //close the dropdown when clicked outside
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownTrigger = document.querySelector('.dropdown-trigger');
+        document.addEventListener('click', (event) => {
+          if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('is-active');
+          }
+        });
+        dropdownTrigger.addEventListener('click', () => {
+          dropdown.classList.toggle('is-active');
+        });
+    </script>
 @end

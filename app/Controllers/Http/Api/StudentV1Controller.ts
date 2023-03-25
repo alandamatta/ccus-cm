@@ -1,7 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ImportStudentValidator from 'App/Validators/ImportStudentValidator'
 import StudentsService from 'App/Services/StudentsService'
-import Course from 'App/Models/Course'
 
 export default class StudentV1Controller {
   public async index({}: HttpContextContract) {}
@@ -10,7 +9,14 @@ export default class StudentV1Controller {
     await request.validate(ImportStudentValidator)
     const studentsService = new StudentsService()
     const file = request.file('file')
-    const courses: Course[] = request.body().courses
+    let courses: number[] = Array.isArray(request.body().courses)
+      ? request.body().courses
+      : [request.body().courses]
+    courses = courses.filter((e) => e)
+    if (!courses || courses.length === 0) {
+      response.badRequest({ errors: 'At least one location is required' })
+      return response.redirect('/studentBatchImport')
+    }
     const list = await studentsService.xlsx2Entity(file, courses)
     response.ok(list)
   }

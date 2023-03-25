@@ -35,8 +35,8 @@ export default class StudentBatchImportController {
     return await view.render('studentBatchImport', { students })
   }
 
-  public async import({ session, response, request }: HttpContextContract) {
-    // save parents
+  public async import({ session, response, request, auth }: HttpContextContract) {
+    await auth.authenticate()
     const studentObj = JSON.parse(request.body().json)
     try {
       for (let studentEl of studentObj) {

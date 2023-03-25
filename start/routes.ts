@@ -117,7 +117,11 @@ Route.get('/student/:id/reactivate', 'StudentsController.reactivate')
 | StudentBatchImport
 |--------------------------------------------------------------------------
 */
-Route.get('/studentBatchImport', 'StudentBatchImport.index').as('studentBatchImport.init')
+Route.get('/studentBatchImport', 'StudentBatchImportController.index').as('studentBatchImport.init')
+Route.post('/studentBatchImport', 'StudentBatchImportController.viewImport').as(
+  'studentBatchImport.viewImport'
+)
+Route.post('/studentBatchImport/import', 'StudentBatchImportController.import')
 
 /*
 |--------------------------------------------------------------------------

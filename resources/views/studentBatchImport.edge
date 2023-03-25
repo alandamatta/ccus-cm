@@ -1,113 +1,139 @@
 @layout('layouts/main')
-@set('pageTitle', 'Student')
-@set('currentPage', 'student')
+@set('pageTitle', 'Import batch of students')
+@set('currentPage', 'studentBatchImport')
 @section('body')
   <div class="container">
-    <form action="">
+    @if(flashMessages.has('errors'))
+    <div class="alert alert-danger">
+      <ul>
+        @each (error in flashMessages.get('errors'))
+        <li>{{error}}</li>
+        @end
+      </ul>
+    </div>
+    @endif
+    @if(students)
       <div class="columns">
         <div class="column">
           <div class="field">
-            <div class="file has-name is-boxed">
-              <label class="file-label">
-                <input class="file-input" type="file" name="resume">
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    Choose a file…
-                  </span>
-                </span>
-                <span class="file-name">
-                  No file uploaded
-                </span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="column">
-          <div class="field">
-            <label class="label">Course(s)</label>
-            <div class="dropdown">
-              <div class="dropdown-trigger">
-                <button class="button" type="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>Dropdown</span>
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <div class="field">
-                    <p class="control has-icons-left">
-                      <input class="dropdown input" type="text" placeholder="Search...">
-                      <span class="icon is-left">
-                        <i class="fas fa-search"></i>
-                      </span>
-                    </p>
-                  </div>
-                  @each(course in courses)
-                    <div class="dropdown-item">
-                      <label class="checkbox">
-                        <input class="dropdown" type="checkbox" name="option" value="{{course.id}}"/>
-                        {{course.name}} at {{ course.location}}
-                      </label>
-                    </div>
-                  @end
-                </div>
-              </div>
+            <div class="control">
+              <a class="button is-info" href="/studentBatchImport">Cancel</a>
             </div>
           </div>
         </div>
         <div class="column">
           <div class="field">
             <div class="control">
-              <button class="button is-primary">Import</button>
+              <form action="/studentBatchImport/import" method="POST">
+                <button class="button is-warning">Proceed with import</button>
+                <input type="hidden" name="json" value="{{JSON.stringify(students)}}" />
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </form>
+    @else
+      <form action="/studentBatchImport" method="POST" enctype="multipart/form-data">
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <div class="file has-name is-boxed">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="file">
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Choose a file…
+                    </span>
+                  </span>
+                  <span class="file-name">
+                    No file uploaded
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label class="label">Course(s)</label>
+              <div class="dropdown is-full">
+                <div class="dropdown-trigger">
+                  <button class="button" type="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Dropdown</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <div class="field">
+                      <p class="control has-icons-left">
+                        <input class="dropdown input" type="text" placeholder="Search...">
+                        <span class="icon is-left">
+                          <i class="fas fa-search"></i>
+                        </span>
+                      </p>
+                    </div>
+                    @set('index', 0)
+                    @each(course in courses)
+                    <div class="dropdown-item">
+                      <label class="checkbox">
+                        <input class="dropdown" type="checkbox" name="courses" value="{{course.value}}"/>
+                        {{course.key}}
+                      </label>
+                    </div>
+                    @set('index', index + 1)
+                    @end
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary">Import</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    @end
 
     <div class="table-container">
       <table class="table is-fullwidth is-bordered is-hoverable">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>City</th>
-            <th>State</th>
+            <th>DOB</th>
+            <th>Grade</th>
+            <th>Notes</th>
+            <th>Courses</th>
           </tr>
         </thead>
         <tbody>
+          @each(student in students)
           <tr class="collapsible">
-            <td>John Doe</td>
-            <td>johndoe@example.com</td>
-            <td>123-456-7890</td>
-            <td>San Francisco</td>
-            <td>CA</td>
-          </tr>
-          <tr class="content is-hidden">
-            <td colspan="5">
-              <p><strong>Address:</strong> 123 Main St, San Francisco, CA 94110</p>
-              <p><strong>Notes:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at augue sed nibh rhoncus laoreet.</p>
+            <td>{{student.student.fullName}}</td>
+            <td>{{student.student.dateOfBirth}}</td>
+            <td>{{student.student.grade}}</td>
+            <td>{{student.student.notes}}</td>
+            <td>
+              @each(course in student.courses)
+                <p>{{course.name}}</p>
+              @end
             </td>
           </tr>
-          <tr class="collapsible">
-            <td>Jane Smith</td>
-            <td>janesmith@example.com</td>
-            <td>456-789-1234</td>
-            <td>New York City</td>
-            <td>NY</td>
-          </tr>
           <tr class="content is-hidden">
-            <td colspan="5">
-              <p><strong>Address:</strong> 456 Broadway, New York, NY 10013</p>
-              <p><strong>Notes:</strong> Sed auctor euismod purus, a luctus erat interdum at. Fusce eu tristique augue. In euismod consectetur felis, vitae maximus est laoreet eget.</p>
+            <td colspan="4">
+              <p><strong>Parent 1:</strong> {{student?.parents[0]?.name}}</p>
+              <p><strong>Parent 2:</strong> {{student?.parents[1]?.name}}</p>
             </td>
           </tr>
+          @end
         </tbody>
       </table>
     </div>
@@ -128,7 +154,7 @@
         input.addEventListener('input', () => {
           const query = input.value.toLowerCase();
           checkboxes.forEach(checkbox => {
-            const label = checkbox.textContent.toLowerCase();
+            const label =  checkbox.textContent.toLowerCase();
             checkbox.closest('.dropdown-item').style.display = label.includes(query) ? 'block' : 'none';
           });
         });

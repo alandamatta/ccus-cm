@@ -1,4 +1,4 @@
-import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class ImportStudentValidator {
@@ -24,11 +24,6 @@ export default class ImportStudentValidator {
    *    ```
    */
   public schema = schema.create({
-    courses: schema.array([]).members(
-      schema.object().members({
-        id: schema.number([rules.required()]),
-      })
-    ),
     file: schema.file({
       size: '3mb',
       extnames: ['xlsx', 'xls'],

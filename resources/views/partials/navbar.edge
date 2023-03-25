@@ -70,6 +70,16 @@
               Courses
             </a>
             @end
+
+            @if(currentPage && currentPage == 'studentBatchImport')
+            <a class="navbar-item is-active">
+              Import Students
+            </a>
+            @else
+            <a href="/studentBatchImport" class="navbar-item">
+              Import Students
+            </a>
+            @end
           </div>
         </div>
       @end

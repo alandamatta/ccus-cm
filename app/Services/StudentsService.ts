@@ -13,11 +13,29 @@ import SearchStudents from 'App/Queries/SearchStudents'
 import SearchStudentsCount from 'App/Queries/SearchStudentsCount'
 import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Parent from 'App/Models/Parent'
+const moment = require('moment')
 const readXlsxFile = require('read-excel-file/node')
 
 const photoService = new PhotoService()
 
 export default class StudentsService {
+  private gradeMapping = {
+    '1st': '1',
+    '2nd': '2',
+    '3rd': '3',
+    '4th': '4',
+    '5th': '5',
+    '6th': '6',
+    '7th': '7',
+    '8th': '8',
+    '9th': '9',
+    '10th': '10',
+    '11th': '11',
+    '12th': '12',
+    'Pre-K': 'PK',
+    'Kindergarden': 'K',
+  }
+
   public async create(ctx: HttpContextContract) {
     const user = await ctx.auth.use('web').authenticate()
     await ctx.request.validate(CreateStudentValidator)
@@ -68,32 +86,32 @@ export default class StudentsService {
     data.student = student
     return data
   }
-  public async xlsx2Entity(file: MultipartFileContract | null, courses: Course[]): Promise<any[]> {
+  public async xlsx2Entity(file: MultipartFileContract | null, courses: number[]): Promise<any[]> {
     if (file !== null) {
       const rows = await readXlsxFile(file.tmpPath)
       let result: StudentInterface[] = []
       rows.shift()
-      let coursesList: Course[] = await Course.findMany(courses.map((e) => e.id))
+      let coursesList: Course[] = await Course.findMany(courses)
       for (let row of rows) {
         result.push({
           student: new Student().fill({
-            fullName: row[0],
-            dateOfBirth: row[1],
-            grade: row[2],
-            notes: row[3],
+            fullName: row[1],
+            dateOfBirth: DateTime.fromFormat(this.formatDate(row[2]), 'MM-dd-yyyy'),
+            grade: this.gradeMapping[row[12]],
+            notes: row[13] || '',
           }),
           parents: [
             new Parent().fill({
               name: row[4],
-              address: row[5],
-              email: row[6],
-              phone: row[7],
+              address: row[9],
+              email: row[8],
+              phone: row[5],
             }),
             new Parent().fill({
-              name: row[8],
+              name: row[6],
               address: row[9],
-              email: row[10],
-              phone: row[11],
+              email: row[8],
+              phone: row[7],
             }),
           ],
           courses: coursesList,
@@ -102,6 +120,10 @@ export default class StudentsService {
       return result
     }
     return []
+  }
+
+  private formatDate(dateString: string) {
+    return moment(dateString).format('MM-DD-yyyy')
   }
 
   private async save(ctx: HttpContextContract) {

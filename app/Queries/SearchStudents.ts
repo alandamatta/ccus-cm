@@ -6,7 +6,7 @@ export default function SearchStudents() {
     s.notes,
     s.picture,
     s.active,
-    s.disabled_at as disabledAt
+    sc.disabled_at as disabledAt
 FROM students_courses sc
 INNER JOIN students s ON sc.student_id = s.id
 INNER JOIN courses c ON sc.course_id = c.id

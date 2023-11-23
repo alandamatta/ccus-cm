@@ -15,6 +15,8 @@ import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Parent from 'App/Models/Parent'
 const moment = require('moment')
 const readXlsxFile = require('read-excel-file/node')
+import * as path from "path";
+import * as fs from "fs";
 
 const photoService = new PhotoService()
 
@@ -148,11 +150,11 @@ export default class StudentsService {
   private static async pictureUpload(ctx: HttpContextContract) {
     const picture = ctx.request.file('picture')
     if (picture) {
-      const tempPath = Env.get('UPLOAD_ROOT') + '/pictures'
+      const tempPath = '/pictures'
       picture.clientName = StudentsService.generateFileName(picture).replace(/\s/g, '')
       await picture.moveToDisk(tempPath, { name: picture.clientName })
       const photoPath = StudentsService.file(tempPath, picture.clientName)
-      await photoService.compressImage(photoPath)
+      await photoService.compressImage(Env.get('UPLOAD_ROOT') + photoPath)
       return picture.clientName
     }
     return null
@@ -229,8 +231,16 @@ export default class StudentsService {
   public inactivateById(id: number) {
     return Database.rawQuery('UPDATE students SET disabled_at = NOW() WHERE id = :id', { id })
   }
-  public reactivateById(id: number) {
-    return Database.rawQuery('UPDATE students SET disabled_at = NULL WHERE id = :id', { id })
+
+  public deactivateStudentByStudentIdAndLocationId(studentId, userLocationId) {
+    const sqlFilePath = path.join(__dirname, '../Queries/deactivate-student.sql');
+    const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
+    return Database.rawQuery(sqlContent, { studentId, userLocationId });
+  }
+  public reactivateById(studentId: number, userLocationId: number) {
+    const sqlFilePath = path.join(__dirname, '../Queries/reactivate-student.sql');
+    const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
+    return Database.rawQuery(sqlContent, { studentId, userLocationId })
   }
   public async findByCourseId(courseId: number) {
     const result = await Database.rawQuery(FindStudentByCourseId(), { courseId })

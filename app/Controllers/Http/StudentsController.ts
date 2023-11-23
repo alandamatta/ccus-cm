@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import StudentsService from 'App/Services/StudentsService'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Logger from '@ioc:Adonis/Core/Logger'
 
 const studentsService = new StudentsService()
 
@@ -49,13 +50,25 @@ export default class StudentsController {
 
   public async inactivate(ctx: HttpContextContract) {
     const { id } = ctx.request.params()
-    await studentsService.inactivateById(id)
+    const user = ctx.auth.use('web').user;
+    if (user?.locationId) {
+      await studentsService.deactivateStudentByStudentIdAndLocationId(id, user.locationId)
+      Logger.info("Student deactivated successfully")
+    } else {
+      Logger.error("Logged user locationId can't be undefined to deactivate a student")
+    }
     return ctx.response.redirect().back()
   }
 
   public async reactivate(ctx: HttpContextContract) {
     const { id } = ctx.request.params()
-    await studentsService.reactivateById(id)
+    const user = ctx.auth.use('web').user;
+    if (user?.locationId) {
+      Logger.info("Student reactivated successfully")
+      await studentsService.reactivateById(id, user.locationId)
+    } else {
+      Logger.error("Logged user locationId can't be undefined to reactivate a student")
+    }
     return ctx.response.redirect().back()
   }
 }

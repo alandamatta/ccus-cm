@@ -15,8 +15,8 @@ import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 import Parent from 'App/Models/Parent'
 const moment = require('moment')
 const readXlsxFile = require('read-excel-file/node')
-import * as path from "path";
-import * as fs from "fs";
+import reactivateStudent from "App/Queries/ReactivateStudent";
+import deactivateStudent from "App/Queries/DeactivateStudent";
 
 const photoService = new PhotoService()
 
@@ -233,14 +233,10 @@ export default class StudentsService {
   }
 
   public deactivateStudentByStudentIdAndLocationId(studentId, userLocationId) {
-    const sqlFilePath = path.join(__dirname, '../Queries/deactivate-student.sql');
-    const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
-    return Database.rawQuery(sqlContent, { studentId, userLocationId });
+    return Database.rawQuery(deactivateStudent, { studentId, userLocationId });
   }
   public reactivateById(studentId: number, userLocationId: number) {
-    const sqlFilePath = path.join(__dirname, '../Queries/reactivate-student.sql');
-    const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
-    return Database.rawQuery(sqlContent, { studentId, userLocationId })
+    return Database.rawQuery(reactivateStudent, { studentId, userLocationId })
   }
   public async findByCourseId(courseId: number) {
     const result = await Database.rawQuery(FindStudentByCourseId(), { courseId })

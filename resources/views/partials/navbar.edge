@@ -1,4 +1,4 @@
-<nav class="navbar" role="navigation" aria-label="main navigation" style="">
+<nav class="navbar is-info" role="navigation" aria-label="main navigation" style="">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <p class="is-1 is-bold">CCUS-CM</p>
@@ -107,7 +107,7 @@
       <div class="navbar-item">
           <div class="column">
             <div class="content is-small">
-              <p>{{auth.user.name}}, {{session.get('global_userLocation')}}</p>
+              <p>Welcome, {{auth.user.name}}. You are at {{session.get('global_userLocation')}}</p>
             </div>
           </div>
         <div class="buttons">

@@ -192,6 +192,17 @@ title: 'Add a contact'
       }
       return undefined;
     }
+
+    function resetStartDateOnCourseUpdate() {
+          let today = new Date();
+          let year = today.getFullYear();
+          let month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+          let day = today.getDate().toString().padStart(2, '0');
+          let formattedDate = year + '-' + month + '-' + day;
+          $('[name="createdAt"]').each(function() {
+              $(this).val(formattedDate); // Replace 'new value' with the desired value
+          });
+        }
   </script>
 @end
 @end

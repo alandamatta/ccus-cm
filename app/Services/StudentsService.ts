@@ -43,12 +43,13 @@ export default class StudentsService {
     await ctx.request.validate(CreateStudentValidator)
     const body = ctx.request.body()
     if (body && body.id && body.id > 0) {
-      const dateExistsAndCurrentUserCanManageIt = await this.findByIdAndLocationId(
+      // editing
+      const dataExistsAndCurrentUserCanManageIt = await this.findByIdAndLocationId(
         user.locationId,
         body.id,
         user.admin
       )
-      if (dateExistsAndCurrentUserCanManageIt) {
+      if (dataExistsAndCurrentUserCanManageIt) {
         const picture = ctx.request.file('picture')
         const file = ctx.request.file('file')
         this.handleParentFlow(body)
@@ -62,8 +63,18 @@ export default class StudentsService {
           // @ts-ignore
           body.file = await StudentsService.fileUpload(ctx)
         }
+        let createdAt = body.createdAt
         delete body.createdAt
-        return await student.merge(body, true).save()
+        const updatedStudent = await student.merge(body, true).save()
+        const course = await Course.findOrFail(body.courseId)
+        await Database.rawQuery("delete from students_courses where student_id = :studentId and course_id = :courseId",
+          { studentId: student.id, courseId: course.id})
+        await Database.table('students_courses').insert({
+          student_id: updatedStudent.id,
+          course_id: course.id,
+          created_at: createdAt,
+        });
+        return updatedStudent
       }
       return ctx.response.redirect().back()
     }
@@ -142,7 +153,11 @@ export default class StudentsService {
       student.file = await StudentsService.fileUpload(ctx)
       student.locationId = user.locationId
       const savedStudent = await student.save()
-      savedStudent.related('courses').save(course)
+      await Database.table('students_courses').insert({
+        student_id: savedStudent.id,
+        course_id: course.id,
+        created_at: body.createdAt,
+      });
       return savedStudent
     }
   }

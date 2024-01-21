@@ -138,7 +138,8 @@
               valueKey: 'value',
               labelKey: 'label',
               value: value ? value.courseId : '',
-              disabled: value && value.disabledAt
+              disabled: value && value.disabledAt,
+              onchange: 'resetStartDateOnCourseUpdate()'
               })
             </div>
           </div>

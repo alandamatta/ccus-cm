@@ -14,8 +14,21 @@ SELECT * FROM(
        TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age,
        a_in.id as checkInRef,
        a_out.id as checkOutRef
-    FROM students_courses sc
-    INNER JOIN students s ON s.id = sc.student_id
+    FROM students s
+    LEFT JOIN (
+    SELECT
+        sc1.student_id,
+        sc1.course_id,
+        sc1.created_at,
+        sc1.disabled_at,
+        ROW_NUMBER() OVER (PARTITION BY sc1.student_id ORDER BY sc1.created_at DESC) AS row_num
+    FROM
+        students_courses sc1
+    INNER JOIN courses c1 ON c1.id = sc1.course_id
+    INNER JOIN locations l1 ON l1.id = c1.location_id
+    WHERE
+        l1.id = :locationId  -- Filter by the specific location
+) sc ON s.id = sc.student_id AND sc.row_num = 1
     INNER JOIN courses c ON c.id = sc.course_id
     INNER JOIN locations l on c.location_id = l.id
     LEFT JOIN attendances a_in ON s.id = a_in.student_id AND a_in.check_in IS TRUE

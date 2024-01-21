@@ -1,20 +1,25 @@
 export default function attendanceReportByLocationAndCourse() {
   return `
-SELECT s.id, s.full_name studentName, c.name courseName, l.name locationName, CEIL(COALESCE(count(a.id), 0) / 2) as present,
-FORMAT(ABS(CEIL(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7) - (COUNT(a.id) / 2)), 0) absent,
-CONCAT(FORMAT(ABS(FLOOR(100 * (COUNT(a.id) / 2)) / (FLOOR(ABS(DATEDIFF(GREATEST(:startDate, sc.created_at), :endDate)) / 7) + 1)), 0), '%') frequency,
-DATE_FORMAT(sc.created_at, '%m/%d/%Y') studentStartDate FROM
-students_courses sc
-LEFT JOIN attendances a on sc.student_id = a.student_id AND sc.course_id = a.course_id AND DATE(a.time) BETWEEN DATE(:startDate) AND DATE(:endDate)
-INNER JOIN students s on sc.student_id = s.id
-INNER JOIN courses c on sc.course_id = c.id
-INNER JOIN locations l on c.location_id = l.id
-WHERE (l.id = :locationId || :locationId < 0) AND
-      (c.id = :courseId || :courseId < 0) AND
-      s.disabled_at IS NULL AND
+select s.full_name as 'studentName',
+       c.name as 'courseName',
+       l.name as 'locationName',
+       DATE_FORMAT(sc.created_at, '%m/%d/%Y') as 'studentStartDate',
+       FLOOR(DATEDIFF(NOW(), sc.created_at) / 7) as 'classes_since_start',
+       count(*) as 'present',
+       IFNULL((FLOOR(DATEDIFF(NOW(), sc.created_at) / 7) - COUNT(*)), 0) AS 'absent',
+       IFNULL(COUNT(*) / FLOOR(DATEDIFF(NOW(), sc.created_at) / 7), 0) AS 'frequency'
+from attendances att
+    inner join students s on s.id = att.student_id
+    inner join courses c on c.id = att.course_id
+    inner join locations l on att.location_id = l.id and c.location_id = l.id
+    inner join students_courses sc on c.id = sc.course_id and s.id = sc.student_id
+where att.check_in IS TRUE and
+      att.time >= sc.created_at and
+      date(att.time) between date(:startDate) AND date(:endDate) and
+      (l.id = :locationId || :locationId < 0) and
+      (c.id = :courseId || :courseId < 0) and
+      s.disabled_at IS NULL and
       (:admin IS TRUE || c.location_id = :userLocation)
-GROUP BY sc.id, c.id, c.name, s.full_name
-ORDER BY s.full_name;
-
+group by att.student_id, att.location_id, c.name, sc.created_at, l.name;
 `
 }

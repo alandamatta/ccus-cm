@@ -59,9 +59,11 @@ export default class StudentsService {
           // @ts-ignore
           body.picture = await StudentsService.pictureUpload(ctx)
         }
-        if (file) {
+        if (file && file.isValid && file.isMultipartFile) {
           // @ts-ignore
           body.file = await StudentsService.fileUpload(ctx)
+        } else {
+          delete body.file
         }
         let createdAt = body.createdAt
         delete body.createdAt
@@ -180,7 +182,7 @@ export default class StudentsService {
   }
 
   public static async uploadAFile(file: MultipartFileContract | null) {
-    if (file) {
+    if (file && file.isMultipartFile) {
       const tempPath = '/files'
       file.clientName = StudentsService.generateFileName(file).replace(/\s/g, '')
       await file.moveToDisk(tempPath, { name: file.clientName })

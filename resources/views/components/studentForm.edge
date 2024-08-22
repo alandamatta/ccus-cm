@@ -9,7 +9,7 @@
             <div class="column">
               <div class="content">
                 <p>
-                  This student is inactive since {{value.disabledAt}}. Once one is inactive, you can't checkin anymore. If you want to reactivate,
+                  This student is inactive since {{value.disabledAt}}. Once one is inactive, you can't check-in anymore. If you want to reactivate,
                   click <a type="button" href="/student/{{value.id}}/reactivate">here</a>.
                 </p>
               </div>
@@ -36,7 +36,7 @@
                           <img src="{{'/img/' + value.id + '/' + value.picture}}" alt="Student Picture"
                                class="is-rounded currentImg">
                           @else
-                            <img class="currentImg is-rounded" src="https://bulma.io/images/placeholders/480x480.png">
+                            <img class="currentImg is-rounded" src="/no-image.png">
                           @end
                         </figure>
                       </div>
